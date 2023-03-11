@@ -332,16 +332,16 @@ iNTM=">
                         id="socialiconfix"
                       ></i>
                     </a>
-                    &nbsp;&nbsp;
-                    <a href="#">
-                      <i
-                        class="fa fa-twitter-square"
-                        aria-hidden="true"
-                        id="socialiconfix"
-                      ></i>
-                    </a>
-                    &nbsp;&nbsp;
-                    <a href="#">
+                    //&nbsp;&nbsp;
+                   // <a href="#">
+                      //<i
+                       // class="fa fa-twitter-square"
+                       // aria-hidden="true"
+                       // id="socialiconfix"
+                     // ></i>
+                    //</a>
+                   // &nbsp;&nbsp;
+                    <a href="https://www.instagram.com/shubhamdevanshu/?igshid=YmMyMTA2M2Y%3D">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
