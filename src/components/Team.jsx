@@ -45,7 +45,7 @@ const Team = () => {
             <div className="card-body">
               <center>
                 <p className="card-text">Shreya Roy</p>
-                <a href="#">
+                <a href="https://www.linkedin.com/in/shreya-roy-3147881b7/">
                   <i
                     class="fa fa-linkedin-square"
                     aria-hidden="true"
@@ -53,7 +53,7 @@ const Team = () => {
                   ></i>
                 </a>
                 &nbsp;&nbsp;
-                <a href="#">
+                <a href="https://twitter.com/ShreyaR19458856">
                   <i
                     class="fa fa-twitter-square"
                     aria-hidden="true"
@@ -61,7 +61,7 @@ const Team = () => {
                   ></i>
                 </a>
                 &nbsp;&nbsp;
-                <a href="#">
+                <a href="https://www.instagram.com/i_am_shreya_roy/">
                   <i
                     class="fa fa-instagram"
                     aria-hidden="true"
@@ -81,7 +81,7 @@ const Team = () => {
                 <div className="card-body">
                   <center>
                     <p className="card-text">Alik Sarkar</p>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/alik-sarkar-901346225">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -89,7 +89,8 @@ const Team = () => {
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://twitter.com/AlikSarkar16?t=wO12PN_jFAR1SSt
+E0tQlCg&s=09">
                       <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
@@ -97,7 +98,8 @@ const Team = () => {
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://instagram.com/alik_sarkar_18?igshid=ZDdkNTZ
+iNTM=">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
@@ -115,7 +117,7 @@ const Team = () => {
                 <div className="card-body">
                   <center>
                     <p className="card-text">Srishti Majumder</p>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/srishti-majumder-6560bb200/">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -123,7 +125,7 @@ const Team = () => {
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://twitter.com/MajumderSrishti">
                       <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
@@ -131,7 +133,7 @@ const Team = () => {
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://www.instagram.com/srishti.majumder.7074/">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
