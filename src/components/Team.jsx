@@ -305,7 +305,7 @@ iNTM=">
                         aria-hidden="true"
                         id="socialiconfix"
                       ></i>
-                    //</a>
+                    </a>
                     //&nbsp;&nbsp;
                     //<a href="#">
                       //<i
@@ -313,8 +313,8 @@ iNTM=">
                         //aria-hidden="true"
                         //id="socialiconfix"
                       //></i>
-                    </a>
-                    &nbsp;&nbsp;
+                    //</a>
+                    //&nbsp;&nbsp;
                   </center>
                 </div>
               </div>
@@ -402,7 +402,7 @@ iNTM=">
                           aria-hidden="true"
                           id="socialiconfix"
                         ></i>
-                     // </a>
+                     </a>
                      // &nbsp;&nbsp;
                      // <a href="#">
                        // <i
@@ -410,8 +410,8 @@ iNTM=">
                           //aria-hidden="true"
                           //id="socialiconfix"
                         //></i>
-                      </a>
-                      &nbsp;&nbsp;
+                      //</a>
+                     // &nbsp;&nbsp;
                       <a href="#">
                         <i
                           class="fa fa-instagram"
