@@ -98,13 +98,11 @@
     color: #000000;
 }
 
-table,
-th,
-td {
+.descA .dataA {
     border: 1px solid white;
 }
 
-td {
+.dataA {
 
     text-align: center;
 }
