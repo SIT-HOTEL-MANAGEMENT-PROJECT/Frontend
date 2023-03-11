@@ -185,7 +185,7 @@ iNTM=">
                 <div className="card-body">
                   <center>
                     <p className="card-text">Prittha Dutta</p>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/prittha-datta-2679ba1b7">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -201,7 +201,7 @@ iNTM=">
                       ></i>
                     </a>
                     &nbsp;&nbsp; */}
-                    <a href="#">
+                    <a href="https://instagram.com/the.pritthadatta?utm_medium=copy_link">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
@@ -223,7 +223,7 @@ iNTM=">
                 <div className="card-body">
                   <center>
                     <p className="card-text">Sayantani Sarkar</p>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/sayantani-sarkar- 026199200/">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -231,7 +231,7 @@ iNTM=">
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://twitter.com/Sayanta99188174">
                       <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
@@ -239,7 +239,7 @@ iNTM=">
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://www.instagram.com/____aishaaa________/">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
@@ -257,7 +257,7 @@ iNTM=">
                 <div className="card-body">
                   <center>
                     <p className="card-text">Prasun Roy</p>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/prasun-roy-/">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -265,7 +265,7 @@ iNTM=">
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://twitter.com/Prasun_Roy_">
                       <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
@@ -273,7 +273,7 @@ iNTM=">
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://www.instagram.com/_prasun_roy_/">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
@@ -291,7 +291,7 @@ iNTM=">
                 <div className="card-body">
                   <center>
                     <p className="card-text">Sagnik Saha</p>
-                    <a href="#">
+                    <a href="https://www.linkedin.com/in/sagnik-saha-6a1764206/">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -299,20 +299,20 @@ iNTM=">
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="#">
+                    <a href="https://twitter.com/SagnikS37101340">
                       <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
                         id="socialiconfix"
                       ></i>
-                    </a>
-                    &nbsp;&nbsp;
-                    <a href="#">
-                      <i
-                        class="fa fa-instagram"
-                        aria-hidden="true"
-                        id="socialiconfix"
-                      ></i>
+                    //</a>
+                    //&nbsp;&nbsp;
+                    //<a href="#">
+                      //<i
+                        //class="fa fa-instagram"
+                        //aria-hidden="true"
+                        //id="socialiconfix"
+                      //></i>
                     </a>
                     &nbsp;&nbsp;
                   </center>
@@ -325,7 +325,7 @@ iNTM=">
                 <div className="card-body">
                   <center>
                     <p className="card-text">Subham</p>
-                    <a href="#">
+                    <a href="http://www.linkedin.com/in/shubham-divyanshu-a5a3a2258">
                       <i
                         class="fa fa-linkedin-square"
                         aria-hidden="true"
@@ -402,14 +402,14 @@ iNTM=">
                           aria-hidden="true"
                           id="socialiconfix"
                         ></i>
-                      </a>
-                      &nbsp;&nbsp;
-                      <a href="#">
-                        <i
-                          class="fa fa-twitter-square"
-                          aria-hidden="true"
-                          id="socialiconfix"
-                        ></i>
+                     // </a>
+                     // &nbsp;&nbsp;
+                     // <a href="#">
+                       // <i
+                         // class="fa fa-twitter-square"
+                          //aria-hidden="true"
+                          //id="socialiconfix"
+                        //></i>
                       </a>
                       &nbsp;&nbsp;
                       <a href="#">
