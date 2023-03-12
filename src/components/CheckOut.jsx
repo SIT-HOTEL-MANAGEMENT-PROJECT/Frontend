@@ -73,7 +73,7 @@ return (
     </nav>
     <div className="rowA">
         <form action="">
-            <div className="columnA-a">
+            <div className="columnA-a mt-3">
                 <label for="guestname">Guest Name:</label>
                 <select id="guestname">
                     <option value="Ms" name="guestname">
