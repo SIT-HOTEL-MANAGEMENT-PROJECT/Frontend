@@ -307,8 +307,48 @@ const FandB = () => {
               <button type="button" class="btn btn-primary ms-3">Card</button>
               <button type="button" class="btn btn-primary ms-3">Post with Room</button>
             </div>
+            <br/>
             <div>
-              
+              <table style={{width:"100%"}} className="table table-borderless">
+                <tr>
+                  <th style={{width:"25%",textAlign:"center"}}>Quantity</th>
+                  <th style={{width:"25%",textAlign:"center"}}>Facility</th>
+                  <th style={{width:"25%",textAlign:"center"}}>Item name</th>
+                  <th style={{width:"25%",textAlign:"center"}}>Value</th>
+                </tr>
+                <tr>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>2</td>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>opt</td>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>Plain Dosa F1</td>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>120 Rs</td>
+                </tr>
+                <tr>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>2</td>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>opt</td>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>Vanilla Ice Cream G1</td>
+                  <td style={{textAlign:"center", color:"#4763FD"}}>180 Rs</td>
+                </tr>
+              </table>
+            </div>
+            <div className="righta">
+              <table style={{width:"100%"}} className="table table-borderless">
+                <tr>
+                  <th style={{width:"25%",textAlign:"center"}}>Total Amount</th>
+                  <th style={{width:"25%",textAlign:"center", color:"#4763FD"}}>200 Rs</th>
+                </tr>
+                <tr>
+                  <td style={{textAlign:"center"}}>Central GST @ 2.50</td>
+                  <td style={{textAlign:"center"}}>38.50</td>
+                </tr>
+                <tr>
+                  <td style={{textAlign:"center"}}>State GST @ 2.50</td>
+                  <td style={{textAlign:"center"}}>38.50</td>
+                </tr>
+                <tr>
+                  <th style={{width:"25%",textAlign:"center"}}>Net Amount</th>
+                  <th style={{width:"25%",textAlign:"center", color:"#4763FD"}}>250 Rs</th>
+                </tr>
+              </table>
             </div>
           </form>
         </div>

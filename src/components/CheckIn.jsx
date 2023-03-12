@@ -65,6 +65,7 @@ const CheckIn = () => {
   const [depositRate, setdepositRate] = useState("");
   const [countryType, setcountryType] = useState("");
   
+  
 
   // Add :  Book room number against bookingid
   // params : bookingid, roomtype, roomnumber, arrivaldate, arrivaltime, departuredate, departuretime
