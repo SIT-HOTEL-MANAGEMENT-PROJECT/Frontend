@@ -25,11 +25,11 @@
 }
 
 .bg-skyblue {
-  background-color: #d8f4f5 !important;
+  background-color: #EDF8FD  !important;
 }
 
 .background-gray {
-  background-color: #f5f5f5;
+  background-color: #D9DFE1 !important;
 }
 
 .table-border-collapse {
@@ -236,17 +236,19 @@
 .search-bar{
   position: absolute;
   right: 140px;
+  border-radius: 20px;
 }
 
 .search-input{
   border: none;
   outline: none;
   border-radius: 5px;
+  background: #D9DFE1;
 }
 
 .search-icon{
   position: absolute;
-  background: #fff;
+  background: #D9DFE1;
   border: none;
   outline: none;
   padding-left: 5px;
@@ -297,3 +299,7 @@
 .make-cursor-pointer { cursor: pointer; }
 
 .hover-gray:hover{  background-color: #f5f5f5; }
+
+.border-none{border: none !important;}
+
+.button-color-onHover{background: #B9DEF4 !important;}

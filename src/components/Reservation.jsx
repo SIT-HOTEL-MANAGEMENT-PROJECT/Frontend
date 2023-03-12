@@ -655,7 +655,7 @@ const Reservation = () => {
               <div className="col-sm-7 d-flex column-gap-1">
                 <select
                   id="designation"
-                  className="form-select w-50 height-30 font-size-14"
+                  className="form-select w-50 height-30 font-size-14 background-gray"
                   name="title"
                   value={guestName.title}
                   onChange={handleInputChange}
@@ -669,7 +669,7 @@ const Reservation = () => {
                 </select>
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputName"
                   name="firstname"
                   value={guestName.firstname}
@@ -678,7 +678,7 @@ const Reservation = () => {
                 />
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputName"
                   name="middlename"
                   value={guestName.middlename}
@@ -686,7 +686,7 @@ const Reservation = () => {
                 />
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputName"
                   name="lastname"
                   value={guestName.lastname}
@@ -705,7 +705,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputNumber"
                   name="guestphonenumber"
                   value={guestPhoneNumber}
@@ -721,7 +721,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputAddress"
                   name="address"
                   value={address.ad1}
@@ -737,7 +737,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputCompany"
                   name="companyname"
                   value={companyName}
@@ -752,7 +752,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="date"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputArrivalDate"
                   name="arrivaldate"
                   max={departureDate}
@@ -773,7 +773,7 @@ const Reservation = () => {
                 <div className="col-sm-5">
                   <input
                     type="text"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputDesignation"
                     name="designation"
                     value={designation}
@@ -791,7 +791,7 @@ const Reservation = () => {
                 <div className="col-sm-4">
                   <input
                     type="text"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputTravelAgent"
                     name="travelagentname"
                     value={travelAgentName}
@@ -810,7 +810,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="date"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputDepartureDate"
                   name="departuredate"
                   min={arrivalDate}
@@ -827,7 +827,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="time"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputArrivalTime"
                   name="arrivaltime"
                   value={arrivalTime}
@@ -843,10 +843,10 @@ const Reservation = () => {
               <div className="col-sm-7 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Standard"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changeRoomBtnColor("Standard");
@@ -856,8 +856,8 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
-                    roomTypeBtnColor === "Delux" ? "btn-success" : "btn-primary"
+                  className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                    roomTypeBtnColor === "Delux" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeRoomBtnColor("Delux");
@@ -867,10 +867,10 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Executive"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changeRoomBtnColor("Executive");
@@ -890,7 +890,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="time"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputDepartureTime"
                   name="departuretime"
                   value={departureTime}
@@ -910,7 +910,7 @@ const Reservation = () => {
                 <div className="col-sm-5">
                   <input
                     type="text"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputPax"
                     name="noofpax"
                     value={noOfPax}
@@ -928,7 +928,7 @@ const Reservation = () => {
                 <div className="col-sm-4">
                   <input
                     type="text"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputNights"
                     name="nights"
                     value={nights}
@@ -945,7 +945,7 @@ const Reservation = () => {
                 <div className="col-sm-5">
                   <input readOnly={isRoomNoDisabled}
                     type="text"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputRoomNo"
                     name="roomnumber"
                     value={roomNumber}
@@ -960,7 +960,7 @@ const Reservation = () => {
                 <div className="col-sm-4">
                   <input
                     type="number"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     min="0"
                     id="inputNoOfRoom"
                     name="noofrooms"
@@ -980,7 +980,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputModeofArrival"
                   name="modeofarrival"
                   value={modeOfArrival}
@@ -995,7 +995,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputTrainNo"
                   name="trainno"
                   value={trainNo}
@@ -1010,7 +1010,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputFlightNo"
                   name="flightno"
                   value={flightNo}
@@ -1025,7 +1025,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="number"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   min="0"
                   id="inputRoomRate"
                   name="roomrate"
@@ -1045,10 +1045,10 @@ const Reservation = () => {
               <div className="col-sm-7 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
                     paymentTypeBtnColor === "Cash"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changePaymentBtnColor("Cash");
@@ -1058,10 +1058,10 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
                     paymentTypeBtnColor === "Card"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changePaymentBtnColor("Card");
@@ -1071,10 +1071,10 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
                     paymentTypeBtnColor === "UPI"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changePaymentBtnColor("UPI");
@@ -1096,7 +1096,7 @@ const Reservation = () => {
                   <input
                     readOnly={isDiscountDisabled}
                     type="number"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     min="0"
                     id="inputRoomNo"
                     name="discountamount"
@@ -1117,7 +1117,7 @@ const Reservation = () => {
                     readOnly={isDiscountDisabled}
                     type="number"
                     min="0"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputNoOfRoom"
                     name="discountpercentage"
                     value={discountPercentage}
@@ -1133,7 +1133,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input disabled={isCardNoDisabled}
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputCardNo"
                   name="cardno"
                   value={cardNo}
@@ -1148,7 +1148,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input disabled={isUpiDisabled}
                   type="text"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputupi"
                   name="upi"
                   value={upi}
@@ -1163,7 +1163,7 @@ const Reservation = () => {
               <div className="col-sm-7">
                 <input
                   type="date"
-                  className="form-control height-30 font-size-14"
+                  className="form-control height-30 font-size-14 background-gray"
                   id="inputBookingDate"
                   name="bookingdate"
                   max={arrivalDate}
@@ -1180,8 +1180,8 @@ const Reservation = () => {
               <div className="col-sm-7 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "EP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "EP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("EP");
@@ -1191,8 +1191,8 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "CP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "CP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("CP");
@@ -1202,8 +1202,8 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "AP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "AP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("AP");
@@ -1213,8 +1213,8 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "MAP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "MAP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("MAP");
@@ -1230,7 +1230,7 @@ const Reservation = () => {
               </label>
               <div className="col-sm-7">
                 <textarea
-                  className="form-control font-size-14"
+                  className="form-control font-size-14 background-gray"
                   id="inputRequest"
                   rows="2"
                   name="specialreq"
@@ -1250,7 +1250,7 @@ const Reservation = () => {
                 <div className="col-sm-7">
                   <input
                     type="text"
-                    className="form-control height-30 font-size-14"
+                    className="form-control height-30 font-size-14 background-gray"
                     id="inputReservationAssistantName"
                     name="resassisname"
                     value={resAssisName}
@@ -1262,7 +1262,7 @@ const Reservation = () => {
               <div className="col-12 d-flex align-items-center justify-content-center">
                 <button
                   type="submit"
-                  className="d-flex align-items-center justify-content-center font-size-14 text-light btn btn-primary height-30 button-padding-5"
+                  className="d-flex align-items-center justify-content-center font-size-14 text-primary btn button-color-onHover height-30 button-padding-5"
                 >
                   Submit
                 </button>
