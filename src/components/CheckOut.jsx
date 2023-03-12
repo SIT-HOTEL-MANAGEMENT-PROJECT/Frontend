@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "../CustomCss/out.css";
-import Localbase from "localbase";
-let db = new Localbase("hmctdb");
-db.config.debug = false;
+// import Localbase from "localbase";
+// let db = new Localbase("hmctdb");
+// db.config.debug = false;
 
 const CheckOut = () => {
 // Delete : Release Room Occupancy from RoomAv. DB
