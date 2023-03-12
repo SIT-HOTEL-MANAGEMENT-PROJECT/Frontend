@@ -179,7 +179,10 @@ const Home3 = () => {
           className="imgfix"
         />
         <br/>
-        <NavLink to="/Team" className="NavLinks">Our Team</NavLink>
+        <NavLink to="/Team" className="btn btn-primary "style={{float:"right",marginRight:"10px",background:"transparent",color:"orange"}}>
+        <i className="fa fa-users" 
+        aria-hidden="true"></i> &nbsp; <span style={{color:"#4763fd"}}>By</span> Team
+        </NavLink>
       </div>
     </div>
   );
