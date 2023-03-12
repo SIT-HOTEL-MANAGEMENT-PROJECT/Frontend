@@ -40,7 +40,7 @@ const HistoryReports = () => {
                             </div>
                         </div>
                         <div className="flex-column gap-2 height-45percent padding-left-right-20">
-                            <h5 className="text-primary font-size-14">Filtered by check in dates</h5>
+                            <h5 className="text-primary font-size-14">Filtered by check out dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
                                     <input type="checkbox" />
