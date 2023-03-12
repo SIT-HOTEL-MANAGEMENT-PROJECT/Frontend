@@ -36,19 +36,19 @@ const FandB = () => {
                 <div class="accordion-body">
                   <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Russian Salad(Veg/Non-veg)<span style={{marginLeft:"50px"}}>$ 150/170</span></p>
+                      <p>Russian Salad(Veg/Non-veg)<span style={{marginLeft:"20px"}}>$ 150/170</span></p>
                     </li>
                     <li>
-                      <p>Fresh Garden Salad<span style={{marginLeft:"50px"}}>$ 105</span></p>
+                      <p>Fresh Garden Salad<span style={{marginLeft:"20px"}}>$ 105</span></p>
                     </li>
                     <li>
-                      <p>Mix raita/Kheer Raita/Boondi Raita<span style={{marginLeft:"50px"}}>$ 135</span></p>
+                      <p>Mix raita/Kheer Raita/Boondi Raita<span style={{marginLeft:"20px"}}>$ 135</span></p>
                     </li>
                     <li>
-                      <p>Pineapple<br/>Raita<span style={{marginLeft:"50px"}}>$ 170</span></p>
+                      <p>Pineapple<br/>Raita<span style={{marginLeft:"20px"}}>$ 170</span></p>
                     </li>
                     <li>
-                      <p>Plain dahi<span style={{marginLeft:"50px"}}>$ 105</span></p>
+                      <p>Plain dahi<span style={{marginLeft:"20px"}}>$ 105</span></p>
                     </li>
                   </ul>
                 </div>
@@ -64,16 +64,16 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Vegetable Pakora<span style={{marginLeft:"50px"}}>$ 150</span></p>
+                      <p>Vegetable Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
                     </li>
                     <li>
-                      <p>Onion Pakora<span style={{marginLeft:"50px"}}>$ 150</span></p>
+                      <p>Onion Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
                     </li>
                     <li>
-                      <p>Paneer<br/> Pakora<span style={{marginLeft:"50px"}}>$ 200</span></p>
+                      <p>Paneer<br/> Pakora<span style={{marginLeft:"20px"}}>$ 200</span></p>
                     </li>
                     <li>
-                      <p>Cheese <br/> Pakora<span style={{marginLeft:"50px"}}>$ 200</span></p>
+                      <p>Cheese <br/> Pakora<span style={{marginLeft:"20px"}}>$ 200</span></p>
                     </li>
                   </ul>
                 </div>
