@@ -45,7 +45,7 @@ const Team = () => {
             <div className="card-body">
               <center>
                 <p className="card-text">Shreya Roy</p>
-                <a href="#">
+                <a href="https://www.linkedin.com/in/shreya-roy-3147881b7/">
                   <i
                     class="fa fa-linkedin-square"
                     aria-hidden="true"
