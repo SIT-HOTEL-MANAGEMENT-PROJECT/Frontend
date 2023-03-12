@@ -102,11 +102,11 @@ const Home3 = () => {
               </NavLink>
               <br />
               <br />
-              {/* <NavLink to="/FandB" className="NavLinks">
+              <NavLink to="/FandB" className="NavLinks">
                 <i id="iconcolor" class="fa fa-cutlery" aria-hidden="true"></i>
                 &nbsp; F & B Service
               </NavLink>
-              <br /><br/> */}
+              <br /><br/>
               <NavLink to="/GuestHistory" className="NavLinks">
                 <i id="iconcolor" class="fa fa-book" aria-hidden="true"></i>
                 &nbsp; Guest History

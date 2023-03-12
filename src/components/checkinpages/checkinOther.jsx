@@ -143,7 +143,7 @@ const Other = () => {
                 htmlFor="placeofissue"
                 className="col-sm-6 col-form-label"
               >
-                Place of issue{" "}
+                Visa Place of issue{" "}
               </label>
               <div className="col-sm-6">
                 <input
