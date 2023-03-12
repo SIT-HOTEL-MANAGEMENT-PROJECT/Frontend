@@ -63,7 +63,7 @@ const GuestHistory = () => {
                     </div>
                     <div className="container flex-column">
                         <div className="d-flex width-280 height-30 background-gray search-bar">
-                            <input type="search" className="search-input width-280 padding-left-35" placeholder="Search" />
+                            <input type="search" className="search-input width-280 padding-left-35 background-gray" placeholder="Search" />
                             <button type="search" className="search-icon width-35 height-30 text-align-center d-flex align-items-center justify-content-center"><i className='bx bx-search-alt search-boxicon text-primary'></i></button>
                         </div>
                         <div className="table-responsive height-450 bg-skyblue mt-5">

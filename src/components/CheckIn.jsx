@@ -495,6 +495,7 @@ const CheckIn = () => {
                   className="form-control height-30"
                   id="inputNoOfRoom"
                   name="noofrooms"
+                  min="0"
                   value={noOfRooms}
                   onChange={handleInputChange}
                 />
@@ -879,6 +880,7 @@ const CheckIn = () => {
                   type="number"
                   className="form-control height-30"
                   id="inputnight"
+                  min="0"
                   name="nightnumber"
                   value={nightNumber}
                   onChange={handleInputChange}
@@ -921,7 +923,7 @@ const CheckIn = () => {
               <div className="col-md-6 d-flex align-items-center rev-margin-gap">
                 <label
                   htmlFor="departuredate"
-                  className="col-sm-4 col-form-label"
+                  className="col-sm-5 col-form-label"
                 >
                   Departure Date{" "}
                 </label>
@@ -980,7 +982,7 @@ const CheckIn = () => {
               </label>
               <div className="col-sm-7">
                 <input
-                  type="number"
+                  type="text"
                   className="form-control height-30 font-size-14"
                   id="inputRoomRate"
                   name="roomrate"

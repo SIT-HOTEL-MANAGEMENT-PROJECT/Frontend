@@ -102,11 +102,11 @@ const Home3 = () => {
               </NavLink>
               <br />
               <br />
-              {/* <NavLink to="/FandB" className="NavLinks">
+              <NavLink to="/FandB" className="NavLinks">
                 <i id="iconcolor" class="fa fa-cutlery" aria-hidden="true"></i>
                 &nbsp; F & B Service
               </NavLink>
-              <br /><br/> */}
+              <br /><br/>
               <NavLink to="/GuestHistory" className="NavLinks">
                 <i id="iconcolor" class="fa fa-book" aria-hidden="true"></i>
                 &nbsp; Guest History
@@ -179,7 +179,10 @@ const Home3 = () => {
           className="imgfix"
         />
         <br/>
-        <NavLink to="/Team" className="NavLinks">Our Team</NavLink>
+        <NavLink to="/Team" className="btn btn-primary "style={{float:"right",marginRight:"10px",background:"transparent",color:"orange"}}>
+        <i className="fa fa-users" 
+        aria-hidden="true"></i> &nbsp; <span style={{color:"#4763fd"}}>By</span> Team
+        </NavLink>
       </div>
     </div>
   );
