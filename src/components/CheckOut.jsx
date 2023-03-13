@@ -64,7 +64,7 @@ return (
                     <h2 className="checkA">Check Out</h2>
                     <br />
                     <br />
-                    <div className="headingA">
+                    <div className="headingA mt-5 ms-4">
                         <h4>Copy Of Invoice</h4>
                     </div>
                 </div>
@@ -132,7 +132,7 @@ return (
                 <br />
                 <br />
             </div>
-            <div className="columnA-b">
+            <div className="columnA-b mt-3">
                 <label for="roomnumber">Room Number:</label>
                 <input type="number" id="roomnumber" name="roomnumber" required />
                 <br />
@@ -177,48 +177,48 @@ return (
         <div>
             <tr>
                 <hr style={{ Border: "1.20468px solid #4763FD" , marginLeft: "40px" , marginRight: "40px" , }} />
-                <th>Date</th>
-                <th>Description</th>
-                <th>Reference</th>
-                <th>Debit</th>
-                <th>Credit</th>
+                <th>Date</th>&nbsp;&nbsp;
+                <th>Description</th>&nbsp;&nbsp;
+                <th>Reference</th>&nbsp;&nbsp;
+                <th>Debit</th>&nbsp;&nbsp;
+                <th>Credit</th>&nbsp;&nbsp;
             </tr>
         </div>
     </table>
     <hr style={{ Border: "1.20468px solid #4763FD" , marginLeft: "40px" , marginRight: "40px" , }} />
 
     <table className="dataA">
-        <div>
+        <div className="ms-5">
             <tr>
-                <td>Date</td>
-                <td>Accomodation++</td>
-                <td>Room</td>
-                <td>Amount</td>
-                <td></td>
+                <td>Date</td>&nbsp;&nbsp;
+                <td>Accomodation++</td>&nbsp;&nbsp;
+                <td>Room</td>&nbsp;&nbsp;
+                <td>Amount</td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
             </tr>
 
             <tr>
-                <td>Date</td>
-                <td>Accomodations SGST @9%</td>
-                <td></td>
-                <td>Amount</td>
-                <td></td>
+                <td>Date</td>&nbsp;&nbsp;
+                <td>Accomodations SGST @9%</td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
+                <td>Amount</td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
             </tr>
 
             <tr>
-                <td>Date</td>
-                <td>Accomodations CGST @9%</td>
-                <td></td>
-                <td>Amount</td>
-                <td></td>
+                <td>Date</td>&nbsp;&nbsp;
+                <td>Accomodations CGST @9%</td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
+                <td>Amount</td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
             </tr>
 
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Amount</td>
+                <td></td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
+                <td></td>&nbsp;&nbsp;
+                <td>Amount</td>&nbsp;&nbsp;
             </tr>
         </div>
     </table>
