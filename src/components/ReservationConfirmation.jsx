@@ -53,6 +53,82 @@ const ReservationConfirmation = () => {
     }
   }
 
+  
+  // Update : Update how much amount paid by user
+  // params : bookingid,credit (amountpaid by user) (string)
+  // return : 1. {success: true }                                                     IF ALL OK
+  //          2. {success: false, msg: 'Reservation Not Found!'}                      IF BOOKINGID NOT PRESENT
+  //          3. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
+  const updateReservationTimePayment = async(bookingid, credit)=>{
+    try{
+      let reservationData = await db.collection('reservation').doc({ bookingid: bookingid }).get();
+
+      if(!reservationData) return {success:false, msg: "Reservation Not Found!"}
+
+      let updatedpaymenthistory = reservationData.paymenthistory;
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      if (!updatedpaymenthistory.some((item) => item.name === "reservation")) {
+        updatedpaymenthistory.push({
+          name: "reservation",
+          description: "Reservation time payment",
+          date: todaydateforpaymentstring,
+          debit: "",
+          credit: credit.toString(),
+        });
+      }else{
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "reservation") {
+            return {
+              ...item,
+              date: todaydateforpaymentstring,
+              credit: credit.toString(),
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+
+      await db.collection('reservation').doc({ bookingid: bookingid }).update({
+        totalamountpaid: credit.toString(),
+        paymenthistory: updatedpaymenthistory
+      });
+
+      return {success:true}
+    }catch(e){
+      console.log("ReservationConfirmationPageError (updateReservationTimePayment) : ",e);
+      return {success:false, msg: "Something Went Wrong"}
+    }
+  }
+
+
+  // Update : Update how much amount paid by user today in ADR DB
+  // params : amount (amountpaid by user. not pay-later) (string)
+  // return : 1. {success: true }                                                     IF ALL OK
+  //          2. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
+  const updateRupeesAdrValue = async(amount)=>{
+    try{
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      let rupeesadrData = await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).get();
+      if(!rupeesadrData){
+        await db.collection('rupeesadr').add({date: todaydateforpaymentstring, value: parseFloat(amount)});
+      }else{
+        let updateval = parseFloat(rupeesadrData.value) + parseFloat(amount); 
+        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({value: updateval});
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ",e);
+      return {success:false, msg: "Something Went Wrong"}
+    }
+  }
+
+
 
 
   const calculateNights = ()=>{
@@ -65,16 +141,18 @@ const ReservationConfirmation = () => {
   }
 
 
-  const calculateAmountPaid = ()=>{
+  const calculateAmountPaid = async()=>{
     if(bookingData.roomrate){
       const roomrate = parseFloat(bookingData?.roomrate);
       const discountamount = parseFloat(bookingData?.discountamount);
 
       if(isNaN(discountamount)){
         setAmountPaid(roomrate);
+        await updateReservationTimePayment(bookingData.bookingid, roomrate.toString());
       }else{
-        let amountPaid = roomrate - discountamount;
-        setAmountPaid(amountPaid);
+        let amountPaidHere = roomrate - discountamount;
+        setAmountPaid(amountPaidHere);
+        await updateReservationTimePayment(bookingData.bookingid, amountPaidHere.toString());
       }
     }
   }

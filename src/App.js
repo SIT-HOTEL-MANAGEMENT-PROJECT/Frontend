@@ -20,6 +20,7 @@ import FandB from "./components/FandB";
 import Team from "./components/Team";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie'
+import { useWorker } from 'react-hooks-worker';
 import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
@@ -28,12 +29,34 @@ db.config.debug = false;
 const App = () => {
   const navigate = useNavigate();
 
+  const lastReportDateString = localStorage.getItem('lastreportdate');
+  const createReportsWorker = () => new Worker(
+    new URL('./reports.worker', import.meta.url), { type: 'module' },
+  );
+  const { result, error } = useWorker(createReportsWorker, lastReportDateString);
+
+  if(error){console.log(error);}
+  if(result){ 
+    if(result.success){ 
+      localStorage.removeItem('lastreportdate');
+      const today = new Date();
+      const todayDate = today.toISOString().slice(0, 10);
+      localStorage.setItem('lastreportdate',todayDate);
+    } else{
+      console.log(result);
+    }
+  }
+
   useEffect(() => {
-    initializeRoomAvDatabase();
-    initializeUsersDatabase();
-    isAuthenticated();
+    setTimeout(() => {
+      initializeRoomAvDatabase();
+      initializeUsersDatabase();
+      initializeReportsDependency();
+      isAuthenticated();
+    }, 1000);
   }, [])
   
+
 
   // Dependency : If roomavailability collection doesn't exist create one
   // 0 == "Occupied"(yellow)    ---     1 == "Available"(green)     ---      2 == "Dirty"(red)
@@ -67,6 +90,19 @@ const App = () => {
       });
     }
   };
+
+
+  // Dependency : If reports page dependency not loaded create one
+  // params : none             return : none
+  const initializeReportsDependency = ()=>{
+    const lastReportDate = localStorage.getItem('lastreportdate');
+
+    if(!lastReportDate){
+      const today = new Date();
+      const todayDate = today.toISOString().slice(0, 10);
+      localStorage.setItem('lastreportdate',todayDate);
+    }
+  }
 
 
   // Check : Check if user is admin or not

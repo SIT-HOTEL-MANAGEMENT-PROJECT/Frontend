@@ -64,6 +64,12 @@ const CheckIn = () => {
   const [gstRate, setgstRate] = useState("");
   const [depositRate, setdepositRate] = useState("");
   const [countryType, setcountryType] = useState("");
+  const [extrabedtype, setextrabedtype] = useState("");
+  const [telnumber, settelnumber] = useState("");
+  const [groupid, setgroupid] = useState("");
+
+
+
   
   
 
@@ -373,7 +379,13 @@ const CheckIn = () => {
       setResAssisName(e.target.value);
     } else if (e.target.name == "specialreq") {
       setSpecialReq(e.target.value);
-    }
+    }else if (e.target.name == "extrabedtype") {
+    setextrabedtype(e.target.value);
+    }else if (e.target.name == "tel") {
+    settelnumber(e.target.value);
+    }else if (e.target.name == "groupid") {
+    setgroupid(e.target.value);
+  }
     
   };
 
@@ -675,7 +687,7 @@ const CheckIn = () => {
                   className="form-control height-30"
                   id="extrabedtype"
                   name="extrabedtype"
-                  value={companyName}
+                  value={extrabedtype}
                   onChange={handleInputChange}
                 />
               </div>
@@ -732,7 +744,7 @@ const CheckIn = () => {
                     changeMealBtnColor("EP");
                   }}
                 >
-                  TP
+                  EP
                 </button>
                 <button
                   type="button"
@@ -791,11 +803,11 @@ const CheckIn = () => {
                 </label>
                 <div className="col-sm-6">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control height-30"
-                    id="inputNoOfRoom"
-                    name="noofrooms"
-                    value={noOfRooms}
+                    id="inputtel"
+                    name="tel"
+                    value={telnumber}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -847,7 +859,8 @@ const CheckIn = () => {
                 </label>
                 <div className="col-sm-5">
                   <input
-                    type="text"
+                    type="number"
+                    min="0"
                     className="form-control height-30"
                     id="inputadult"
                     name="adultnumber"
@@ -863,6 +876,7 @@ const CheckIn = () => {
                 <div className="col-sm-6">
                   <input
                     type="number"
+                    min="0"
                     className="form-control height-30"
                     id="inputchildren"
                     name="childrennumber"
@@ -910,11 +924,11 @@ const CheckIn = () => {
                 </label>
                 <div className="col-sm-6">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control height-30"
-                    id="inputNoOfRoom"
-                    name="noofrooms"
-                    value={noOfRooms}
+                    id="inputgroupid"
+                    name="groupid"
+                    value={groupid}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -1034,7 +1048,7 @@ const CheckIn = () => {
                 </label>
                 <div className="col-sm-5">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control height-30"
                     id="inputRoomNo"
                     name="discountamount"
@@ -1052,7 +1066,7 @@ const CheckIn = () => {
                 </label>
                 <div className="col-sm-4">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control height-30"
                     id="inputNoOfRoom"
                     name="discountpercentage"
@@ -1122,7 +1136,7 @@ const CheckIn = () => {
               </label>
               <div className="col-sm-7">
                 <input
-                  type="number"
+                  type="text"
                   className="form-control height-30 font-size-14"
                   id="inputgst"
                   name="gstrate"
@@ -1139,7 +1153,7 @@ const CheckIn = () => {
               </label>
               <div className="col-sm-7">
                 <input
-                  type="number"
+                  type="text"
                   className="form-control height-30 font-size-14"
                   id="inputdeposiy"
                   name="depositrate"
