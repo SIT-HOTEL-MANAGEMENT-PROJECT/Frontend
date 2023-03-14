@@ -1,8 +1,106 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import "../CustomCss/Reservation.css";
+import Localbase from "localbase";
+let db = new Localbase("hmctdb");
+db.config.debug = false;
+
 
 const GuestHistory = () => {
+    
+
+    // Get :  Get Guest Reports based on filters
+    // params:  checkinfltr, checkoutfltr ('all'/'90days'/'365days'/'5years') (string any one value from this list)
+    // return:  1. {success:true, data: [<Array of all reservation data>{},{}]              IF ALL OK
+    //          2. {success:false, msg: "Something Went Wrong"}                             IF SERVER ERROR
+    //          3. {success:false, msg: "Invalid Input"}                                    IF INVALID INPUT                                                     
+    const getGuestHistory = async(checkinfltr, checkoutfltr)=>{
+        try{
+            if(!checkinfltr || !checkoutfltr) return {success:false, msg: "Invalid Input"};
+
+            let reservationData = await db.collection('reservation').get();
+
+            let resdata = reservationData.sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+
+            if(checkinfltr==="90days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 90);
+
+                resdata = resdata.filter((item) => {
+                    const arrivaldate = new Date(item.arrivaldate);
+                    return arrivaldate >= daysAgo && arrivaldate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkinfltr==="365days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365);
+
+                resdata = resdata.filter((item) => {
+                    const arrivaldate = new Date(item.arrivaldate);
+                    return arrivaldate >= daysAgo && arrivaldate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkinfltr==="5years"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365*5);
+
+                resdata = resdata.filter((item) => {
+                    const arrivaldate = new Date(item.arrivaldate);
+                    return arrivaldate >= daysAgo && arrivaldate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+
+
+            if(checkoutfltr==="90days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 90);
+
+                resdata = resdata.filter((item) => {
+                    const departuredate = new Date(item.departuredate);
+                    return departuredate >= daysAgo && departuredate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkoutfltr==="365days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365);
+
+                resdata = resdata.filter((item) => {
+                    const departuredate = new Date(item.departuredate);
+                    return departuredate >= daysAgo && departuredate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkoutfltr==="5years"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365*5);
+
+                resdata = resdata.filter((item) => {
+                    const departuredate = new Date(item.departuredate);
+                    return departuredate >= daysAgo && departuredate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+
+            return {success:true, data: resdata};
+        }catch(e){
+            console.log("GuestHistoryPageError (getGuestHistory) : ",e);
+            return {success:false, msg: "Something Went Wrong"}
+        }   
+    }
+
+
+
+
     return (
         <div>
             <div className='bg-light vh-100'>
