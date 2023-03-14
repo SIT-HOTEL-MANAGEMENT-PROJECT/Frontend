@@ -98,6 +98,18 @@ const Reservation = () => {
         if(!isBooked.success){  return { success: false, msg: isBooked?.msg }}
       }
 
+
+      let payments = [];
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+      if(roomRate){
+        payments.push({name:"bookingamount", description:"Booking time payment", date:todaydateforpaymentstring, debit:roomRate, credit:""})
+      }
+      if(discountAmount){
+        payments.push({"name":"reservationdiscount","description":"Reservation discount", "date":todaydateforpaymentstring, "debit":"", "credit":discountAmount})
+      }
+
+      
       await db.collection('reservation').add({
           bookingid: ubookingid,  name: guestName,  address: address, icno: "", 
           phoneno: guestPhoneNumber,  telno: "",  companyname: companyName, designation: designation,
@@ -117,7 +129,7 @@ const Reservation = () => {
           noofpax: noOfPax, modeofarrival: modeOfArrival, trainno: trainNo, flightno: flightNo,
 
           roomrate: roomRate, discountamount: discountAmount, discountpercentage: discountPercentage,
-          totalamountpaid: "",  finalamount: "",  gst: "",  modeofpayment: modeOfPayment, cardno: cardNo, upi: upi,
+          totalamountpaid: "",  finalamount: "", paymenthistory:payments,  gst: "",  modeofpayment: modeOfPayment, cardno: cardNo, upi: upi,
 
           mealplan: mealPlan, extrabedtype: "",
 
@@ -125,7 +137,7 @@ const Reservation = () => {
 
           billingno: "",  regno: "",
 
-          resassisname: resAssisName, specialreq: specialReq
+          resassisname: resAssisName, specialreq: specialReq, bookingstatus:"done", checkedinstatus:"pending", checkedoutstatus: "pending" 
       })
 
       return {success: true, bookingid: ubookingid}     
@@ -139,11 +151,64 @@ const Reservation = () => {
   // Update :  Update reservation details 
   // params : none     (directly get data from useState)
   // return :   1.  {success:true}                                    IF UPDATED SUCCESSFULLY
+  //            2.  {success:false, msg: 'Reservation Not Found!'}    IF BOOKING ID NOT FOUND
   //            2.  {success:false, msg: 'Something Went Wrong'}      IF ADD FAILED
   const updateReservationData = async()=>{
     try{
       let isBooked = await updateBookRoom(bookingidForUpdate);
       if(!isBooked.success){  return { success: false, msg: isBooked?.msg }}
+
+      
+      let reservationData = await db.collection('reservation').doc({ bookingid: bookingidForUpdate }).get();
+
+      if(!reservationData) return {success:false, msg: "Reservation Not Found!"}
+
+      let updatedpaymenthistory = reservationData.paymenthistory;
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      if (!updatedpaymenthistory.some((item) => item.name === "bookingamount")) {
+        updatedpaymenthistory.push({
+          name: "bookingamount",
+          description: "Booking time payment",
+          date: todaydateforpaymentstring,
+          debit: roomRate,
+          credit: "",
+        });
+      }else{
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "bookingamount") {
+            return {
+              ...item,
+              debit: roomRate,
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+
+      
+      if (!updatedpaymenthistory.some((item) => item.name === "reservationdiscount")) {
+        updatedpaymenthistory.push({
+          name: "reservationdiscount",
+          description: "Reservation discount",
+          date: todaydateforpaymentstring,
+          debit: "",
+          credit: discountAmount,
+        });
+      }else{
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "reservationdiscount") {
+            return {
+              ...item,
+              credit: discountAmount,
+            };
+          } else {
+            return item;
+          }
+        });
+      }
 
       await db.collection('reservation').doc({bookingid: bookingidForUpdate}).update({
           name: guestName,  address: address,
@@ -156,7 +221,7 @@ const Reservation = () => {
 
           noofpax: noOfPax, modeofarrival: modeOfArrival, trainno: trainNo, flightno: flightNo,
 
-          roomrate: roomRate, discountamount: discountAmount, discountpercentage: discountPercentage,
+          roomrate: roomRate, discountamount: discountAmount, discountpercentage: discountPercentage, paymenthistory:updatedpaymenthistory,
           modeofpayment: modeOfPayment, cardno: cardNo, upi: upi,
 
           mealplan: mealPlan,
