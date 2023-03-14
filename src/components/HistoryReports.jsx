@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import "../CustomCss/Reservation.css";
 import Localbase from "localbase";
@@ -6,7 +7,10 @@ let db = new Localbase("hmctdb");
 db.config.debug = false;
 
 const HistoryReports = () => {
+    const [selectedCheckinCheckbox, setSelectedCheckinCheckbox] = useState("all");
+    const [selectedCheckoutCheckbox, setSelectedCheckoutCheckbox] = useState("all");
 
+    
     
     // Get :  Get Reports based on filters
     // params:  fltr ('all'/'90days'/'365days'/'5years') (string any one value from this list)
@@ -190,6 +194,17 @@ const HistoryReports = () => {
 
 
 
+    const handleCheckinCheckboxChange = (e) => {
+        const newSelectedCheckinCheckboxValue = e.target.value;
+        setSelectedCheckinCheckbox(newSelectedCheckinCheckboxValue);
+        alert(newSelectedCheckinCheckboxValue); 
+    }
+
+    const handleCheckoutCheckboxChange = (e) => {
+        const newSelectedCheckoutCheckboxValue = e.target.value;
+        setSelectedCheckoutCheckbox(newSelectedCheckoutCheckboxValue);
+        alert(newSelectedCheckoutCheckboxValue); 
+    }
     
     return (
         <div>
@@ -210,20 +225,20 @@ const HistoryReports = () => {
                             <h5 className="text-primary font-size-14">Filtered by check in dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 90 days</span>
+                                    <input type="checkbox" value="90days" checked={selectedCheckinCheckbox === "90days"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 90 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 365 days</span>
+                                    <input type="checkbox" value="365days" checked={selectedCheckinCheckbox === "365days"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 365 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 5 years</span>
+                                    <input type="checkbox" value="5years" checked={selectedCheckinCheckbox === "5years"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 5 years</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">All History</span>
+                                    <input type="checkbox" value="all" checked={selectedCheckinCheckbox === "all"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">All History</span>
                                 </div>
                             </div>
                         </div>
@@ -231,20 +246,20 @@ const HistoryReports = () => {
                             <h5 className="text-primary font-size-14">Filtered by check out dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 90 days</span>
+                                    <input type="checkbox" value="90days" checked={selectedCheckoutCheckbox === "90days"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 90 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 365 days</span>
+                                    <input type="checkbox" value="365days" checked={selectedCheckoutCheckbox === "365days"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 365 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 5 years</span>
+                                    <input type="checkbox" value="5years" checked={selectedCheckoutCheckbox === "5years"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 5 years</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">All History</span>
+                                    <input type="checkbox" value="all" checked={selectedCheckoutCheckbox === "all"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">All History</span>
                                 </div>
                             </div>
                         </div>

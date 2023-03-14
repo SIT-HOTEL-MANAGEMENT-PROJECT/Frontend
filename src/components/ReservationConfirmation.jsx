@@ -231,22 +231,26 @@ const ReservationConfirmation = () => {
                 <div className="col-md-6">
                   <h5>{bookingData?.noofrooms} {bookingData?.typeofroom} Room x {bookingData?.mealplan} Plan</h5>
                 </div>
-                <div className="col-md-6 d-flex align-items-center">
-                  <label
-                    htmlFor="amountpaid"
-                    className="col-sm-3 col-form-label fw-bold"
-                  >
-                    Amount Paid
-                  </label>
-                  <div className="col-sm-7">
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="inputAmount"
-                      name="amountpaid" value={amountPaid} onChange={handleInputChange}
-                    />
+                <div className="d-flex medium-flex-column col-md-6 reserv-col-gap-2">
+                  <div className="d-flex align-items-center reserv-col-gap-1">
+                    <label
+                      htmlFor="amountpaid"
+                      className="col-sm-5 col-form-label fw-bold"
+                    >
+                      Amount Paid
+                    </label>
+                    <div className="col-sm-7">
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="inputAmount"
+                        min="0"
+                        name="amountpaid" value={amountPaid} onChange={handleInputChange}
+                      />
+                    </div>
                   </div>
-                </div>
+                  <button className="width-100 btn btn-primary">Update</button>
+                </div>  
               </div>
             </div>
           </div>
