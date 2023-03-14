@@ -68,10 +68,15 @@
     font-style: normal;
     font-weight: 600;
     font-size: 25px;
-    margin-top: 15px;
     color: #4763FD;
-    margin-top: -10px;
+    margin-left: 20cm;
+    margin-top: 30px;
+    position: relative!important;
 }
+/* #aligncenter
+{
+    text-align: center;
+} */
 
 .descA {
 
