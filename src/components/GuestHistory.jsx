@@ -1,8 +1,123 @@
 import React from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import "../CustomCss/Reservation.css";
+import Localbase from "localbase";
+let db = new Localbase("hmctdb");
+db.config.debug = false;
+
 
 const GuestHistory = () => {
+    const [selectedCheckinCheckbox, setSelectedCheckinCheckbox] = useState("all");
+    const [selectedCheckoutCheckbox, setSelectedCheckoutCheckbox] = useState("all");
+
+    
+    
+    
+    // Get :  Get Guest Reports based on filters
+    // params:  checkinfltr, checkoutfltr ('all'/'90days'/'365days'/'5years') (string any one value from this list)
+    // return:  1. {success:true, data: [<Array of all reservation data>{},{}]              IF ALL OK
+    //          2. {success:false, msg: "Something Went Wrong"}                             IF SERVER ERROR
+    //          3. {success:false, msg: "Invalid Input"}                                    IF INVALID INPUT                                                     
+    const getGuestHistory = async(checkinfltr, checkoutfltr)=>{
+        try{
+            if(!checkinfltr || !checkoutfltr) return {success:false, msg: "Invalid Input"};
+
+            let reservationData = await db.collection('reservation').get();
+
+            let resdata = reservationData.sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+
+            if(checkinfltr==="90days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 90);
+
+                resdata = resdata.filter((item) => {
+                    const arrivaldate = new Date(item.arrivaldate);
+                    return arrivaldate >= daysAgo && arrivaldate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkinfltr==="365days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365);
+
+                resdata = resdata.filter((item) => {
+                    const arrivaldate = new Date(item.arrivaldate);
+                    return arrivaldate >= daysAgo && arrivaldate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkinfltr==="5years"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365*5);
+
+                resdata = resdata.filter((item) => {
+                    const arrivaldate = new Date(item.arrivaldate);
+                    return arrivaldate >= daysAgo && arrivaldate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+
+
+            if(checkoutfltr==="90days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 90);
+
+                resdata = resdata.filter((item) => {
+                    const departuredate = new Date(item.departuredate);
+                    return departuredate >= daysAgo && departuredate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkoutfltr==="365days"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365);
+
+                resdata = resdata.filter((item) => {
+                    const departuredate = new Date(item.departuredate);
+                    return departuredate >= daysAgo && departuredate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+            else if(checkoutfltr==="5years"){
+                const today = new Date();
+                const daysAgo = new Date(today);
+                daysAgo.setDate(today.getDate() - 365*5);
+
+                resdata = resdata.filter((item) => {
+                    const departuredate = new Date(item.departuredate);
+                    return departuredate >= daysAgo && departuredate <= today;
+                })
+                .sort((a, b) => new Date(b.arrivaldate) - new Date(a.arrivaldate));
+            }
+
+            return {success:true, data: resdata};
+        }catch(e){
+            console.log("GuestHistoryPageError (getGuestHistory) : ",e);
+            return {success:false, msg: "Something Went Wrong"}
+        }   
+    }
+
+
+    
+    
+    const handleCheckinCheckboxChange = (e) => {
+        const newSelectedCheckinCheckboxValue = e.target.value;
+        setSelectedCheckinCheckbox(newSelectedCheckinCheckboxValue);
+        alert(newSelectedCheckinCheckboxValue); 
+    }
+
+    const handleCheckoutCheckboxChange = (e) => {
+        const newSelectedCheckoutCheckboxValue = e.target.value;
+        setSelectedCheckoutCheckbox(newSelectedCheckoutCheckboxValue);
+        alert(newSelectedCheckoutCheckboxValue); 
+    }
+    
     return (
         <div>
             <div className='bg-light vh-100'>
@@ -22,20 +137,20 @@ const GuestHistory = () => {
                             <h5 className="text-primary font-size-14">Filtered by check in dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 90 days</span>
+                                    <input type="checkbox" value="90days" checked={selectedCheckinCheckbox === "90days"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 90 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 365 days</span>
+                                    <input type="checkbox" value="365days" checked={selectedCheckinCheckbox === "365days"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 365 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 5 years</span>
+                                    <input type="checkbox" value="5years" checked={selectedCheckinCheckbox === "5years"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 5 years</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">All History</span>
+                                    <input type="checkbox" value="all" checked={selectedCheckinCheckbox === "all"} onChange={handleCheckinCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">All History</span>
                                 </div>
                             </div>
                         </div>
@@ -43,20 +158,20 @@ const GuestHistory = () => {
                             <h5 className="text-primary font-size-14">Filtered by check out dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 90 days</span>
+                                    <input type="checkbox" value="90days" checked={selectedCheckoutCheckbox === "90days"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 90 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 365 days</span>
+                                    <input type="checkbox" value="365days" checked={selectedCheckoutCheckbox === "365days"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 365 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">Last 5 years</span>
+                                    <input type="checkbox" value="5years" checked={selectedCheckoutCheckbox === "5years"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">Last 5 years</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" />
-                                    <span className="padding-left-16 text-primary font-size-14">All History</span>
+                                    <input type="checkbox" value="all" checked={selectedCheckoutCheckbox === "all"} onChange={handleCheckoutCheckboxChange} />
+                                    <span className="padding-left-16 text-primary font-size-16">All History</span>
                                 </div>
                             </div>
                         </div>
