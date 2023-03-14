@@ -82,6 +82,7 @@ const ReservationConfirmation = () => {
           if (item.name === "reservation") {
             return {
               ...item,
+              date: todaydateforpaymentstring,
               credit: credit.toString(),
             };
           } else {

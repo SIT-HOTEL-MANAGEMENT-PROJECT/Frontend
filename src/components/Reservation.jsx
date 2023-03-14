@@ -180,6 +180,7 @@ const Reservation = () => {
           if (item.name === "bookingamount") {
             return {
               ...item,
+              date: todaydateforpaymentstring,
               debit: roomRate,
             };
           } else {
@@ -202,6 +203,7 @@ const Reservation = () => {
           if (item.name === "reservationdiscount") {
             return {
               ...item,
+              date: todaydateforpaymentstring,
               credit: discountAmount,
             };
           } else {
