@@ -17,6 +17,7 @@ const Home3 = () => {
       if (Cookies.get("name")) {  Cookies.remove("name"); }
       if (Cookies.get("username")) {  Cookies.remove("username"); }
       if (Cookies.get("role")) {  Cookies.remove("role"); }
+      window.location.href = "/Home";
       return { success: true };
     } catch (e) {
       console.log("DashboardError (logoutAction) : ", e);
@@ -155,11 +156,11 @@ const Home3 = () => {
               </NavLink>
               <br />
               <br />
-              <NavLink to="/Home" className="NavLinks" onClick={LogoutAction}>
+              {/* <NavLink to="/Home" className="NavLinks" onClick={LogoutAction}>
                 <i id="iconcolor" class="fa fa-sign-out" aria-hidden="true"></i>
                 &nbsp; Logout
               </NavLink>
-              <br/><br/>
+              <br/><br/> */}
             </div>
           </div>
           <h1>
@@ -171,7 +172,8 @@ const Home3 = () => {
           </h3>
         </div>
       </div>
-      <div className="right" style={{ minHeight: "80vh" }}>
+      <div className="right" style={{ minHeight: "100vh" }}>
+      <button className="btn btn-primary" style={{float:"right",marginRight:"10px",marginTop:"30px"}} onClick={LogoutAction}>Sign Out</button>
         <img
           src={homeimg}
           alt="homeimg"
