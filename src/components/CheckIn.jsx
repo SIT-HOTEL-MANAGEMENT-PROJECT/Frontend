@@ -447,10 +447,10 @@ const CheckIn = () => {
               <div className="col-sm-7 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Standard"
-                      ? "btn-success"
-                      : "btn-primary"
+                    ? "button-color-onHover"
+                    : "background-gray"
                   }`}
                   onClick={() => {
                     changeRoomBtnColor("Standard");
@@ -460,8 +460,8 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
-                    roomTypeBtnColor === "Delux" ? "btn-success" : "btn-primary"
+                  className={`d-flex align-items-center justify-content-center text-primary btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                    roomTypeBtnColor === "Delux" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeRoomBtnColor("Delux");
@@ -471,10 +471,10 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Executive"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changeRoomBtnColor("Executive");
@@ -737,8 +737,9 @@ const CheckIn = () => {
               <div className="col-sm-7 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "EP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "EP" ? "button-color-onHover"
+                    : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("EP");
@@ -748,8 +749,8 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "CP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "CP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("CP");
@@ -759,8 +760,8 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "AP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "AP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("AP");
@@ -770,8 +771,8 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-light btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
-                    mealTypeBtnColor === "MAP" ? "btn-success" : "btn-primary"
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
+                    mealTypeBtnColor === "MAP" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeMealBtnColor("MAP");
@@ -1014,10 +1015,10 @@ const CheckIn = () => {
               <div className="col-sm-4 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     CountryBtnColor === "Standard"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changeCountryBtnColor("Standard");
@@ -1027,8 +1028,8 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-light btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
-                    CountryBtnColor === "Delux" ? "btn-success" : "btn-primary"
+                  className={`d-flex align-items-center justify-content-center text-primary btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                    CountryBtnColor === "Delux" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
                     changeCountryBtnColor("Delux");
@@ -1090,10 +1091,10 @@ const CheckIn = () => {
               <div className="col-sm-7 d-flex justify-content-between">
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-light btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
                     paymentTypeBtnColor === "Cash"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changePaymentBtnColor("Cash");
@@ -1103,10 +1104,10 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
                     paymentTypeBtnColor === "Card"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                    : "background-gray"
                   }`}
                   onClick={() => {
                     changePaymentBtnColor("Card");
@@ -1116,10 +1117,10 @@ const CheckIn = () => {
                 </button>
                 <button
                   type="button"
-                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-light btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
+                  className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
                     paymentTypeBtnColor === "UPI"
-                      ? "btn-success"
-                      : "btn-primary"
+                      ? "button-color-onHover"
+                      : "background-gray"
                   }`}
                   onClick={() => {
                     changePaymentBtnColor("UPI");
