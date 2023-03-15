@@ -157,12 +157,40 @@ const App = () => {
   }
 
 
+  // Delete : Delete all datas and reset application (Admin Only Action) (need to reload after this action)
+  // params : none             
+  // return : 1. {success:true}                                                           IF RESET SUCCESSFULL
+  //          2. {success:false, msg: 'Access Denied!'}                                   IF NOT ADMIN
+  //          3. {success:false, msg: 'Internal Server Error' }                           IF SERVER ERROR
+  const resetAppData = async()=>{
+    try{
+      let res = isUserAdmin();
+      if(res.isAdmin){
+        await db.delete();
+        let lastreportdate = localStorage.getItem('lastreportdate');
+        if(lastreportdate) { localStorage.removeItem('lastreportdate'); }
+        if (Cookies.get("isLoggedIn")) {  Cookies.remove("isLoggedIn"); }
+        if (Cookies.get("name")) {  Cookies.remove("name"); }
+        if (Cookies.get("username")) {  Cookies.remove("username"); }
+        if (Cookies.get("role")) {  Cookies.remove("role"); }
+      }else{
+        return {success:false, msg:"Access Denied!"}
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("App (resetAppData)",e);
+      return {success:false, msg: "Internal Server Error"}
+    }
+  }
+
+
   return (
     <>
       {/* Routes Setup */}
       <Routes>
         <Route exact path="/Home" element={<Home />} />
-        <Route exact path="/Home3" element={<Home3 />} />
+        <Route exact path="/Home3" element={<Home3  resetAppData={resetAppData} />} />
         <Route exact path="/AllReservations" element={<AllReservations isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/Reservation" element={<Reservation />} />
         <Route
@@ -182,7 +210,7 @@ const App = () => {
         <Route exact path="/FandB" element={<FandB isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/Duluxe" element={<DuluxeRoomAvailability isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} initializeDatabase={initializeRoomAvDatabase} getLoggedInUserDetails={getLoggedInUserDetails}/>} />
         <Route exact path="/Executive" element={<ExecutiveRoomAvailability isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} initializeDatabase={initializeRoomAvDatabase} getLoggedInUserDetails={getLoggedInUserDetails}/>} />
-        <Route path="*" element={<Navigate to="/Home3" replace isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
+        <Route path="*" element={<Navigate to="/Home3" replace resetAppData={resetAppData} isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
         <Route path="/Team" element={<Team isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
       </Routes>
     </>
