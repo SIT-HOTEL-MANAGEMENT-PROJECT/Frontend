@@ -72,7 +72,7 @@ const Home3 = () => {
               <NavLink to="/Reservation" className="NavLinks">
                 <i
                   id="iconcolor"
-                  class="fa fa-id-card-o"
+                  className="fa fa-id-card-o"
                   aria-hidden="true"
                 ></i>
                 &nbsp; Reservation
@@ -80,36 +80,36 @@ const Home3 = () => {
               <br />
               <br />
               <NavLink to="/CheckIn" className="NavLinks">
-                <i id="iconcolor" class="fa fa-sign-in" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-sign-in" aria-hidden="true"></i>
                 &nbsp; Check In
               </NavLink>
               <br />
               <br />
               <NavLink to="/CheckOut" className="NavLinks">
-                <i id="iconcolor" class="fa fa-sign-in" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-sign-in" aria-hidden="true"></i>
                 &nbsp; Check Out
               </NavLink>
               <br />
               <br />
               <NavLink to="/RoomAvailability" className="NavLinks">
-                <i id="iconcolor" class="fa fa-bed" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-bed" aria-hidden="true"></i>
                 &nbsp; Room Availability
               </NavLink>
               <br />
               <br />
               <NavLink to="/Laundry" className="NavLinks">
-                <i id="iconcolor" class="fa fa-user" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-user" aria-hidden="true"></i>
                 &nbsp; House Keeping
               </NavLink>
               <br />
               <br />
               <NavLink to="/FandB" className="NavLinks">
-                <i id="iconcolor" class="fa fa-cutlery" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-cutlery" aria-hidden="true"></i>
                 &nbsp; F & B Service
               </NavLink>
               <br /><br/>
               <NavLink to="/GuestHistory" className="NavLinks">
-                <i id="iconcolor" class="fa fa-book" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-book" aria-hidden="true"></i>
                 &nbsp; Guest History
               </NavLink>
               <br />
@@ -117,7 +117,7 @@ const Home3 = () => {
               <NavLink to="/Reports" className="NavLinks">
                 <i
                   id="iconcolor"
-                  class="fa fa-file-text"
+                  className="fa fa-file-text"
                   aria-hidden="true"
                 ></i>
                 &nbsp; Reports
@@ -125,7 +125,7 @@ const Home3 = () => {
               <br />
               <br />
               <NavLink to="/Application" className="NavLinks">
-                <i id="iconcolor" class="fa fa-pencil" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-pencil" aria-hidden="true"></i>
                 &nbsp; Application
               </NavLink>
               <br />
@@ -133,7 +133,7 @@ const Home3 = () => {
               <NavLink to="/Notice" className="NavLinks">
                 <i
                   id="iconcolor"
-                  class="fa fa-calendar-check-o"
+                  className="fa fa-calendar-check-o"
                   aria-hidden="true"
                 ></i>
                 &nbsp; Notice
@@ -143,24 +143,23 @@ const Home3 = () => {
               <NavLink to="/Profile" className="NavLinks">
                 <i
                   id="iconcolor"
-                  class="fa fa-user-circle"
+                  className="fa fa-user-circle"
                   aria-hidden="true"
                 ></i>
                 &nbsp; Profile
               </NavLink>
               <br />
               <br />
-              <NavLink to="/Team" className="NavLinks">
-                <i id="iconcolor" class="fa fa-users" aria-hidden="true"></i>
-                &nbsp; Team
+              <NavLink to="#" className="NavLinks">
+                <i
+                  id="iconcolor"
+                  className="fa fa-window-close"
+                  aria-hidden="true"
+                ></i>
+                &nbsp; Clear History
               </NavLink>
               <br />
               <br />
-              {/* <NavLink to="/Home" className="NavLinks" onClick={LogoutAction}>
-                <i id="iconcolor" class="fa fa-sign-out" aria-hidden="true"></i>
-                &nbsp; Logout
-              </NavLink>
-              <br/><br/> */}
             </div>
           </div>
           <h1>
