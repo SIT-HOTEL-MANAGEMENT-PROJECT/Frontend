@@ -105,7 +105,7 @@ const ReservationConfirmation = () => {
 
 
   // Update : Update how much amount paid by user today in ADR DB
-  // params : amount (amountpaid by user. not pay-later)
+  // params : amount (amountpaid by user. not pay-later) (string)
   // return : 1. {success: true }                                                     IF ALL OK
   //          2. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
   let prevvalue = 0;
@@ -162,6 +162,25 @@ const ReservationConfirmation = () => {
     }
   }
 
+
+  const updateAmountValue = async()=>{
+    let creditval = amountPaid.toString();
+    let bkid = bookingData?.bookingid;
+    let res  = await updateReservationTimePayment(bkid,creditval);
+
+    if(res.success){
+      let res1 = await updateRupeesAdrValue(creditval);
+      if(res1.success){
+        alert("Amount Paid value Updated!");
+      }else{
+        alert(res1?.msg);
+      }
+    }else{
+      alert(res?.msg);
+    }
+  }
+
+  
   const handleInputChange = (e) => {
     if(e.target.name == "amountpaid"){ setAmountPaid(e.target.value) }
   }
@@ -254,7 +273,7 @@ const ReservationConfirmation = () => {
                       />
                     </div>
                   </div>
-                  <button className="width-100 btn btn-primary">Update</button>
+                  <button className="width-100 btn btn-primary" onClick={updateAmountValue}>Update</button>
                 </div>  
               </div>
             </div>
