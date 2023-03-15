@@ -86,7 +86,7 @@ const Home3 = () => {
               <br />
               <br />
               <NavLink to="/CheckOut" className="NavLinks">
-                <i id="iconcolor" className="fa fa-sign-in" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-sign-out" aria-hidden="true"></i>
                 &nbsp; Check Out
               </NavLink>
               <br />
