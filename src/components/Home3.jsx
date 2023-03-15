@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import menu_icon from "../img/menu_icon.png";
 import Cookies from "js-cookie";
 
-const Home3 = () => {
+const Home3 = ({ resetAppData }) => {
 
   // Check :  Logout from App
   // params : none
@@ -17,7 +17,6 @@ const Home3 = () => {
       if (Cookies.get("name")) {  Cookies.remove("name"); }
       if (Cookies.get("username")) {  Cookies.remove("username"); }
       if (Cookies.get("role")) {  Cookies.remove("role"); }
-      window.location.href = "/Home";
       return { success: true };
     } catch (e) {
       console.log("DashboardError (logoutAction) : ", e);
@@ -25,6 +24,27 @@ const Home3 = () => {
     }
   };
 
+
+
+
+  const signuout = ()=>{
+    let res = LogoutAction();
+    if(res.success){
+      window.location.href = "/Home";
+    }else{
+      alert(res?.msg);
+    }
+  }
+
+
+  const clearApp = async()=>{
+    let res = await resetAppData();
+    if(res.success){
+      window.location.reload();
+    }else{
+      alert(res?.msg);
+    }
+  }
 
   return (
     <div className="containerhome3" id="fixheight">
@@ -150,7 +170,7 @@ const Home3 = () => {
               </NavLink>
               <br />
               <br />
-              <NavLink to="#" className="NavLinks">
+              <NavLink to="#" className="NavLinks" onClick={clearApp}>
                 <i
                   id="iconcolor"
                   className="fa fa-window-close"
@@ -172,7 +192,7 @@ const Home3 = () => {
         </div>
       </div>
       <div className="right" style={{ minHeight: "100vh" }}>
-      <button className="btn btn-primary" style={{float:"right",marginRight:"10px",marginTop:"30px"}} onClick={LogoutAction}>Sign Out</button>
+      <button className="btn btn-primary" style={{float:"right",marginRight:"10px",marginTop:"30px"}} onClick={signuout}>Sign Out</button>
         <img
           src={homeimg}
           alt="homeimg"
