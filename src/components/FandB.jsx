@@ -4,6 +4,26 @@ import { NavLink } from "react-router-dom";
 import "../CustomCss/lon.css";
 
 const FandB = () => {
+  const [accountingdate, setaccountingdate] = useState("");
+  const [guestname, setguestname] = useState("");
+  const [itemquantity, setitemquantity] = useState("");
+  const [tableno, settableno] = useState("");
+
+  
+
+  const handleInputChange = (e) => {
+    if(e.target.name == "accountingdate"){
+      setaccountingdate(e.target.value);
+    }else if(e.target.name == "guestname"){
+      setguestname(e.target.value);
+    }else if(e.target.name == "itemquantity"){
+      setitemquantity(e.target.value);
+    }else if(e.target.name == "tableno"){
+      settableno(e.target.value);
+    }
+  };
+
+
   return (
     <div className="formA">
       <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
@@ -761,47 +781,135 @@ const FandB = () => {
           <form>
             <div className="lefta">
               <label className="mb-3">Accounting Date :</label>
-              <input className="ms-3" type="date" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="date" 
+                placeholder="" 
+                name="accountingdate"
+                value={accountingdate}
+                onChange={handleInputChange}
+                required />
               <br />
               <label className="mb-3">Session :</label>
-              <button type="button" class="btn btn-primary ms-3">Morning</button>
-              <button type="button" class="btn btn-primary ms-3">Night</button>
+              <button 
+                type="button" 
+                class="btn ms-4 text-primary background-gray rounded-1"
+              >
+                Morning
+              </button>
+              <button 
+                type="button" 
+                class="btn  ms-4 text-primary background-gray rounded-1"
+              >
+                Night
+              </button>
               <br />
               <label className="mb-3">Guest Name:</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                placeholder=""
+                name="guestname"
+                value={guestname}
+                onChange={handleInputChange}
+                required />
               <br />
               <label className="mb-3">Item Quantity :</label>
-              <input className="ms-3" type="Number" min="0" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="Number" 
+                min="0" 
+                name="itemquantity"
+                value={itemquantity}
+                onChange={handleInputChange}
+                placeholder=""
+                required />
               <br />
               <label className="mb-3">Table No :</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                name="tableno"
+                value={tableno}
+                onChange={handleInputChange}
+                placeholder="" 
+                required />
               <br />
             </div>
             <div className="righta">
               <label className="mb-3">Item Code :</label>
-              <input className="ms-3" type="text" placeholder=" Guest Name" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                placeholder="" 
+                required />
               <br />
               <label className="mb-3">Item Name :</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                placeholder="" 
+                required />
               <br />
               <label className="mb-3">Plan :</label>
-              <button type="button" class="btn btn-primary ms-3">Breakfast</button>
-              <button type="button" class="btn btn-primary ms-3">Lunch</button>
-              <button type="button" class="btn btn-primary ms-3">Dinner</button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                Breakfast 
+              </button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                Lunch
+              </button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                Dinner
+              </button>
               <br />
               <label className="mb-3">Rate :</label>
-              <input className="ms-3" type="text" />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" />
               <br />
               <label className="mb-3">Room No :</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                placeholder="" 
+                required />
               <br />
             </div>
             <div>
             <label className="mb-3">Payment :</label>
-              <button type="button" class="btn btn-primary ms-3">Cash</button>
-              <button type="button" class="btn btn-primary ms-3">UPI</button>
-              <button type="button" class="btn btn-primary ms-3">Card</button>
-              <button type="button" class="btn btn-primary ms-3">Post with Room</button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                Cash
+              </button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                UPI
+              </button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                Card
+              </button>
+              <button 
+                type="button" 
+                class="btn text-primary background-gray rounded-1 ms-3"
+              >
+                Post with Room
+              </button>
             </div>
             <br/>
             <div>
