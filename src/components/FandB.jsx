@@ -437,16 +437,91 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Navratna Korma<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Navratna <br/>Korma<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
                     </li>
                     <li>
-                      <p>Mushroom Butter Masala<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Mushroom Butter Masala<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
                     </li>
                     <li>
-                      <p>Matar mushroom<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Matar <br/>mushroom<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
                     </li>
                     <li>
-                      <p>Vegetable Jhalfarenzy<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Vegetable Jhalfarenzy<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Special Paneer<span style={{marginLeft:"20px"}}>Rs. 240</span></p>
+                    </li>
+                    <li>
+                      <p>Shahi Paneer<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer Tikka Masala<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Corn Palak<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Palak Paneer<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Malai Kofta<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Veg Jaipuri<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Veg Kolapuri<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Mix Veg<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Gobi matar<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Gobi<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Jeera<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer <br/>Pasanda<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Kadhai <br/>Paneer<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Corn Capsicum Masala<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Methi malai <br/>Matar<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Veg Angoori<br/> Kofta<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Special Kofta<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Bhaja<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer Butter Masala<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer Do <br/>Pyaza<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Matar Paneer<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Green Peas Masala<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Kashmiri Aloo Dum<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Dum<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
                     </li>
                 </ul>
                 </div>
@@ -460,7 +535,80 @@ const FandB = () => {
               </h2>
               <div id="collapsetwelve" class="accordion-collapse collapse" aria-labelledby="headingtwelve" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Chicken Curry<span style={{marginLeft:"20px"}}>Rs. 240</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Kasa<span style={{marginLeft:"20px"}}>Rs. 250</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Do <br/> pyaza<span style={{marginLeft:"20px"}}>Rs. 250</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken<br/> Moghlai<span style={{marginLeft:"20px"}}>Rs. 270</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken<br/> Bharta<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Tikka Masala<span style={{marginLeft:"20px"}}>Rs. 350</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Sahi Korma<span style={{marginLeft:"20px"}}>Rs. 350</span></p>
+                    </li>
+                    <li>
+                      <p>Kadai Chicken<span style={{marginLeft:"20px"}}>Rs. 315</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken<br/> Masala<span style={{marginLeft:"20px"}}>Rs. 270</span></p>
+                    </li>
+                    <li>
+                      <p>Butter Chicken (half/full)<span style={{marginLeft:"20px"}}>Rs. 630/370</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Special Chicken (half/full)<span style={{marginLeft:"20px"}}>Rs. 740/425</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Curry<span style={{marginLeft:"20px"}}>Rs. 290</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Masala<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Tikka<br/> Masala<span style={{marginLeft:"20px"}}>Rs. 325</span></p>
+                    </li>
+                    <li>
+                      <p>Prawn<br/> Masala<span style={{marginLeft:"20px"}}>Rs. 500</span></p>
+                    </li>
+                    <li>
+                      <p>Prawn Malai<br/> Curry<span style={{marginLeft:"20px"}}>Rs. 500</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton Kasa<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton Korma<span style={{marginLeft:"20px"}}>Rs. 370</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton Keema Matar<span style={{marginLeft:"20px"}}>Rs. 390</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton <br/>Roganjosh<span style={{marginLeft:"20px"}}>Rs. 370</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton <br/>Mughlai<span style={{marginLeft:"20px"}}>Rs. 390</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Mutton<span style={{marginLeft:"20px"}}>Rs. 410</span></p>
+                    </li>
+                    <li>
+                      <p>Egg Masala<span style={{marginLeft:"20px"}}>Rs. 140</span></p>
+                    </li>
+                    <li>
+                      <p>Egg Curry<span style={{marginLeft:"20px"}}>Rs. 135</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -472,7 +620,35 @@ const FandB = () => {
               </h2>
               <div id="collapsethirteen" class="accordion-collapse collapse" aria-labelledby="headingthirteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Tandoori Roti (Plain/Butter)<br/><span style={{marginLeft:"20px"}}>Rs. 40/50</span></p>
+                    </li>
+                    <li>
+                      <p>Naan (Plain/Butter)<br/><span style={{marginLeft:"20px"}}>Rs. 65/75</span></p>
+                    </li>
+                    <li>
+                      <p>Kulcha (Onion/Masala/Paneer)<br/><span style={{marginLeft:"20px"}}>Rs. 85</span></p>
+                    </li>
+                    <li>
+                      <p>Cheese Naan<span style={{marginLeft:"20px"}}>Rs. 100</span></p>
+                    </li>
+                    <li>
+                      <p>Missi Roti/Bajra Roti<span style={{marginLeft:"20px"}}>Rs. 65</span></p>
+                    </li>
+                    <li>
+                      <p>Kashmiri Naan<span style={{marginLeft:"20px"}}>Rs. 120</span></p>
+                    </li>
+                    <li>
+                      <p>Parantha (Lacha/Pudhina/Methi) <br/><span style={{marginLeft:"20px"}}>Rs. 85</span></p>
+                    </li>
+                    <li>
+                      <p>Parantha (Aloo/Muli/Gobhi)<br/><span style={{marginLeft:"20px"}}>Rs. 95</span></p>
+                    </li>
+                    <li>
+                      <p>Masala Garlic Naan<span style={{marginLeft:"20px"}}>Rs. 85</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -484,7 +660,23 @@ const FandB = () => {
               </h2>
               <div id="collapsefourteen" class="accordion-collapse collapse" aria-labelledby="headingfourteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Dal Makhani<span style={{marginLeft:"20px"}}>Rs. 170</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Lasuni <br/>Tarka<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Mughlai<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Plain<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Fry Yellow<span style={{marginLeft:"20px"}}>Rs. 135</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -496,7 +688,20 @@ const FandB = () => {
               </h2>
               <div id="collapsefifteen" class="accordion-collapse collapse" aria-labelledby="headingfifteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Pasta in Arabiata Sauce (Veg/Non-veg)<span style={{marginLeft:"20px"}}>Rs. 260/305</span></p>
+                    </li>
+                    <li>
+                      <p>Pasta in Cheese Sauce (Veg/Non-veg)<br/><span style={{marginLeft:"20px"}}>Rs. 275/315</span></p>
+                    </li>
+                    <li>
+                      <p>Pasta in Mixed Sauce (Veg/Non-veg)<br/><span style={{marginLeft:"20px"}}>Rs. 295/345</span></p>
+                    </li>
+                    <li>
+                      <p>Au gratin (Veg/Non-veg)<span style={{marginLeft:"20px"}}>Rs. 265/295</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -508,7 +713,26 @@ const FandB = () => {
               </h2>
               <div id="collapsesixteen" class="accordion-collapse collapse" aria-labelledby="headingsixteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Veg Noodles<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                    </li>
+                    <li>
+                      <p>Chilli Garlic Noodles<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Hakka <br/>Noodles<span style={{marginLeft:"20px"}}>Rs. 210</span></p>
+                    </li>
+                    <li>
+                      <p>Egg Hakka Noodles<span style={{marginLeft:"20px"}}>Rs. 250</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Hakka Noodles<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Mixed<br/> Noodles<span style={{marginLeft:"20px"}}>Rs. 350</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -520,7 +744,14 @@ const FandB = () => {
               </h2>
               <div id="collapseseventeen" class="accordion-collapse collapse" aria-labelledby="headingseventeen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Veg Thali<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Thali<span style={{marginLeft:"20px"}}>Rs. 260</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
