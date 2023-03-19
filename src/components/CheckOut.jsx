@@ -53,7 +53,7 @@ const CheckOut = () => {
   }
 
   return (
-    <div>
+    <div class="checkoutbody">
       <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
         <div className="container-fluid">
           <div className="navbar-brand d-flex align-items-center">
