@@ -178,9 +178,9 @@ const CheckOut = () => {
         <table class="descA">
             <div>
                 <tr>
-                    <hr style="border: 1.20468px solid #4763FD;
-                         margin-left: 40px;
-                         margin-right: 40px" />
+                    <hr style={{border:' 1.20468px solid #4763FD',
+                         marginLeft:' 40px',
+                         marginRight: '40px'}} />
                     <th>Date</th>
                     <th>Description</th>
                     <th>Reference</th>
@@ -189,9 +189,9 @@ const CheckOut = () => {
                 </tr>
             </div>
         </table>
-        <hr style="border: 1.20468px solid #4763FD;
-            margin-left: 40px;
-            margin-right: 40px" />
+        <hr style={{border: '1.20468px solid #4763FD',
+            marginLeft: '40px',
+            marginRight: '40px'}}/>
 
         <table class="dataA">
             <div>

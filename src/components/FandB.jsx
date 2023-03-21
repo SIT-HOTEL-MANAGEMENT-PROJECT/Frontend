@@ -1,13 +1,43 @@
 import React from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import "../CustomCss/lon.css";
+import "../CustomCss/fnb.css";
 
 const FandB = () => {
   const [accountingdate, setaccountingdate] = useState("");
   const [guestname, setguestname] = useState("");
   const [itemquantity, setitemquantity] = useState("");
   const [tableno, settableno] = useState("");
+  const [itemcode, setitemcode] = useState("");
+  const [itemname, setitemname] = useState("");
+  const [rate, setrate] = useState("");
+  const [roomno, setroomno] = useState("");
+  const [sessiontype, setsessiontype] = useState("");
+  const [paymenttype, setpaymenttype] = useState("");
+  const [plantype, setplantype] = useState("");
+
+
+
+  const [sessionBtnColourType, setsessionBtnColourType] = useState("");
+  const [paymentBtnColourType, setpaymentBtnColourType] = useState("");
+  const [planBtnColourType, setplanBtnColourType] = useState("");
+
+  const changesessionBtnColour = (sessiontype) => {
+    setsessionBtnColourType(sessiontype);
+    setsessiontype(sessiontype);
+  };
+
+  const changepaymentBtnColour = (paymenttype) => {
+    setpaymentBtnColourType(paymenttype);
+    setpaymenttype(paymenttype);
+  };
+
+  const changeplanBtnColour = (plantype) => {
+    setplanBtnColourType(plantype);
+    setplantype(plantype);
+  };
+
+
 
   
 
@@ -20,6 +50,14 @@ const FandB = () => {
       setitemquantity(e.target.value);
     }else if(e.target.name == "tableno"){
       settableno(e.target.value);
+    }else if(e.target.name == "itemcode"){
+      setitemcode(e.target.value);
+    }else if(e.target.name == "itemname"){
+      setitemname(e.target.value);
+    }else if(e.target.name == "rate"){
+      setrate(e.target.value);
+    }else if(e.target.name == "roomno"){
+      setroomno(e.target.value);
     }
   };
 
@@ -33,9 +71,7 @@ const FandB = () => {
               <i className="bx bx-chevrons-left"></i>
             </NavLink>
             <h5 className="text-primary">
-              Food and
-              <br />
-              Beverages
+              Food and Beverages
             </h5>
           </div>
         </div>
@@ -56,19 +92,19 @@ const FandB = () => {
                 <div class="accordion-body">
                   <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Russian Salad(Veg/Non-veg)<span style={{marginLeft:"20px"}}>$ 150/170</span></p>
+                      <p>Russian Salad(Veg/Non-veg)<span style={{marginLeft:"20px"}}>Rs. 150/170</span></p>
                     </li>
                     <li>
-                      <p>Fresh Garden <br/> Salad<span style={{marginLeft:"20px"}}>$ 105</span></p>
+                      <p>Fresh Garden <br/> Salad<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
                     </li>
                     <li>
-                      <p>Mix raita/Kheer Raita <br/>/Boondi Raita<span style={{marginLeft:"20px"}}>$ 135</span></p>
+                      <p>Mix raita/Kheer Raita <br/>/Boondi Raita<span style={{marginLeft:"20px"}}>Rs. 135</span></p>
                     </li>
                     <li>
-                      <p>Pineapple<br/>Raita<span style={{marginLeft:"20px"}}>$ 170</span></p>
+                      <p>Pineapple<br/>Raita<span style={{marginLeft:"20px"}}>Rs. 170</span></p>
                     </li>
                     <li>
-                      <p>Plain dahi<span style={{marginLeft:"20px"}}>$ 105</span></p>
+                      <p>Plain dahi<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
                     </li>
                   </ul>
                 </div>
@@ -84,46 +120,46 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Vegetable <br/> Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p><a href="#">Vegetable <br/> Pakora<span style={{marginLeft:"20px"}}>Rs. 150</span></a></p>
                     </li>
                     <li>
-                      <p>Onion Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Onion Pakora<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>French Fries<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>French Fries<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Cheese balls(6 pcs)<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Cheese balls(6 pcs)<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Peanut Masala<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Peanut Masala<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Paneer Tikka<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Paneer Tikka<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Veg Sheek <br/> Kabab<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Veg Sheek <br/> Kabab<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Paneer Malai <br/> Tikka<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Paneer Malai <br/> Tikka<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Harabhara <br/> Kabab<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Harabhara <br/> Kabab<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Skkky Kabab <br/> Platter<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Skkky Kabab <br/> Platter<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Paneer Aachari Tikka<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Paneer Aachari Tikka<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Tandoori Mushroom<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Tandoori Mushroom<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Tandoori Aloo<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Tandoori Aloo<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Tandoori Gobhi<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Tandoori <br/> Gobhi<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     
                   </ul>
@@ -140,25 +176,25 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Chicken <br/> Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Chicken <br/> Pakora<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Lasuni <br/> Tikka<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Lasuni <br/> Tikka<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Tikka<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Tikka<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Reshmi Kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Reshmi Kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Pahari <br/> Kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Pahari <br/> Kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Chicken Sheek kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Chicken Sheek kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Afghani kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Afghani kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                   </ul>
                 </div>
@@ -790,16 +826,30 @@ const FandB = () => {
                 onChange={handleInputChange}
                 required />
               <br />
-              <label className="mb-3">Session :</label>
+              <label className="mb-3" htmlFor="sessiontype">Session :</label>
               <button 
                 type="button" 
-                class="btn ms-4 text-primary background-gray rounded-1"
+                class={`btn ms-4 text-primary background-gray rounded-1 ${
+                  sessionBtnColourType === "Morning"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changesessionBtnColour("Morning");
+                }}
               >
                 Morning
               </button>
               <button 
                 type="button" 
-                class="btn  ms-4 text-primary background-gray rounded-1"
+                class={`btn ms-4 text-primary background-gray rounded-1 ${
+                  sessionBtnColourType === "Night"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changesessionBtnColour("Night");
+                }}
               >
                 Night
               </button>
@@ -840,7 +890,10 @@ const FandB = () => {
               <label className="mb-3">Item Code :</label>
               <input 
                 className="ms-3 background-gray rounded-1" 
-                type="text" 
+                type="text"
+                name="itemcode"
+                value={itemcode}
+                onChange={handleInputChange}
                 placeholder="" 
                 required />
               <br />
@@ -848,25 +901,49 @@ const FandB = () => {
               <input 
                 className="ms-3 background-gray rounded-1" 
                 type="text" 
+                name="itemname"
+                value={itemname}
+                onChange={handleInputChange}
                 placeholder="" 
                 required />
               <br />
               <label className="mb-3">Plan :</label>
               <button 
                 type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  planBtnColourType === "breakfast"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changeplanBtnColour("breakfast");
+                }}
               >
                 Breakfast 
               </button>
               <button 
                 type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  planBtnColourType === "lunch"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changeplanBtnColour("lunch");
+                }}
               >
                 Lunch
               </button>
               <button 
                 type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  planBtnColourType === "dinner"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changeplanBtnColour("dinner");
+                }}
               >
                 Dinner
               </button>
@@ -874,39 +951,73 @@ const FandB = () => {
               <label className="mb-3">Rate :</label>
               <input 
                 className="ms-3 background-gray rounded-1" 
+                name="rate"
+                value={rate}
+                onChange={handleInputChange}
                 type="text" />
               <br />
               <label className="mb-3">Room No :</label>
               <input 
                 className="ms-3 background-gray rounded-1" 
-                type="text" 
+                type="text"
+                name="roomno"
+                value={roomno}
+                onChange={handleInputChange}
                 placeholder="" 
                 required />
               <br />
             </div>
             <div>
-            <label className="mb-3">Payment :</label>
+            <label className="mb-3" htmlFor="paymenttype">Payment :</label>
               <button 
                 type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  paymentBtnColourType === "Cash"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changepaymentBtnColour("Cash");
+                }}
               >
                 Cash
               </button>
               <button 
                 type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  paymentBtnColourType === "UPI"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changepaymentBtnColour("UPI");
+                }}
               >
                 UPI
               </button>
               <button 
                 type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  paymentBtnColourType === "Card"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changepaymentBtnColour("Card");
+                }}
               >
                 Card
               </button>
               <button 
-                type="button" 
-                class="btn text-primary background-gray rounded-1 ms-3"
+               type="button" 
+               class={`btn text-primary background-gray rounded-1 ms-3 ${
+                 paymentBtnColourType === "pwr"
+                 ? "button-color-onHover"
+                 : "background-gray"
+               }`}
+               onClick={() => {
+                 changepaymentBtnColour("pwr");
+               }}
               >
                 Post with Room
               </button>

@@ -1,0 +1,51 @@
+.containerAS {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  background: #EDF8FD;
+  width: 1500.32px;
+  height: 600px;
+  left: 34.67px;
+  top: 240.97px;
+}
+.launh2 {
+  font-weight: 300;
+  font-size: 35px;
+  line-height: 52px;
+  color: #2545F8;
+}
+#customgap span
+{
+  margin-left: 25px;
+}
+.col1 {
+  width: 25%;
+  overflow: scroll;
+  background: #EDF8FD;
+  padding: 10px;
+}
+
+.col2 {
+  padding: 15px;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.lefta {
+  float: left;
+}
+
+.righta {
+  width: 100%;
+  padding-left: 50%;
+  height: auto;
+}
+
+.submita {
+  position: absolute;
+  width: 10%;
+  right: 20%;
+  bottom: 25%;
+}
+
+.button-color-onHover{background: #B9DEF4 !important;}
