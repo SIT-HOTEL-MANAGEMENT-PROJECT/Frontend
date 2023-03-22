@@ -89,8 +89,10 @@ const Team = () => {
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="https://twitter.com/AlikSarkar16?t=wO12PN_jFAR1SSt
-E0tQlCg&s=09">
+                    <a
+                      href="https://twitter.com/AlikSarkar16?t=wO12PN_jFAR1SSt
+E0tQlCg&s=09"
+                    >
                       <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
@@ -98,8 +100,10 @@ E0tQlCg&s=09">
                       ></i>
                     </a>
                     &nbsp;&nbsp;
-                    <a href="https://instagram.com/alik_sarkar_18?igshid=ZDdkNTZ
-iNTM=">
+                    <a
+                      href="https://instagram.com/alik_sarkar_18?igshid=ZDdkNTZ
+iNTM="
+                    >
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
@@ -311,7 +315,7 @@ iNTM=">
                       <i
                         class="fa fa-instagram"
                         aria-hidden="true"
-                       id="socialiconfix"
+                        id="socialiconfix"
                       ></i>
                     </a>
                     &nbsp;&nbsp;
@@ -334,11 +338,11 @@ iNTM=">
                     </a>
                     &nbsp;&nbsp;
                     <a href="#">
-                      <i>
+                      <i
                         class="fa fa-twitter-square"
                         aria-hidden="true"
                         id="socialiconfix"
-                      </i>
+                      ></i>
                     </a>
                     &nbsp;&nbsp;
                     <a href="https://www.instagram.com/shubhamdevanshu/?igshid=YmMyMTA2M2Y%3D">
@@ -402,8 +406,8 @@ iNTM=">
                           aria-hidden="true"
                           id="socialiconfix"
                         ></i>
-                     </a>
-                     {/* // &nbsp;&nbsp;
+                      </a>
+                      {/* // &nbsp;&nbsp;
                      // <a href="#">
                        // <i
                          // class="fa fa-twitter-square"
