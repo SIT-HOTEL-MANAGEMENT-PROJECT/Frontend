@@ -4,7 +4,10 @@ body {
   font-family: 'Poppins', sans-serif !important;
   overflow-y: scroll !important;
 }
-
+#ul-li li
+{
+  cursor: pointer;
+}
 .NavLinks {
   text-decoration: none;
   font-size: 1.2rem;
