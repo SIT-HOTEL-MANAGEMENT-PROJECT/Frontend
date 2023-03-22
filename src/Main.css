@@ -173,6 +173,11 @@ body {
 #imgcontainer:hover #roomimgoverlay {
   opacity: 1;
 }
+.copyof
+{
+  margin-left: 30rem;
+  margin-top: 2rem;
+}
 
 .textofroom {
   color: white;
