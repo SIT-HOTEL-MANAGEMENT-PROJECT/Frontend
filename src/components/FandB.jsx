@@ -1,9 +1,67 @@
 import React from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import "../CustomCss/lon.css";
+import "../CustomCss/fnb.css";
 
 const FandB = () => {
+  const [accountingdate, setaccountingdate] = useState("");
+  const [guestname, setguestname] = useState("");
+  const [itemquantity, setitemquantity] = useState("");
+  const [tableno, settableno] = useState("");
+  const [itemcode, setitemcode] = useState("");
+  const [itemname, setitemname] = useState("");
+  const [rate, setrate] = useState("");
+  const [roomno, setroomno] = useState("");
+  const [sessiontype, setsessiontype] = useState("");
+  const [paymenttype, setpaymenttype] = useState("");
+  const [plantype, setplantype] = useState("");
+
+
+
+  const [sessionBtnColourType, setsessionBtnColourType] = useState("");
+  const [paymentBtnColourType, setpaymentBtnColourType] = useState("");
+  const [planBtnColourType, setplanBtnColourType] = useState("");
+
+  const changesessionBtnColour = (sessiontype) => {
+    setsessionBtnColourType(sessiontype);
+    setsessiontype(sessiontype);
+  };
+
+  const changepaymentBtnColour = (paymenttype) => {
+    setpaymentBtnColourType(paymenttype);
+    setpaymenttype(paymenttype);
+  };
+
+  const changeplanBtnColour = (plantype) => {
+    setplanBtnColourType(plantype);
+    setplantype(plantype);
+  };
+
+
+
+  
+
+  const handleInputChange = (e) => {
+    if(e.target.name == "accountingdate"){
+      setaccountingdate(e.target.value);
+    }else if(e.target.name == "guestname"){
+      setguestname(e.target.value);
+    }else if(e.target.name == "itemquantity"){
+      setitemquantity(e.target.value);
+    }else if(e.target.name == "tableno"){
+      settableno(e.target.value);
+    }else if(e.target.name == "itemcode"){
+      setitemcode(e.target.value);
+    }else if(e.target.name == "itemname"){
+      setitemname(e.target.value);
+    }else if(e.target.name == "rate"){
+      setrate(e.target.value);
+    }else if(e.target.name == "roomno"){
+      setroomno(e.target.value);
+    }
+  };
+
+
   return (
     <div className="formA">
       <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
@@ -13,9 +71,7 @@ const FandB = () => {
               <i className="bx bx-chevrons-left"></i>
             </NavLink>
             <h5 className="text-primary">
-              Food and
-              <br />
-              Beverages
+              Food and Beverages
             </h5>
           </div>
         </div>
@@ -36,19 +92,19 @@ const FandB = () => {
                 <div class="accordion-body">
                   <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Russian Salad(Veg/Non-veg)<span style={{marginLeft:"20px"}}>$ 150/170</span></p>
+                      <p>Russian Salad(Veg/Non-veg)<span style={{marginLeft:"20px"}}>Rs. 150/170</span></p>
                     </li>
                     <li>
-                      <p>Fresh Garden <br/> Salad<span style={{marginLeft:"20px"}}>$ 105</span></p>
+                      <p>Fresh Garden <br/> Salad<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
                     </li>
                     <li>
-                      <p>Mix raita/Kheer Raita <br/>/Boondi Raita<span style={{marginLeft:"20px"}}>$ 135</span></p>
+                      <p>Mix raita/Kheer Raita <br/>/Boondi Raita<span style={{marginLeft:"20px"}}>Rs. 135</span></p>
                     </li>
                     <li>
-                      <p>Pineapple<br/>Raita<span style={{marginLeft:"20px"}}>$ 170</span></p>
+                      <p>Pineapple<br/>Raita<span style={{marginLeft:"20px"}}>Rs. 170</span></p>
                     </li>
                     <li>
-                      <p>Plain dahi<span style={{marginLeft:"20px"}}>$ 105</span></p>
+                      <p>Plain dahi<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
                     </li>
                   </ul>
                 </div>
@@ -64,46 +120,46 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Vegetable <br/> Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p><a href="#">Vegetable <br/> Pakora<span style={{marginLeft:"20px"}}>Rs. 150</span></a></p>
                     </li>
                     <li>
-                      <p>Onion Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Onion Pakora<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>French Fries<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>French Fries<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Cheese balls(6 pcs)<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Cheese balls(6 pcs)<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Peanut Masala<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Peanut Masala<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Paneer Tikka<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Paneer Tikka<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Veg Sheek <br/> Kabab<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Veg Sheek <br/> Kabab<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Paneer Malai <br/> Tikka<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Paneer Malai <br/> Tikka<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Harabhara <br/> Kabab<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Harabhara <br/> Kabab<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Skkky Kabab <br/> Platter<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Skkky Kabab <br/> Platter<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Paneer Aachari Tikka<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Paneer Aachari Tikka<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Tandoori Mushroom<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Tandoori Mushroom<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Tandoori Aloo<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Tandoori Aloo<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     <li>
-                      <p>Tandoori Gobhi<span style={{marginLeft:"20px"}}>$ 200</span></p>
+                      <p>Tandoori <br/> Gobhi<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
                     </li>
                     
                   </ul>
@@ -120,25 +176,25 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Chicken <br/> Pakora<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Chicken <br/> Pakora<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Lasuni <br/> Tikka<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Lasuni <br/> Tikka<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Tikka<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Tikka<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Reshmi Kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Reshmi Kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Pahari <br/> Kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Pahari <br/> Kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Chicken Sheek kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Chicken Sheek kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                     <li>
-                      <p>Murg Afghani kabab<span style={{marginLeft:"20px"}}>$ 150</span></p>
+                      <p>Murg Afghani kabab<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
                     </li>
                   </ul>
                 </div>
@@ -437,16 +493,91 @@ const FandB = () => {
                 <div class="accordion-body">
                 <ul style={{listStyleType: "none"}}>
                     <li>
-                      <p>Navratna Korma<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Navratna <br/>Korma<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
                     </li>
                     <li>
-                      <p>Mushroom Butter Masala<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Mushroom Butter Masala<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
                     </li>
                     <li>
-                      <p>Matar mushroom<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Matar <br/>mushroom<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
                     </li>
                     <li>
-                      <p>Vegetable Jhalfarenzy<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                      <p>Vegetable Jhalfarenzy<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Special Paneer<span style={{marginLeft:"20px"}}>Rs. 240</span></p>
+                    </li>
+                    <li>
+                      <p>Shahi Paneer<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer Tikka Masala<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Corn Palak<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Palak Paneer<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Malai Kofta<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Veg Jaipuri<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Veg Kolapuri<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Mix Veg<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Gobi matar<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Gobi<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Jeera<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer <br/>Pasanda<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Kadhai <br/>Paneer<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Corn Capsicum Masala<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Methi malai <br/>Matar<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Veg Angoori<br/> Kofta<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Special Kofta<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Bhaja<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer Butter Masala<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Paneer Do <br/>Pyaza<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Matar Paneer<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Green Peas Masala<span style={{marginLeft:"20px"}}>Rs. 190</span></p>
+                    </li>
+                    <li>
+                      <p>Kashmiri Aloo Dum<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Aloo Dum<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
                     </li>
                 </ul>
                 </div>
@@ -460,7 +591,80 @@ const FandB = () => {
               </h2>
               <div id="collapsetwelve" class="accordion-collapse collapse" aria-labelledby="headingtwelve" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Chicken Curry<span style={{marginLeft:"20px"}}>Rs. 240</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Kasa<span style={{marginLeft:"20px"}}>Rs. 250</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Do <br/> pyaza<span style={{marginLeft:"20px"}}>Rs. 250</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken<br/> Moghlai<span style={{marginLeft:"20px"}}>Rs. 270</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken<br/> Bharta<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Tikka Masala<span style={{marginLeft:"20px"}}>Rs. 350</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Sahi Korma<span style={{marginLeft:"20px"}}>Rs. 350</span></p>
+                    </li>
+                    <li>
+                      <p>Kadai Chicken<span style={{marginLeft:"20px"}}>Rs. 315</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken<br/> Masala<span style={{marginLeft:"20px"}}>Rs. 270</span></p>
+                    </li>
+                    <li>
+                      <p>Butter Chicken (half/full)<span style={{marginLeft:"20px"}}>Rs. 630/370</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Special Chicken (half/full)<span style={{marginLeft:"20px"}}>Rs. 740/425</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Curry<span style={{marginLeft:"20px"}}>Rs. 290</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Masala<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Tikka<br/> Masala<span style={{marginLeft:"20px"}}>Rs. 325</span></p>
+                    </li>
+                    <li>
+                      <p>Prawn<br/> Masala<span style={{marginLeft:"20px"}}>Rs. 500</span></p>
+                    </li>
+                    <li>
+                      <p>Prawn Malai<br/> Curry<span style={{marginLeft:"20px"}}>Rs. 500</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton Kasa<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton Korma<span style={{marginLeft:"20px"}}>Rs. 370</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton Keema Matar<span style={{marginLeft:"20px"}}>Rs. 390</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton <br/>Roganjosh<span style={{marginLeft:"20px"}}>Rs. 370</span></p>
+                    </li>
+                    <li>
+                      <p>Mutton <br/>Mughlai<span style={{marginLeft:"20px"}}>Rs. 390</span></p>
+                    </li>
+                    <li>
+                      <p>Skkky Mutton<span style={{marginLeft:"20px"}}>Rs. 410</span></p>
+                    </li>
+                    <li>
+                      <p>Egg Masala<span style={{marginLeft:"20px"}}>Rs. 140</span></p>
+                    </li>
+                    <li>
+                      <p>Egg Curry<span style={{marginLeft:"20px"}}>Rs. 135</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -472,7 +676,35 @@ const FandB = () => {
               </h2>
               <div id="collapsethirteen" class="accordion-collapse collapse" aria-labelledby="headingthirteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Tandoori Roti (Plain/Butter)<br/><span style={{marginLeft:"20px"}}>Rs. 40/50</span></p>
+                    </li>
+                    <li>
+                      <p>Naan (Plain/Butter)<br/><span style={{marginLeft:"20px"}}>Rs. 65/75</span></p>
+                    </li>
+                    <li>
+                      <p>Kulcha (Onion/Masala/Paneer)<br/><span style={{marginLeft:"20px"}}>Rs. 85</span></p>
+                    </li>
+                    <li>
+                      <p>Cheese Naan<span style={{marginLeft:"20px"}}>Rs. 100</span></p>
+                    </li>
+                    <li>
+                      <p>Missi Roti/Bajra Roti<span style={{marginLeft:"20px"}}>Rs. 65</span></p>
+                    </li>
+                    <li>
+                      <p>Kashmiri Naan<span style={{marginLeft:"20px"}}>Rs. 120</span></p>
+                    </li>
+                    <li>
+                      <p>Parantha (Lacha/Pudhina/Methi) <br/><span style={{marginLeft:"20px"}}>Rs. 85</span></p>
+                    </li>
+                    <li>
+                      <p>Parantha (Aloo/Muli/Gobhi)<br/><span style={{marginLeft:"20px"}}>Rs. 95</span></p>
+                    </li>
+                    <li>
+                      <p>Masala Garlic Naan<span style={{marginLeft:"20px"}}>Rs. 85</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -484,7 +716,23 @@ const FandB = () => {
               </h2>
               <div id="collapsefourteen" class="accordion-collapse collapse" aria-labelledby="headingfourteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Dal Makhani<span style={{marginLeft:"20px"}}>Rs. 170</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Lasuni <br/>Tarka<span style={{marginLeft:"20px"}}>Rs. 160</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Mughlai<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Plain<span style={{marginLeft:"20px"}}>Rs. 105</span></p>
+                    </li>
+                    <li>
+                      <p>Dal Fry Yellow<span style={{marginLeft:"20px"}}>Rs. 135</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -496,7 +744,20 @@ const FandB = () => {
               </h2>
               <div id="collapsefifteen" class="accordion-collapse collapse" aria-labelledby="headingfifteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Pasta in Arabiata Sauce (Veg/Non-veg)<span style={{marginLeft:"20px"}}>Rs. 260/305</span></p>
+                    </li>
+                    <li>
+                      <p>Pasta in Cheese Sauce (Veg/Non-veg)<br/><span style={{marginLeft:"20px"}}>Rs. 275/315</span></p>
+                    </li>
+                    <li>
+                      <p>Pasta in Mixed Sauce (Veg/Non-veg)<br/><span style={{marginLeft:"20px"}}>Rs. 295/345</span></p>
+                    </li>
+                    <li>
+                      <p>Au gratin (Veg/Non-veg)<span style={{marginLeft:"20px"}}>Rs. 265/295</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -508,7 +769,26 @@ const FandB = () => {
               </h2>
               <div id="collapsesixteen" class="accordion-collapse collapse" aria-labelledby="headingsixteen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Veg Noodles<span style={{marginLeft:"20px"}}>Rs. 150</span></p>
+                    </li>
+                    <li>
+                      <p>Chilli Garlic Noodles<span style={{marginLeft:"20px"}}>Rs. 180</span></p>
+                    </li>
+                    <li>
+                      <p>Hakka <br/>Noodles<span style={{marginLeft:"20px"}}>Rs. 210</span></p>
+                    </li>
+                    <li>
+                      <p>Egg Hakka Noodles<span style={{marginLeft:"20px"}}>Rs. 250</span></p>
+                    </li>
+                    <li>
+                      <p>Chicken Hakka Noodles<span style={{marginLeft:"20px"}}>Rs. 300</span></p>
+                    </li>
+                    <li>
+                      <p>Mixed<br/> Noodles<span style={{marginLeft:"20px"}}>Rs. 350</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -520,7 +800,14 @@ const FandB = () => {
               </h2>
               <div id="collapseseventeen" class="accordion-collapse collapse" aria-labelledby="headingseventeen" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                 
+                <ul style={{listStyleType: "none"}}>
+                    <li>
+                      <p>Veg Thali<span style={{marginLeft:"20px"}}>Rs. 200</span></p>
+                    </li>
+                    <li>
+                      <p>Fish Thali<span style={{marginLeft:"20px"}}>Rs. 260</span></p>
+                    </li>
+                </ul>
                 </div>
               </div>
             </div>
@@ -530,47 +817,210 @@ const FandB = () => {
           <form>
             <div className="lefta">
               <label className="mb-3">Accounting Date :</label>
-              <input className="ms-3" type="date" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="date" 
+                placeholder="" 
+                name="accountingdate"
+                value={accountingdate}
+                onChange={handleInputChange}
+                required />
               <br />
-              <label className="mb-3">Session :</label>
-              <button type="button" class="btn btn-primary ms-3">Morning</button>
-              <button type="button" class="btn btn-primary ms-3">Night</button>
+              <label className="mb-3" htmlFor="sessiontype">Session :</label>
+              <button 
+                type="button" 
+                class={`btn ms-4 text-primary background-gray rounded-1 ${
+                  sessionBtnColourType === "Morning"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changesessionBtnColour("Morning");
+                }}
+              >
+                Morning
+              </button>
+              <button 
+                type="button" 
+                class={`btn ms-4 text-primary background-gray rounded-1 ${
+                  sessionBtnColourType === "Night"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changesessionBtnColour("Night");
+                }}
+              >
+                Night
+              </button>
               <br />
               <label className="mb-3">Guest Name:</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                placeholder=""
+                name="guestname"
+                value={guestname}
+                onChange={handleInputChange}
+                required />
               <br />
               <label className="mb-3">Item Quantity :</label>
-              <input className="ms-3" type="Number" min="0" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="Number" 
+                min="0" 
+                name="itemquantity"
+                value={itemquantity}
+                onChange={handleInputChange}
+                placeholder=""
+                required />
               <br />
               <label className="mb-3">Table No :</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                name="tableno"
+                value={tableno}
+                onChange={handleInputChange}
+                placeholder="" 
+                required />
               <br />
             </div>
             <div className="righta">
               <label className="mb-3">Item Code :</label>
-              <input className="ms-3" type="text" placeholder=" Guest Name" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text"
+                name="itemcode"
+                value={itemcode}
+                onChange={handleInputChange}
+                placeholder="" 
+                required />
               <br />
               <label className="mb-3">Item Name :</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text" 
+                name="itemname"
+                value={itemname}
+                onChange={handleInputChange}
+                placeholder="" 
+                required />
               <br />
               <label className="mb-3">Plan :</label>
-              <button type="button" class="btn btn-primary ms-3">Breakfast</button>
-              <button type="button" class="btn btn-primary ms-3">Lunch</button>
-              <button type="button" class="btn btn-primary ms-3">Dinner</button>
+              <button 
+                type="button" 
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  planBtnColourType === "breakfast"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changeplanBtnColour("breakfast");
+                }}
+              >
+                Breakfast 
+              </button>
+              <button 
+                type="button" 
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  planBtnColourType === "lunch"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changeplanBtnColour("lunch");
+                }}
+              >
+                Lunch
+              </button>
+              <button 
+                type="button" 
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  planBtnColourType === "dinner"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changeplanBtnColour("dinner");
+                }}
+              >
+                Dinner
+              </button>
               <br />
               <label className="mb-3">Rate :</label>
-              <input className="ms-3" type="text" />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                name="rate"
+                value={rate}
+                onChange={handleInputChange}
+                type="text" />
               <br />
               <label className="mb-3">Room No :</label>
-              <input className="ms-3" type="text" placeholder="" required />
+              <input 
+                className="ms-3 background-gray rounded-1" 
+                type="text"
+                name="roomno"
+                value={roomno}
+                onChange={handleInputChange}
+                placeholder="" 
+                required />
               <br />
             </div>
             <div>
-            <label className="mb-3">Payment :</label>
-              <button type="button" class="btn btn-primary ms-3">Cash</button>
-              <button type="button" class="btn btn-primary ms-3">UPI</button>
-              <button type="button" class="btn btn-primary ms-3">Card</button>
-              <button type="button" class="btn btn-primary ms-3">Post with Room</button>
+            <label className="mb-3" htmlFor="paymenttype">Payment :</label>
+              <button 
+                type="button" 
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  paymentBtnColourType === "Cash"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changepaymentBtnColour("Cash");
+                }}
+              >
+                Cash
+              </button>
+              <button 
+                type="button" 
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  paymentBtnColourType === "UPI"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changepaymentBtnColour("UPI");
+                }}
+              >
+                UPI
+              </button>
+              <button 
+                type="button" 
+                class={`btn text-primary background-gray rounded-1 ms-3 ${
+                  paymentBtnColourType === "Card"
+                  ? "button-color-onHover"
+                  : "background-gray"
+                }`}
+                onClick={() => {
+                  changepaymentBtnColour("Card");
+                }}
+              >
+                Card
+              </button>
+              <button 
+               type="button" 
+               class={`btn text-primary background-gray rounded-1 ms-3 ${
+                 paymentBtnColourType === "pwr"
+                 ? "button-color-onHover"
+                 : "background-gray"
+               }`}
+               onClick={() => {
+                 changepaymentBtnColour("pwr");
+               }}
+              >
+                Post with Room
+              </button>
             </div>
             <br/>
             <div>

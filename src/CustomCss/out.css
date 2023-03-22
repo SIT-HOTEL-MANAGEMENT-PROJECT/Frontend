@@ -1,3 +1,7 @@
+.checkoutbody {
+    box-sizing: border-box;
+}
+
 /* Create two equal columns that floats next to each other */
 .columnA-a {
     float: left;
@@ -68,15 +72,10 @@
     font-style: normal;
     font-weight: 600;
     font-size: 25px;
+    margin-top: 15px;
     color: #4763FD;
-    margin-left: 20cm;
-    margin-top: 30px;
-    position: relative!important;
+    margin-top: -10px;
 }
-/* #aligncenter
-{
-    text-align: center;
-} */
 
 .descA {
 
@@ -99,7 +98,7 @@
     color: #000000;
 }
 
-.descA .dataA {
+.descA .dataA{
     border: 1px solid white;
 }
 

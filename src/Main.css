@@ -4,7 +4,10 @@ body {
   font-family: 'Poppins', sans-serif !important;
   overflow-y: scroll !important;
 }
-
+#ul-li li
+{
+  cursor: pointer;
+}
 .NavLinks {
   text-decoration: none;
   font-size: 1.2rem;
@@ -173,6 +176,11 @@ body {
 #imgcontainer:hover #roomimgoverlay {
   opacity: 1;
 }
+.copyof
+{
+  margin-left: 40rem;
+  margin-top: 2rem;
+}
 
 .textofroom {
   color: white;
@@ -219,7 +227,7 @@ body {
 .card-img-top {
   width: 100%;
   height: auto;
-  height: 400px;
+  height: 300px;
 }
 
 .teamcard {

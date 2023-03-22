@@ -380,11 +380,11 @@ const CheckIn = () => {
     } else if (e.target.name == "specialreq") {
       setSpecialReq(e.target.value);
     }else if (e.target.name == "extrabedtype") {
-    setextrabedtype(e.target.value);
+      setextrabedtype(e.target.value);
     }else if (e.target.name == "tel") {
-    settelnumber(e.target.value);
+      settelnumber(e.target.value);
     }else if (e.target.name == "groupid") {
-    setgroupid(e.target.value);
+      setgroupid(e.target.value);
   }
     
   };
@@ -437,7 +437,7 @@ const CheckIn = () => {
         </nav>
         <div className="container mb-1">
           <form
-            className="row g-3 bg-skyblue d-flex align-items-center justify-content-center mt-0 p-1"
+            className="row bg-skyblue d-flex align-items-center justify-content-center mt-0 p-1"
             onSubmit={onSubmitAction}
           >
             <div className="col-md-6 d-flex align-items-center rev-margin-gap">
@@ -484,7 +484,7 @@ const CheckIn = () => {
                 </button>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap bg-light">
+            <div className="col-md-6 d-flex align-items-center justify-content-end rev-margin-gap bg-light">
             <button
               type="button"
               className="d-flex align-items-center text-primary btn btn-light button-padding-5"

@@ -8,9 +8,8 @@ db.config.debug = false;
 
 
 const GuestHistory = () => {
-    const [selectedCheckinCheckbox, setSelectedCheckinCheckbox] = useState("all");
-    const [selectedCheckoutCheckbox, setSelectedCheckoutCheckbox] = useState("all");
-
+    const [selectedCheckbox, setSelectedCheckbox] = useState("");
+    
     
     
     
@@ -106,18 +105,11 @@ const GuestHistory = () => {
 
     
     
-    const handleCheckinCheckboxChange = (e) => {
-        const newSelectedCheckinCheckboxValue = e.target.value;
-        setSelectedCheckinCheckbox(newSelectedCheckinCheckboxValue);
-        alert(newSelectedCheckinCheckboxValue); 
+    const handleCheckboxChange = (e) => {
+        const newSelectedCheckboxValue = e.target.value;
+        setSelectedCheckbox(newSelectedCheckboxValue);
     }
 
-    const handleCheckoutCheckboxChange = (e) => {
-        const newSelectedCheckoutCheckboxValue = e.target.value;
-        setSelectedCheckoutCheckbox(newSelectedCheckoutCheckboxValue);
-        alert(newSelectedCheckoutCheckboxValue); 
-    }
-    
     return (
         <div>
             <div className='bg-light vh-100'>
@@ -137,19 +129,19 @@ const GuestHistory = () => {
                             <h5 className="text-primary font-size-14">Filtered by check in dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="90days" checked={selectedCheckinCheckbox === "90days"} onChange={handleCheckinCheckboxChange} />
+                                    <input type="checkbox" value="checkin90days" checked={selectedCheckbox === "checkin90days"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">Last 90 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="365days" checked={selectedCheckinCheckbox === "365days"} onChange={handleCheckinCheckboxChange} />
+                                    <input type="checkbox" value="checkin365days" checked={selectedCheckbox === "checkin365days"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">Last 365 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="5years" checked={selectedCheckinCheckbox === "5years"} onChange={handleCheckinCheckboxChange} />
+                                    <input type="checkbox" value="checkin5years" checked={selectedCheckbox === "checkin5years"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">Last 5 years</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="all" checked={selectedCheckinCheckbox === "all"} onChange={handleCheckinCheckboxChange} />
+                                    <input type="checkbox" value="checkinall" checked={selectedCheckbox === "checkinall"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">All History</span>
                                 </div>
                             </div>
@@ -158,19 +150,19 @@ const GuestHistory = () => {
                             <h5 className="text-primary font-size-14">Filtered by check out dates</h5>
                             <div className="medium-flex-row">
                                 <div className="d-flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="90days" checked={selectedCheckoutCheckbox === "90days"} onChange={handleCheckoutCheckboxChange} />
+                                    <input type="checkbox" value="checkout90days" checked={selectedCheckbox === "checkout90days"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">Last 90 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="365days" checked={selectedCheckoutCheckbox === "365days"} onChange={handleCheckoutCheckboxChange} />
+                                    <input type="checkbox" value="checkout365days" checked={selectedCheckbox === "checkout365days"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">Last 365 days</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="5years" checked={selectedCheckoutCheckbox === "5years"} onChange={handleCheckoutCheckboxChange} />
+                                    <input type="checkbox" value="checkout5years" checked={selectedCheckbox === "checkout5years"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">Last 5 years</span>
                                 </div>
                                 <div className="flex align-items-center margin-col-gap">
-                                    <input type="checkbox" value="all" checked={selectedCheckoutCheckbox === "all"} onChange={handleCheckoutCheckboxChange} />
+                                    <input type="checkbox" value="checkoutall" checked={selectedCheckbox === "checkoutall"} onChange={handleCheckboxChange} />
                                     <span className="padding-left-16 text-primary font-size-16">All History</span>
                                 </div>
                             </div>
