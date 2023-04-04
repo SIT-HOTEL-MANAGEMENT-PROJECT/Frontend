@@ -119,7 +119,7 @@ const FandB = () => {
             <div className="lefta">
               <label className="mb-3">Accounting Date :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-1" 
                 type="date" 
                 placeholder="" 
                 name="accountingdate"
@@ -157,7 +157,7 @@ const FandB = () => {
               <br />
               <label className="mb-3">Guest Name:</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-2" 
                 type="text" 
                 placeholder=""
                 name="guestname"
@@ -167,7 +167,7 @@ const FandB = () => {
               <br />
               <label className="mb-3">Item Quantity :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-2" 
                 type="Number" 
                 min="0" 
                 name="itemquantity"
@@ -178,7 +178,7 @@ const FandB = () => {
               <br />
               <label className="mb-3">Table No :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-2" 
                 type="text" 
                 name="tableno"
                 value={tableno}
@@ -190,7 +190,7 @@ const FandB = () => {
             <div className="righta">
               <label className="mb-3">Item Code :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-1" 
                 type="text"
                 name="itemcode"
                 value={itemcode}
@@ -201,7 +201,7 @@ const FandB = () => {
               <br />
               <label className="mb-3">Item Name :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-1 w-50" 
                 type="text" 
                 name="itemname"
                 value={itemname}
@@ -253,7 +253,7 @@ const FandB = () => {
               <br />
               <label className="mb-3">Rate :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-2" 
                 name="rate"
                 value={rate}
                 onChange={changeSelectItemHandler}
@@ -262,7 +262,7 @@ const FandB = () => {
               <br />
               <label className="mb-3">Room No :</label>
               <input 
-                className="ms-3 background-gray rounded-1" 
+                className="ms-3 background-gray rounded-1 border border-light p-1" 
                 type="text"
                 name="roomno"
                 value={roomno}

@@ -503,7 +503,7 @@ const CheckIn = () => {
                 No of Room{" "}
               </label>
               <div className="col-sm-6">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="number"
                   className="form-control height-30"
                   id="inputNoOfRoom"
@@ -526,6 +526,7 @@ const CheckIn = () => {
                   value={guestName.title}
                   onChange={handleInputChange}
                   required
+                  style={{backgroundColor:"#D9DFE1"}}
                 >
                   <option value={""}> </option>
                   <option value={"Mr"}>Mr.</option>
@@ -533,7 +534,7 @@ const CheckIn = () => {
                   <option value={"Miss"}>Miss</option>
                   <option value={"Mrs"}>Mrs.</option>
                 </select>
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputName"
@@ -542,7 +543,7 @@ const CheckIn = () => {
                   onChange={handleInputChange}
                   required
                 />
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputName"
@@ -550,7 +551,7 @@ const CheckIn = () => {
                   value={guestName.middlename}
                   onChange={handleInputChange}
                 />
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputName"
@@ -566,7 +567,7 @@ const CheckIn = () => {
                 Room No{" "}
               </label>
               <div className="col-sm-5">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputRoomNo"
@@ -585,7 +586,7 @@ const CheckIn = () => {
                   IC No{" "}
                 </label>
                 <div className="col-sm-7">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="icNumber"
@@ -604,7 +605,7 @@ const CheckIn = () => {
                   Phone No{" "}
                 </label>
                 <div className="col-sm-7">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputNumber"
@@ -621,7 +622,7 @@ const CheckIn = () => {
                 Reservation No{" "}
               </label>
               <div className="col-sm-5">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputreservationNo"
@@ -636,7 +637,7 @@ const CheckIn = () => {
                 Company{" "}
               </label>
               <div className="col-sm-7">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputCompany"
@@ -651,7 +652,7 @@ const CheckIn = () => {
                 Booking Date{" "}
               </label>
               <div className="col-sm-7">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="date"
                   className="form-control height-30"
                   id="inputBookingDate"
@@ -673,6 +674,7 @@ const CheckIn = () => {
                 name="address"
                 value={address.ad1}
                 onChange={handleInputChange}
+                style={{backgroundColor:"#D9DFE1"}}
                 required
                 ></textarea>
               </div>
@@ -682,7 +684,7 @@ const CheckIn = () => {
                 Extra Bed Type{" "}
               </label>
               <div className="col-sm-7">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="extrabedtype"
@@ -701,7 +703,7 @@ const CheckIn = () => {
                   City{" "}
                 </label>
                 <div className="col-sm-5">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputcityname"
@@ -719,7 +721,7 @@ const CheckIn = () => {
                   State{" "}
                 </label>
                 <div className="col-sm-6">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputstate"
@@ -788,7 +790,7 @@ const CheckIn = () => {
                   Zip{" "}
                 </label>
                 <div className="col-sm-5">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="zipNo"
@@ -803,7 +805,7 @@ const CheckIn = () => {
                   Tel{" "}
                 </label>
                 <div className="col-sm-6">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputtel"
@@ -823,7 +825,7 @@ const CheckIn = () => {
                   Arrival Date{" "}
                 </label>
                 <div className="col-sm-6">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="date"
                     className="form-control height-30"
                     id="inputArrivalDate"
@@ -842,7 +844,7 @@ const CheckIn = () => {
                   at{" "}
                 </label>
                 <div className="col-sm-7">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="time"
                     className="form-control height-30"
                     id="inputBookingDate"
@@ -859,7 +861,7 @@ const CheckIn = () => {
                   Adults{" "}
                 </label>
                 <div className="col-sm-5">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="number"
                     min="0"
                     className="form-control height-30"
@@ -875,7 +877,7 @@ const CheckIn = () => {
                   Children{" "}
                 </label>
                 <div className="col-sm-6">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="number"
                     min="0"
                     className="form-control height-30"
@@ -892,7 +894,7 @@ const CheckIn = () => {
                 Nights{" "}
               </label>
               <div className="col-sm-6">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="number"
                   className="form-control height-30"
                   id="inputnight"
@@ -909,7 +911,7 @@ const CheckIn = () => {
                   City Ledget Acct{" "}
                 </label>
                 <div className="col-sm-5">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputcityledgetacct"
@@ -924,7 +926,7 @@ const CheckIn = () => {
                   Group ID{" "}
                 </label>
                 <div className="col-sm-6">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputgroupid"
@@ -944,7 +946,7 @@ const CheckIn = () => {
                   Departure Date{" "}
                 </label>
                 <div className="col-sm-6">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="date"
                     className="form-control height-30"
                     id="inputdepartureDate"
@@ -963,7 +965,7 @@ const CheckIn = () => {
                   at{" "}
                 </label>
                 <div className="col-sm-7">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="time"
                     className="form-control height-30"
                     id="inputBookingDate"
@@ -982,7 +984,7 @@ const CheckIn = () => {
                   Travel Agent{" "}
                 </label>
                 <div className="col-sm-4">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputTravelAgent"
@@ -997,7 +999,7 @@ const CheckIn = () => {
                 Room Rate{" "}
               </label>
               <div className="col-sm-7">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30 font-size-14"
                   id="inputRoomRate"
@@ -1048,7 +1050,7 @@ const CheckIn = () => {
                   Discount amount{" "}
                 </label>
                 <div className="col-sm-5">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputRoomNo"
@@ -1066,7 +1068,7 @@ const CheckIn = () => {
                   Discount %{" "}
                 </label>
                 <div className="col-sm-4">
-                  <input
+                  <input style={{backgroundColor:"#D9DFE1"}}
                     type="text"
                     className="form-control height-30"
                     id="inputNoOfRoom"
@@ -1136,7 +1138,7 @@ const CheckIn = () => {
                 GST{" "}
               </label>
               <div className="col-sm-7">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30 font-size-14"
                   id="inputgst"
@@ -1153,7 +1155,7 @@ const CheckIn = () => {
                 Deposit{" "}
               </label>
               <div className="col-sm-7">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30 font-size-14"
                   id="inputdeposiy"
@@ -1177,6 +1179,7 @@ const CheckIn = () => {
                   name="specialreq"
                   value={specialReq}
                   onChange={handleInputChange}
+                  style={{backgroundColor:"#D9DFE1"}}
                 ></textarea>
               </div>
             </div>

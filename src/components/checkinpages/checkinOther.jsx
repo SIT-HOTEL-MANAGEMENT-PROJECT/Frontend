@@ -37,7 +37,7 @@ const Other = () => {
               Passport Number{" "}
             </label>
             <div className="col-sm-6">
-              <input
+              <input style={{backgroundColor:"#D9DFE1"}}
                 type="text"
                 className="form-control height-30"
                 id="inputpassportnumber"
@@ -53,7 +53,7 @@ const Other = () => {
               Visa Number{" "}
             </label>
             <div className="col-sm-6">
-              <input
+              <input style={{backgroundColor:"#D9DFE1"}}
                 type="text"
                 className="form-control height-30"
                 id="visanumber"
@@ -71,7 +71,7 @@ const Other = () => {
               Passport Date of issue{" "}
             </label>
             <div className="col-sm-6">
-              <input
+              <input style={{backgroundColor:"#D9DFE1"}}
                 type="date"
                 className="form-control height-30"
                 id="inputpassportDate"
@@ -87,7 +87,7 @@ const Other = () => {
               Visa Date of issue{" "}
             </label>
             <div className="col-sm-5">
-              <input
+              <input style={{backgroundColor:"#D9DFE1"}}
                 type="date"
                 className="form-control height-30"
                 id="inputvisaDate"
@@ -105,7 +105,7 @@ const Other = () => {
               Arrived From{" "}
             </label>
             <div className="col-sm-6">
-              <input
+              <input style={{backgroundColor:"#D9DFE1"}}
                 type="text"
                 className="form-control height-30"
                 id="inputarrivedfrom"
@@ -121,7 +121,7 @@ const Other = () => {
               Visa Place of issue{" "}
             </label>
             <div className="col-sm-6">
-              <input
+              <input style={{backgroundColor:"#D9DFE1"}}
                 type="text"
                 className="form-control height-30"
                 id="inputplaceofissue"
@@ -138,7 +138,7 @@ const Other = () => {
             Puporse duration of stay of hotel{" "}
           </label>
           <div className="col-sm-6">
-            <input
+            <input style={{backgroundColor:"#D9DFE1"}}
               type="text"
               className="form-control height-30"
               id="inputpurpose"
