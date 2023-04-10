@@ -67,12 +67,15 @@
 }
 
 .headingA {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    height:100px;
+    align-items: center;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 600;
     font-size: 25px;
-    margin-top: 15px;
     color: #4763FD;
     margin-top: -10px;
 }

@@ -60,24 +60,28 @@ const CheckOut = () => {
             <NavLink className="text-primary" to="/Home3">
               <i className="bx bx-chevrons-left"></i>
             </NavLink>
-            <div className="nav">
-              <h2 className="checkA">Check Out</h2>
-              <br />
-              <br />
-            </div>
-            <div className="headingA">
-              <center>
-                <h4 className="copyof">Copy Of Invoice</h4>
-              </center>
-            </div>
+            <h5 className="text-primary">Check-Out</h5>
           </div>
         </div>
       </nav>
+      <div className="headingA">
+        <center>
+          <h4 className="copyof mb-3">Copy Of Invoice</h4>
+        </center>
+      </div>
       <div className="rowA mt-3">
         <form action="">
           <div className="columnA-a">
             <label for="guestname">Guest Name:</label>
-            <select id="guestname">
+            <select
+              id="guestname"
+              className="ms-3 border border-white"
+              style={{
+                width: "70px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            >
               <option value="Ms" name="guestname">
                 Ms.
               </option>
@@ -91,74 +95,260 @@ const CheckOut = () => {
                 Mr.
               </option>
             </select>
-            <input type="text" id="fullname" name="fullname" required />
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="fullname"
+              name="fullname"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
-            <label for="agent">Travel Agent</label>
-            <input type="text" id="agent" name="agent" required />
+            <label for="agent">Travel Agent:</label>
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="agent"
+              name="agent"
+              required
+              style={{
+                width: "160px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
 
-            <label for="phn">Phone Number</label>
-            <input type="number" id="phn" name="phn" required />
-            <br />
-            <br />
-
-            <label for="company">Company</label>
-            <input type="text" id="company" name="company" required />
-
-            <label for="gstid">GST ID</label>
-            <input type="number" id="gstid" name="gstid" required />
-            <br />
-            <br />
-
-            <label for="billing">Billing</label>
-            <input type="text" id="billing" name="billing" required />
-            <br />
-            <br />
-
-            <label for="bill">Bill No.</label>
-            <input type="text" id="bill" name="bill" required />
-
-            <label for="page">Page</label>
-            <input type="text" id="page" name="page" value="1 Of 1" required />
-            <br />
-            <br />
-
-            <label for="confirmation">Confirmation No</label>
-            <input type="text" id="confirmation" name="confirmation" required />
+            <label className="ms-3" for="phn">
+              Phone Number:
+            </label>
+            <input
+              className="ms-2 border border-white"
+              type="number"
+              id="phn"
+              name="phn"
+              required
+              style={{
+                width: "170px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
-            <label for="billdate">Original Bill Date</label>
-            <input type="text" id="billdate" name="billdate" required />
+            <label for="company">Company:</label>
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="company"
+              name="company"
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+
+            <label className="ms-3" for="gstid">
+              GST ID:
+            </label>
+            <input
+              className="ms-2 border border-white"
+              type="number"
+              id="gstid"
+              name="gstid"
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+            <br />
+            <br />
+
+            <label for="billing">Billing:</label>
+            <input
+              className="ms-3 border border-white"
+              type="text"
+              id="billing"
+              name="billing"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+            <br />
+            <br />
+
+            <label for="bill">Bill No.:</label>
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="bill"
+              name="bill"
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+
+            <label className="ms-3" for="page">
+              Page:
+            </label>
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="page"
+              name="page"
+              value=""
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+            <br />
+            <br />
+
+            <label for="confirmation">Confirmation No:</label>
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="confirmation"
+              name="confirmation"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+            <br />
+            <br />
+
+            <label for="billdate">Original Bill Date:</label>
+            <input
+              className="ms-2 border border-white"
+              type="text"
+              id="billdate"
+              name="billdate"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
           </div>
           <div className="columnA-b">
             <label for="roomnumber">Room Number:</label>
-            <input type="number" id="roomnumber" name="roomnumber" required />
+            <input
+              className="ms-2 border border-white"
+              type="number"
+              id="roomnumber"
+              name="roomnumber"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
             <label for="roomcount">No. of Rooms:</label>
-            <input type="number" id="roomcount" name="roomcount" required />
+            <input
+              className="ms-2 border border-white"
+              type="number"
+              id="roomcount"
+              name="roomcount"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
             <label for="rate">Room Rate</label>
-            <input type="number" id="rate" name="rate" required />
+            <input
+              className="ms-2 border border-white"
+              type="number"
+              id="rate"
+              name="rate"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
             <label for="guestno">Guests No</label>
-            <input type="number" id="guestno" name="guestno" required />
+            <input
+              className="ms-2 border border-white"
+              type="number"
+              id="guestno"
+              name="guestno"
+              required
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
             <label for="arrivaldate">Arrival Date:</label>
-            <input type="date" id="arrivaldate" name="arrivaldate" required />
-            <label for="arrivaltime">at</label>
-            <input type="time" id="arrivaltime" name="arrivaltime" required />
+            <input
+              className="ms-2 border border-white"
+              type="date"
+              id="arrivaldate"
+              name="arrivaldate"
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
+
+            <label className="ms-3" for="arrivaltime">
+              at
+            </label>
+            <input
+              className="ms-2 border border-white"
+              type="time"
+              id="arrivaltime"
+              name="arrivaltime"
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
@@ -168,9 +358,29 @@ const CheckOut = () => {
               id="departuredate"
               name="departuredate"
               required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+              className="ms-2 border border-white"
             />
-            <label for="departuretime">at</label>
-            <input type="time" id="c" name="departuretime" required />
+
+            <label className="ms-3" for="departuretime">
+              at
+            </label>
+            <input
+              className="ms-2 border border-white"
+              type="time"
+              id="c"
+              name="departuretime"
+              required
+              style={{
+                width: "200px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
+            />
             <br />
             <br />
 
@@ -180,6 +390,12 @@ const CheckOut = () => {
               id="registration"
               name="registration"
               required
+              className="ms-2 border border-white"
+              style={{
+                width: "400px",
+                borderRadius: "7px",
+                backgroundColor: "#D9DFE1",
+              }}
             />
           </div>
         </form>
@@ -278,17 +494,39 @@ const CheckOut = () => {
         <p style={{ float: "right", marginRight: "110px" }}>Amount</p>
         <p style={{ float: "right", marginRight: "215px" }}>Total</p>
       </div>
+
+      <br />
+      <br />
       <div>
-        <div className="cash-signA">
-          <p style={{ float: "left" }}>Cashier :</p>
-          <p style={{ float: "right", marginRight: "350px" }}>
-            Guest's Signature :
-          </p>
+        <div className="cash-signA d-flex">
+          <div className="d-flex ">
+            <p style={{ float: "left", width: "150px" }}>Cashier :</p>
+            <input
+              type="text"
+              id="cash-sign"
+              name="cash-sign"
+              required
+              className="ms-2 border-bottom border-primary"
+              style={{ width: "400px", height: "40px" }}
+            />
+          </div>
+
+          <div className="d-flex ms-3 ">
+            <p style={{ float: "left", width: "300px" }}>Guest's Signature :</p>
+            <input
+              type="text"
+              id="guest-sign"
+              name="guest-sign"
+              required
+              className="border-bottom border-primary"
+              style={{ width: "400px", height: "40px" }}
+            />
+          </div>
         </div>
       </div>
       <div className="agreeA">
         <input type="checkbox" name="checkbox" id="checkbox" required />
-        <label for="checkbox">
+        <label className="ms-2" for="checkbox">
           I agree that I am liable for the following statement .
         </label>
       </div>

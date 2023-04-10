@@ -20,7 +20,7 @@ const India = () => {
                 Aadhar Number{" "}
               </label>
               <div className="col-sm-12">
-                <input
+                <input style={{backgroundColor:"#D9DFE1"}}
                   type="text"
                   className="form-control height-30"
                   id="inputaadharnumber"
@@ -33,7 +33,7 @@ const India = () => {
       </div>
       <div className="col-md-6 d-flex align-items-center rev-margin-gap">
         <label for="formFile" class="form-label col-sm-8 col-form-label">Guest Aadhar photo upload</label>
-        <input class="form-control height-30" type="file" id="formFile"/>
+        <input style={{backgroundColor:"#D9DFE1"}} class="form-control height-30" type="file" id="formFile"/>
       </div>
       </div>
     </>
