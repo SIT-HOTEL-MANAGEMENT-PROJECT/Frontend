@@ -1,11 +1,43 @@
 import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import "../CustomCss/out.css";
+import "../CustomCss/Reservation.css";
 import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
 const CheckOut = () => {
+
+  const [guestName, setGuestName] = useState({
+    title: "",
+    firstname: "",
+    middlename: "",
+    lastname: "",
+  });
+  const [address, setAddress] = useState({
+    ad1: "",
+    city: "",
+    state: "",
+    zip: "",
+  });
+  const [travelAgentName, setTravelAgentName] = useState("");
+  const [guestPhoneNumber, setGuestPhoneNumber] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [gstId, setGstId] = useState("");
+  const [billing, setBilling] = useState("");
+  const [billNo, setBillNo] = useState("");
+  const [confirmationNo, setConfirmationNo] = useState("");
+  const [billDate, setBillDate] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
+  const [noOfRooms, setNoOfRooms] = useState("");
+  const [roomRate, setRoomRate] = useState("");
+  const [guestsNo, setGuestsNo] = useState("");
+  const [arrivalDate, setArrivalDate] = useState("");
+  const [arrivalTime, setArrivalTime] = useState("");
+  const [departureDate, setdepartureDate] = useState("");
+  const [departureTime, setDepartureTime] = useState("");
+  const [registrationNo, setregistrationNo] = useState("");
+
   // Delete : Release Room Occupancy from RoomAv. DB
   // params : bookingid (case sensitive)
   // return : 1. {success: true} IF ALL OK
@@ -52,483 +84,492 @@ const CheckOut = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    if (e.target.name == "title") { setGuestName({ ...guestName, title: e.target.value }); }
+    else if (e.target.name == "firstname") { setGuestName({ ...guestName, firstname: e.target.value }); }
+    else if (e.target.name == "middlename") { setGuestName({ ...guestName, middlename: e.target.value }); }
+    else if (e.target.name == "lastname") { setGuestName({ ...guestName, lastname: e.target.value }); }
+    else if (e.target.name == "travelagentname") { setTravelAgentName(e.target.value); }
+    else if (e.target.name == "guestphonenumber") { setGuestPhoneNumber(e.target.value); }
+    else if (e.target.name == "companyname") { setCompanyName(e.target.value); }
+    else if (e.target.name == "gstid") { setGstId(e.target.value); }
+    else if (e.target.name == "billing") { setBilling(e.target.value); }
+    else if (e.target.name == "billnumber") { setBillNo(e.target.value); }
+    else if (e.target.name == "confirmationnumber") { setConfirmationNo(e.target.value); }
+    else if (e.target.name == "billdate") { setBillDate(e.target.value); }
+    else if (e.target.name == "roomnumber" && e.target.value!=" ") { 
+      setRoomNumber(e.target.value); 
+      const avroomnos = e.target.value.split(',').map(value => value.trim()).filter(value => value !== '');
+      if(!avroomnos.length) { setNoOfRooms("") }
+      else { setNoOfRooms(avroomnos.length); }
+    }
+    else if (e.target.name == "noofrooms") { setNoOfRooms(e.target.value); }
+    else if (e.target.name == "roomrate") { setRoomRate(e.target.value); }
+    else if (e.target.name == "guestsnumber") { setGuestsNo(e.target.value); }
+    else if (e.target.name == "arrivaldate") { setArrivalDate(e.target.value); }
+    else if (e.target.name == "arrivaltime") { setArrivalTime(e.target.value); }
+    else if (e.target.name == "departuredate") { setdepartureDate(e.target.value); }
+    else if (e.target.name == "departuretime") { setDepartureTime(e.target.value); }
+    else if (e.target.name == "registrationnumber") { setregistrationNo(e.target.value); }
+  };
+
+  const submitAction = (e)=>{
+    e.preventDefault();
+    alert("Your Checkout Successful!");
+    console.log(guestName);
+    console.log(travelAgentName);
+    console.log(guestPhoneNumber);
+    console.log(companyName);
+    console.log(gstId);
+    console.log(billing);
+    console.log(billNo);
+    console.log(confirmationNo);
+    console.log(billDate);
+    console.log(roomNumber);
+    console.log(noOfRooms);
+    console.log(roomRate);
+    console.log(guestsNo);
+    console.log(arrivalDate);
+    console.log(departureDate);
+    console.log(registrationNo);
+  }
+
   return (
-    <div className="checkoutbody">
-      <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
-        <div className="container-fluid">
-          <div className="navbar-brand d-flex align-items-center">
-            <NavLink className="text-primary" to="/Home3">
-              <i className="bx bx-chevrons-left"></i>
-            </NavLink>
-            <h5 className="text-primary">Check-Out</h5>
+    <div>
+      <div className="bg-light vh-100">
+        <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
+          <div className="container-fluid">
+            <div className="navbar-brand d-flex align-items-center">
+              <NavLink className="text-primary" to="/Home3">
+                <i className="bx bx-chevrons-left font-size-25"></i>
+              </NavLink>
+              <h5 className="text-primary">Check Out</h5>
+            </div>
+          </div>
+        </nav>
+        <div className="container mb-1">
+          <div className="d-flex align-items-center justify-content-between large-flex-column reserv-col-gap-1">
+            <form className="col-6 bg-skyblue mt-0 p-2 large-width-full">
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="name" className="col-sm-3 col-form-label font-size-14">
+                  Guest Name
+                </label>
+                <div className="col-sm-9 d-flex column-gap-1">
+                  <select
+                    id="designation"
+                    className="form-select w-50 height-30 font-size-14 background-gray"
+                    name="title"
+                    value={guestName.title}
+                    onChange={handleInputChange}
+                    required
+                  >
+                    <option value={""}> </option>
+                    <option value={"Mr"}>Mr.</option>
+                    <option value={"Master"}>Master</option>
+                    <option value={"Miss"}>Miss</option>
+                    <option value={"Mrs"}>Mrs.</option>
+                  </select>
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputName"
+                    name="firstname"
+                    value={guestName.firstname}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputName"
+                    name="middlename"
+                    value={guestName.middlename}
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputName"
+                    name="lastname"
+                    value={guestName.lastname}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <div className="col-md-6 d-flex align-items-center">
+                  <label
+                    htmlFor="travelagentname"
+                    className="col-sm-6 col-form-label font-size-14"
+                  >
+                    Travel Agent{" "}
+                  </label>
+                  <div className="col-sm-6">
+                    <input
+                      type="text"
+                      className="form-control height-30 font-size-14 background-gray"
+                      id="inputTravelAgent"
+                      name="travelagentname"
+                      value={travelAgentName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6 d-flex align-items-center reserv-padding-left">
+                  <label
+                    htmlFor="guestphonenumber"
+                    className="col-sm-4 col-form-label font-size-14"
+                  >
+                    Phone No{" "}
+                  </label>
+                  <div className="col-sm-8">
+                    <input
+                      type="text"
+                      className="form-control height-30 font-size-14 background-gray"
+                      id="inputNumber"
+                      name="guestphonenumber"
+                      value={guestPhoneNumber}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap">
+                <div className="col-md-6 d-flex align-items-center font-size-14">
+                  <label htmlFor="companyname" className="col-sm-6 col-form-label">
+                    Company{" "}
+                  </label>
+                  <div className="col-sm-6">
+                    <input
+                      type="text"
+                      className="form-control height-30 font-size-14 background-gray"
+                      id="inputCompany"
+                      name="companyname"
+                      value={companyName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6 d-flex align-items-center reserv-padding-left">
+                  <label
+                    htmlFor="gstid"
+                    className="col-sm-3 col-form-label font-size-14"
+                  >
+                    GST{" "}
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      type="text"
+                      className="form-control height-30 font-size-14 background-gray"
+                      min="0"
+                      id="inputGstId"
+                      name="gstid"
+                      value={gstId}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="billing" className="col-sm-3 col-form-label font-size-14">
+                  Billing{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputBilling"
+                    name="billing"
+                    value={billing}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap">
+                <div className="col-md-6 d-flex align-items-center font-size-14">
+                  <label htmlFor="billnumber" className="col-sm-6 col-form-label">
+                    Bill No{" "}
+                  </label>
+                  <div className="col-sm-6">
+                    <input
+                      type="number"
+                      className="form-control height-30 font-size-14 background-gray"
+                      id="inputBillNumber"
+                      name="billnumber"
+                      min="0"
+                      value={billNo}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6 d-flex align-items-center reserv-padding-left">
+                  <label
+                    htmlFor="page"
+                    className="col-sm-3 col-form-label font-size-14"
+                  >
+                    Page{" "}
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      type="number"
+                      className="form-control height-30 font-size-14 background-gray"
+                      min="0"
+                      id="inputPage"
+                      placeholder="1 of 1"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="confirmationnumber" className="col-sm-3 col-form-label font-size-14">
+                  Confirmation No{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputConfirmationNumber"
+                    name="confirmationnumber"
+                    value={confirmationNo}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="billdate" className="col-sm-3 col-form-label font-size-14">
+                  Original Bill Date{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="date"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputBillDate"
+                    name="billdate"
+                    value={billDate}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </form>
+            <form className="col-6 bg-skyblue mt-0 p-2 large-width-full">
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14">
+                  Room No{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputRoomNo"
+                    name="roomnumber"
+                    value={roomNumber}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="noofrooms" className="col-sm-3 col-form-label font-size-14">
+                  No of Room{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="number"
+                    className="form-control height-30 font-size-14 background-gray"
+                    min="0"
+                    id="inputNoOfRoom"
+                    name="noofrooms"
+                    value={noOfRooms}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="roomrate" className="col-sm-3 col-form-label font-size-14">
+                  Room Rate{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="number"
+                    className="form-control height-30 font-size-14 background-gray"
+                    min="0"
+                    id="inputRoomRate"
+                    name="roomrate"
+                    value={roomRate}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="guestsnumber" className="col-sm-3 col-form-label font-size-14">
+                  Guests No{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputGuestsNumber"
+                    name="guestsnumber"
+                    value={guestsNo}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14">
+                  Arrival Date{" "}
+                </label>
+                <div className="col-sm-4">
+                  <input
+                    type="date"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputArrivalDate"
+                    name="arrivaldate"
+                    max={departureDate}
+                    value={arrivalDate}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <label htmlFor="arrivaltime" className="col-sm-1 col-form-label font-size-14 reserv-padding-left">
+                  at{" "}
+                </label>
+                <div className="col-sm-4">
+                  <input
+                    type="time"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputArrivalTime"
+                    name="arrivaltime"
+                    value={arrivalTime}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="departuredate" className="col-sm-3 col-form-label font-size-14">
+                  Departure Date{" "}
+                </label>
+                <div className="col-sm-4">
+                  <input
+                    type="date"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputDepartureDate"
+                    name="departuredate"
+                    min={arrivalDate}
+                    value={departureDate}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <label htmlFor="departuretime" className="col-sm-1 col-form-label font-size-14 reserv-padding-left">
+                  at{" "}
+                </label>
+                <div className="col-sm-4">
+                  <input
+                    type="time"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputDepartureTime"
+                    name="departuretime"
+                    value={departureTime}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center rev-margin-gap">
+                <label htmlFor="registrationnumber" className="col-sm-3 col-form-label font-size-14">
+                  Registration No{" "}
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    type="text"
+                    className="form-control height-30 font-size-14 background-gray"
+                    id="inputRegistrationNumber"
+                    name="registrationnumber"
+                    value={registrationNo}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div className="table-responsive mt-2">
+            <table className="table table-borderless table-border-collapse text-primary">
+              <thead className="table-head-blue">
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Reference</th>
+                  <th scope="col">Debit</th>
+                  <th scope="col">Credit</th>
+                </tr>
+              </thead>
+              <tbody className="table-group-divider">
+                <tr className='hover-gray make-cursor-pointer' >
+                  <td>Date</td>
+                  <td>Accomodation ++ </td>
+                  <td>Room</td>
+                  <td>Amount</td>
+                  <td>Amount</td>
+                </tr>
+                <tr className='hover-gray make-cursor-pointer' >
+                  <td>Date</td>
+                  <td>Accomodation SGST @9% </td>
+                  <td>Room</td>
+                  <td>Amount</td>
+                  <td>Amount</td>
+                </tr>
+                <tr className='hover-gray make-cursor-pointer' >
+                  <td>Date</td>
+                  <td>Accomodation CGST @9% </td>
+                  <td>Room</td>
+                  <td>Amount</td>
+                  <td>Amount</td>
+                </tr>
+                <tr className='hover-gray make-cursor-pointer table-br-last-blue' >
+                  <td className="table-tdata"></td>
+                  <td className="table-tdata"></td>
+                  <td className="table-tdata"></td>
+                  <td className="table-tdata">Total</td>
+                  <td className="table-tdata">Total</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="d-flex align-items-center justify-content-between reserv-col-gap-1 mt-2 p-2 pb-2">
+            <div className="d-flex align-items-center">
+              <h5>Cashier</h5>
+              <input type="text" className="reserv-padding-left bg-light border-bottom-blue" />
+            </div>
+            <div className="d-flex align-items-center">
+              <h5>Guest's Signature</h5>
+              <input type="text" className="reserv-padding-left bg-light border-bottom-blue" />
+            </div>
+          </div>
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="d-flex align-items-center font-size-14">
+              <input
+                type="checkbox"
+                className="height-30 font-size-14 background-gray"
+                id="check"
+                value="checkAgree"
+              />
+              <span className="padding-left-16 text-primary font-size-14">I agree to the terms & conditions above</span>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+              <button
+                type="submit"
+                className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5"
+                onClick={(e)=>{submitAction(e)}}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
-      </nav>
-      <div className="headingA">
-        <center>
-          <h4 className="copyof mb-3">Copy Of Invoice</h4>
-        </center>
-      </div>
-      <div className="rowA mt-3">
-        <form action="">
-          <div className="columnA-a">
-            <label for="guestname">Guest Name:</label>
-            <select
-              id="guestname"
-              className="ms-3 border border-white"
-              style={{
-                width: "70px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            >
-              <option value="Ms" name="guestname">
-                Ms.
-              </option>
-              <option value="Mrs" name="guestname">
-                Mrs.
-              </option>
-              <option value="Miss" name="guestname">
-                Miss
-              </option>
-              <option value="Mr" name="guestname">
-                Mr.
-              </option>
-            </select>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="fullname"
-              name="fullname"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="agent">Travel Agent:</label>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="agent"
-              name="agent"
-              required
-              style={{
-                width: "160px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-
-            <label className="ms-3" for="phn">
-              Phone Number:
-            </label>
-            <input
-              className="ms-2 border border-white"
-              type="number"
-              id="phn"
-              name="phn"
-              required
-              style={{
-                width: "170px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="company">Company:</label>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="company"
-              name="company"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-
-            <label className="ms-3" for="gstid">
-              GST ID:
-            </label>
-            <input
-              className="ms-2 border border-white"
-              type="number"
-              id="gstid"
-              name="gstid"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="billing">Billing:</label>
-            <input
-              className="ms-3 border border-white"
-              type="text"
-              id="billing"
-              name="billing"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="bill">Bill No.:</label>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="bill"
-              name="bill"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-
-            <label className="ms-3" for="page">
-              Page:
-            </label>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="page"
-              name="page"
-              value=""
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="confirmation">Confirmation No:</label>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="confirmation"
-              name="confirmation"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="billdate">Original Bill Date:</label>
-            <input
-              className="ms-2 border border-white"
-              type="text"
-              id="billdate"
-              name="billdate"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-          </div>
-          <div className="columnA-b">
-            <label for="roomnumber">Room Number:</label>
-            <input
-              className="ms-2 border border-white"
-              type="number"
-              id="roomnumber"
-              name="roomnumber"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="roomcount">No. of Rooms:</label>
-            <input
-              className="ms-2 border border-white"
-              type="number"
-              id="roomcount"
-              name="roomcount"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="rate">Room Rate</label>
-            <input
-              className="ms-2 border border-white"
-              type="number"
-              id="rate"
-              name="rate"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="guestno">Guests No</label>
-            <input
-              className="ms-2 border border-white"
-              type="number"
-              id="guestno"
-              name="guestno"
-              required
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="arrivaldate">Arrival Date:</label>
-            <input
-              className="ms-2 border border-white"
-              type="date"
-              id="arrivaldate"
-              name="arrivaldate"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-
-            <label className="ms-3" for="arrivaltime">
-              at
-            </label>
-            <input
-              className="ms-2 border border-white"
-              type="time"
-              id="arrivaltime"
-              name="arrivaltime"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="departuredate">Departure Date:</label>
-            <input
-              type="date"
-              id="departuredate"
-              name="departuredate"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-              className="ms-2 border border-white"
-            />
-
-            <label className="ms-3" for="departuretime">
-              at
-            </label>
-            <input
-              className="ms-2 border border-white"
-              type="time"
-              id="c"
-              name="departuretime"
-              required
-              style={{
-                width: "200px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-            <br />
-            <br />
-
-            <label for="registration">Registration No.</label>
-            <input
-              type="number"
-              id="registration"
-              name="registration"
-              required
-              className="ms-2 border border-white"
-              style={{
-                width: "400px",
-                borderRadius: "7px",
-                backgroundColor: "#D9DFE1",
-              }}
-            />
-          </div>
-        </form>
-      </div>
-      <hr
-        style={{
-          border: " 1.20468px solid #4763FD",
-          marginLeft: " 40px",
-          marginRight: "40px",
-        }}
-      />
-      <table className="descA">
-        <div className="ms-5">
-          <tr>
-            <th>Date</th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Description</th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Reference</th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Debit</th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <th>Credit</th>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </tr>
-        </div>
-      </table>
-      <hr
-        style={{
-          border: "1.20468px solid #4763FD",
-          marginLeft: "40px",
-          marginRight: "40px",
-        }}
-      />
-
-      <table className="dataA ms-5">
-        <div>
-          <tr>
-            <td>Date</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Accomodation++</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Room</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Amount</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-          </tr>
-
-          <tr>
-            <td>Date</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Accomodations SGST @9%</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Amount</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-          </tr>
-
-          <tr>
-            <td>Date</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Accomodations CGST @9%</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Amount</td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-          </tr>
-
-          <tr>
-            <td></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td></td>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <td>Amount</td>
-          </tr>
-        </div>
-      </table>
-      <hr
-        style={{
-          width: "25%",
-          textAlign: "right",
-          // marginRight: "40px",
-          border: "1.20468px solid #4763FD",
-        }}
-      />
-      <div className="bg-columnA">
-        <p style={{ float: "right", marginRight: "110px" }}>Amount</p>
-        <p style={{ float: "right", marginRight: "215px" }}>Total</p>
-      </div>
-
-      <br />
-      <br />
-      <div>
-        <div className="cash-signA d-flex">
-          <div className="d-flex ">
-            <p style={{ float: "left", width: "150px" }}>Cashier :</p>
-            <input
-              type="text"
-              id="cash-sign"
-              name="cash-sign"
-              required
-              className="ms-2 border-bottom border-primary"
-              style={{ width: "400px", height: "40px" }}
-            />
-          </div>
-
-          <div className="d-flex ms-3 ">
-            <p style={{ float: "left", width: "300px" }}>Guest's Signature :</p>
-            <input
-              type="text"
-              id="guest-sign"
-              name="guest-sign"
-              required
-              className="border-bottom border-primary"
-              style={{ width: "400px", height: "40px" }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="agreeA">
-        <input type="checkbox" name="checkbox" id="checkbox" required />
-        <label className="ms-2" for="checkbox">
-          I agree that I am liable for the following statement .
-        </label>
       </div>
     </div>
   );
