@@ -2,13 +2,21 @@ import React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import "../CustomCss/Reservation.css";
+import { useEffect } from 'react';
 import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
 const HistoryReports = () => {
     const [selectedCheckbox, setSelectedCheckbox] = useState("");
-
+    const [data, setData] = useState([])
+    // const [reservationData, setReservationData] = useState([]);
+    // const [reportsData, setReportsData] = useState([]);
+    // const [prevdatedata, setPrevdatedata] = useState([]);
+    
+    useEffect(() => {
+      initialFetch();
+    }, [])
     
     
     // Get :  Get Reports based on filters
@@ -20,6 +28,10 @@ const HistoryReports = () => {
     const getReport = async(fltr)=>{
         try{
             let reservationData = await db.collection('reservation').get();
+            let reportsData = await db.collection('reports').orderBy('date', 'desc').get();
+
+            // if(reservationDt) setReservationData(reservationDt);
+            // if(reportsDt) setReportsData(reportsDt);
 
             let reportDate = new Date();
             let reportDateString = reportDate.toISOString().slice(0, 10);
@@ -106,6 +118,7 @@ const HistoryReports = () => {
             prevdate.setDate(reportDate.getDate()-1);
             let prevdatestring = prevdate.toISOString().slice(0, 10);
             let prevdatedata = await db.collection("reports").doc({date: prevdatestring}).get();
+            // if(prevdatedt) setPrevdatedata(prevdatedt);
             if(prevdatedata){
                 avrooms = prevdatedata.noofavailableroom; 
                 totaloccupied = totaloccupied + prevdatedata.noofoccupiedrooms;
@@ -143,11 +156,9 @@ const HistoryReports = () => {
                 noofroomsmaintainance: roomsinMaintainance, noofroomsdirty: roomsDirty }]
 
             
-            let reportsData = await db.collection("reports").orderBy('date', 'desc').get();
             if(reportsData){
                 resdata = resdata.concat(reportsData)
             }
-
 
 
             if(fltr==="90days"){
@@ -183,7 +194,9 @@ const HistoryReports = () => {
                         })
                         .sort((a, b) => new Date(b.date) - new Date(a.date));
             }
-
+            // else {
+            //     resdata = resdata.sort((a, b) => new Date(b.date) - new Date(a.date));
+            // }
             return {success:true, data: resdata}
         }catch(e){
             console.log("HistoryReports (getReport) : ",e);
@@ -192,10 +205,42 @@ const HistoryReports = () => {
     }
 
 
+    const initialFetch = async()=>{
+        let res = await getReport('90days');
+        if(res.success){
+            setData(res.data);
+        }else{
+            alert(res?.msg);
+        }
+    }
 
-    const handleCheckboxChange = (e) => {
+
+    const fetchAndSet = async(fltr)=>{
+        let res = await getReport(fltr);
+        if(res.success){
+            setData(res.data);
+        }
+    }
+
+    const handleCheckboxChange = async(e) => {
         const newSelectedCheckboxValue = e.target.value;
         setSelectedCheckbox(newSelectedCheckboxValue);
+
+        if(e.target.value=='checkin90days' || e.target.value=='checkout90days'){
+            await fetchAndSet('90days');
+        }
+
+        else if(e.target.value=='checkin365days' || e.target.value=='checkout365days'){
+            await fetchAndSet('365days');
+        }
+
+        else if(e.target.value=='checkin5years' || e.target.value=='checkout5years'){
+            await fetchAndSet('5years');
+        }
+
+        else if(e.target.value=='checkinall' || e.target.value=='checkoutall'){
+            await fetchAndSet('all');
+        }
     }
 
     
@@ -263,51 +308,52 @@ const HistoryReports = () => {
                             <button type="search" className="search-icon width-35 height-30 text-align-center d-flex align-items-center justify-content-center"><i className='bx bx-search-alt search-boxicon text-primary'></i></button>
                         </div>
                         <div className='container mt-5 height-450 overflow-y-axis-auto'>
-                            <div className="container">
-                                <h5 className="padding-left-90 font-size-14 text-primary margin-bottom-30">Date 24-02-2023</h5>
+                            {data && data.map((item,index)=>{
+                                return <div key={index+1} className="container">
+                                <h5 className="padding-left-90 font-size-14 text-primary margin-bottom-30">Date {item.date}</h5>
                                 <div className="row padding-left-right-40 margin-bottom-30 grid-col-gap grid-row-gap align-items-center justify-content-center">
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">75%</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.totalcheckin}%</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">Check In Total</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">15%</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.checkinrem}%</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">Check In Remaining</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">65%</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.totalcheckout}%</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">Check Out Total</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">25%</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.checkoutrem}%</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">Check Out Remaining</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">86%</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.roomoccupiedpercentage}%</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">% of Occupancy</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">750</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.rupeesadr}</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">Rupees 100 ADR</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">75</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.noofavailableroom}</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">No of room available</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">250</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.noofoccupiedrooms}</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">No of room booked</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-50-bottom-25">15</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-50-bottom-25">{item.noofroomsmaintainance}</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center padding-left-30">No of room Maintenance</h5>
                                     </div>
                                     <div className="width-150 height-150 bg-skyblue border-radius-10 text-primary flex-column align-items-center justify-content-center">
-                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">35</h3>
+                                        <h3 className="d-flex align-items-center justify-content-center padding-top-bottom-50">{item.noofroomsdirty}</h3>
                                         <h5 className="font-size-11 d-flex align-items-center justify-content-center">No of rooms Dirty</h5>
                                     </div>
                                 </div>
-                            </div>
+                            </div>})}
                         </div>
                     </div>
                 </div>
