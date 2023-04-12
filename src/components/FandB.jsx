@@ -1,11 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../CustomCss/Reservation.css";
-
+import Localbase from "localbase";
+let db = new Localbase("hmctdb");
+db.config.debug = false;
 
 const FandB = () => {
-
+  let navigate = useNavigate();
   const [sessionTypeBtnColor, setSessionTypeBtnColor] = useState("");
   const [paymentTypeBtnColor, setPaymentTypeBtnColor] = useState("");
   const [planTypeBtnColor, setPlanTypeBtnColor] = useState("");
@@ -30,7 +33,7 @@ const FandB = () => {
   const [stateGst, setStateGst] = useState(0);
   const [centralGst, setCentralGst] = useState(0);
   const [netAmount, setNetAmount] = useState(0);
-
+  const [bookingIdFB, setBookingIdFB] = useState("");
   const [itemCodeArray, setItemCodeArray] = useState([]);
 
   const itemData = [
@@ -51,6 +54,86 @@ const FandB = () => {
     { code: "H1", name: "Mutton Kasha", price: 650 },
     { code: "H2", name: "Mutton Biriyani", price: 750 },
   ];
+
+
+
+  const findBookingIDAgainstRoomNo = async (rmno) => {
+    let roomData = await db.collection("roomavailability").get();
+    const today = new Date().toISOString().slice(0, 10); // get today's date in YYYY-MM-DD format
+    let reservations;
+
+    if (rmno.charAt(0) == '1') {
+      reservations = roomData[0]['standard'][rmno]['activeBookings'];
+    }
+
+    if (rmno.charAt(0) == '2') {
+      reservations = roomData[0]['delux'][rmno]['activeBookings'];
+    }
+
+    if (rmno.charAt(0) == '3') {
+      reservations = roomData[0]['executive'][rmno]['activeBookings'];
+    }
+
+    const reservationToday = reservations.find(reservation => {
+      return reservation.arrivaldate <= today && reservation.departuredate >= today;
+    });
+
+    const bookingId = reservationToday ? reservationToday.bookingid : '';
+
+    if (bookingId) {
+      setBookingIdFB(bookingId);
+      let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+      setGuestName(reservationData.name);
+    }
+  }
+
+
+  const settlePayment = async () => {
+    try {
+      let reservationData = await db.collection('reservation').doc({ bookingid: bookingIdFB }).get();
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+      let updatedpaymenthistory = reservationData.paymenthistory;
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      if (!updatedpaymenthistory.some((item) => item.name === "f&b")) {
+        updatedpaymenthistory.push({
+          name: "f&b",
+          description: "F&B time payment",
+          date: todaydateforpaymentstring,
+          debit: netAmount,
+          credit: netAmount,
+        });
+      } else {
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "f&b") {
+            return {
+              ...item,
+              date: todaydateforpaymentstring,
+              debit: netAmount,
+              credit: netAmount
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+
+      await db.collection('reservation').doc({ bookingid: bookingIdFB }).update({
+        paymenthistory: updatedpaymenthistory
+      })
+
+      return { success: true }
+    } catch (e) {
+      console.log("LaundryPageError (settlePayment) : ",e);
+      return {success: false, msg: 'Something Went Wrong'}
+    }
+  }
+
+
 
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
@@ -103,7 +186,10 @@ const FandB = () => {
       setCentralGst(ctgst);
       setNetAmount(netamt);
     }
-    else if (e.target.name == "roomnumber") { setRoomNumber(e.target.value); }
+    else if (e.target.name == "roomnumber") { 
+      setRoomNumber(e.target.value); 
+      if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
+    }
   }
 
   const handleItemAdd = (itmNm, itmCd, price) => {
@@ -129,20 +215,17 @@ const FandB = () => {
     setModeOfSession(sessionType);
   };
 
-  const submitAction = (e)=>{
+  const submitAction = async(e)=>{
     e.preventDefault();
-    alert("Food & Beverage Bill generated!")
-    console.log(guestName);
-    console.log(accountingDate);
-    console.log(modeOfsession);
-    console.log(itemQuantity);
-    console.log(tableNo);
-    console.log(modeOfPayment);
-    console.log(itemCode);
-    console.log(itemName);
-    console.log(modeOfPlan);
-    console.log(rate);
-    console.log(roomNumber); 
+    let res = await settlePayment();
+    if(res.success){
+      setTimeout(() => { 
+        navigate(-1);
+      }, 5000);
+      alert("Food & Beverage Bill generated!")
+    }else{
+      alert(res.msg);
+    } 
   }
 
   return (

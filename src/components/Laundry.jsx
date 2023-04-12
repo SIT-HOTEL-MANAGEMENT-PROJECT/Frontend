@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../CustomCss/Reservation.css";
+import Localbase from "localbase";
+let db = new Localbase("hmctdb");
+db.config.debug = false;
+
 
 const Laundry = () => {
-
+  let navigate = useNavigate();
   const [serviceTypeBtnColor, setServiceTypeBtnColor] = useState("");
 
   const [guestName, setGuestName] = useState({
@@ -26,6 +31,7 @@ const Laundry = () => {
   const [totalItem, setTotalItem] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [paymentType, setPaymentType] = useState("");
+  const [bookingIdL, setBookingIdL] = useState("");
 
   const [itemCodeArray, setItemCodeArray] = useState([]);
 
@@ -49,6 +55,99 @@ const Laundry = () => {
     { code: "C17", name: "Pants", price: 30 }
   ];
 
+
+
+
+
+  const findBookingIDAgainstRoomNo = async (rmno) => {
+    let roomData = await db.collection("roomavailability").get();
+    const today = new Date().toISOString().slice(0, 10); // get today's date in YYYY-MM-DD format
+    let reservations;
+
+    if (rmno.charAt(0) == '1') {
+      reservations = roomData[0]['standard'][rmno]['activeBookings'];
+    }
+
+    if (rmno.charAt(0) == '2') {
+      reservations = roomData[0]['delux'][rmno]['activeBookings'];
+    }
+
+    if (rmno.charAt(0) == '3') {
+      reservations = roomData[0]['executive'][rmno]['activeBookings'];
+    }
+
+    const reservationToday = reservations.find(reservation => {
+      return reservation.arrivaldate <= today && reservation.departuredate >= today;
+    });
+
+    const bookingId = reservationToday ? reservationToday.bookingid : '';
+
+    if (bookingId) {
+      setBookingIdL(bookingId);
+      let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+      setGuestName(reservationData.name);
+      setArrivalDate(reservationData.arrivaldate);
+      setdepartureDate(reservationData.departuredate);
+    }
+  }
+
+
+  const settlePayment = async () => {
+    try {
+      let reservationData = await db.collection('reservation').doc({ bookingid: bookingIdL }).get();
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+      let dbtamt = '';
+      let credamt = '';
+
+      if (paymentType == "Pay Later") {
+        dbtamt = totalAmount.toString();
+      } else {
+        dbtamt = totalAmount.toString();
+        credamt = totalAmount.toString();
+      }
+
+      let updatedpaymenthistory = reservationData.paymenthistory;
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      if (!updatedpaymenthistory.some((item) => item.name === "laundry")) {
+        updatedpaymenthistory.push({
+          name: "laundry",
+          description: "Laundry time payment",
+          date: todaydateforpaymentstring,
+          debit: dbtamt,
+          credit: credamt,
+        });
+      } else {
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "laundry") {
+            return {
+              ...item,
+              date: todaydateforpaymentstring,
+              debit: dbtamt,
+              credit: credamt
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+
+      await db.collection('reservation').doc({ bookingid: bookingIdL }).update({
+        paymenthistory: updatedpaymenthistory
+      })
+
+      return { success: true }
+    } catch (e) {
+      console.log("LaundryPageError (settlePayment) : ",e);
+      return {success: false, msg: 'Something Went Wrong'}
+    }
+  }
+
+
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
     const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join(",");
@@ -71,34 +170,37 @@ const Laundry = () => {
       const resultArr = [];
       arr.forEach((code) => {
         const obj = itemData.find((item) => item.code === code);
-        if(obj){
+        if (obj) {
           resultArr.push(obj);
         }
       });
       setItemCodeArray(resultArr);
     }
     else if (e.target.name == "itemname") { setItemName(e.target.value); }
-    else if (e.target.name == "cost") { 
+    else if (e.target.name == "cost") {
       setCost(e.target.value);
       const prices = e.target.value.split(",").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-      setTotalAmount(total); 
+      setTotalAmount(total);
     }
-    else if (e.target.name == "discountamount") { 
-      setDiscountAmount(e.target.value); 
+    else if (e.target.name == "discountamount") {
+      setDiscountAmount(e.target.value);
       const prices = cost.split(",").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-      if(!e.target.value || e.target.value == 0){
+      if (!e.target.value || e.target.value == 0) {
         setTotalAmount(total);
       }
-      else{
-        let res = total-e.target.value;
+      else {
+        let res = total - e.target.value;
         setTotalAmount(res);
       }
     }
     else if (e.target.name == "date") { setDate(e.target.value); }
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
-    else if (e.target.name == "roomnumber") { setRoomNumber(e.target.value); }
+    else if (e.target.name == "roomnumber") {
+      setRoomNumber(e.target.value);
+      if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
+    }
     else if (e.target.name == "arrivaldate") { setArrivalDate(e.target.value); }
     else if (e.target.name == "departuredate") { setdepartureDate(e.target.value); }
     else if (e.target.name == "totalitem") { setTotalItem(e.target.value); }
@@ -122,39 +224,34 @@ const Laundry = () => {
     setItemCode(str);
   }
 
-  const submitAction = (e)=>{
+  const submitAction = async(e) => {
     e.preventDefault();
-    alert("Your Laundry Bill Generated");
-    console.log(guestName);
-    console.log(itemCode);
-    console.log(itemName);
-    console.log(cost);
-    console.log(discountAmount);
-    console.log(serviceType);
-    console.log(date);
-    console.log(specialReq);
-    console.log(roomNumber);
-    console.log(arrivalDate);
-    console.log(departureDate);
-    console.log(totalItem);
-    console.log(totalAmount);
-    console.log(paymentType);
 
-    const nameArr = itemName.split(",");
-    const codeArr = itemCode.split(",");
-    const priceArr = cost.split(",");
+    let res = await settlePayment();
+    if(res.success){
+      setTimeout(() => { 
+        navigate(-1);
+      }, 5000);
+      alert("Your Laundry Bill Generated");
+    }else{
+      alert(res.msg);
+    } 
     
-    const result = [];
-    
-    for (let i = 0; i < codeArr.length; i++) {
-      result.push({
-        code: codeArr[i],
-        name: nameArr[i],
-        price: Number(priceArr[i])
-      });
-    }
-    
-    console.log(result);
+
+    // const nameArr = itemName.split(",");
+    // const codeArr = itemCode.split(",");
+    // const priceArr = cost.split(",");
+
+    // const result = [];
+
+    // for (let i = 0; i < codeArr.length; i++) {
+    //   result.push({
+    //     code: codeArr[i],
+    //     name: nameArr[i],
+    //     price: Number(priceArr[i])
+    //   });
+    // }
+
   }
 
   return (
@@ -570,7 +667,7 @@ const Laundry = () => {
                 <button
                   type="submit"
                   className="d-flex align-items-center justify-content-center width-150 font-size-14 text-primary btn button-color-onHover height-30 button-padding-5"
-                  onClick={(e)=>{submitAction(e)}}
+                  onClick={(e) => { submitAction(e) }}
                 >
                   Submit
                 </button>
