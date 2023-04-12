@@ -229,7 +229,7 @@ const CheckOut = () => {
 
   return (
     <div>
-      <div className="bg-light vh-100">
+      <div className="bg-light min-height-vh">
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">
@@ -243,11 +243,11 @@ const CheckOut = () => {
         <div className="container mb-1">
           <div className="d-flex align-items-center justify-content-between large-flex-column reserv-col-gap-1">
             <form className="col-6 bg-skyblue mt-0 p-2 large-width-full">
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="name" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="name" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Guest Name
                 </label>
-                <div className="col-sm-9 d-flex column-gap-1">
+                <div className="col-sm-9 medium-width-60percent d-flex column-gap-1">
                   <select
                     id="designation"
                     className="form-select w-50 height-30 font-size-14 background-gray"
@@ -290,15 +290,15 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <div className="col-md-6 d-flex align-items-center">
+              <div className="d-flex medium-flex-column align-items-center rev-margin-gap">
+                <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                   <label
                     htmlFor="travelagentname"
-                    className="col-sm-6 col-form-label font-size-14"
+                    className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
                   >
                     Travel Agent{" "}
                   </label>
-                  <div className="col-sm-6">
+                  <div className="col-sm-6 medium-width-60percent">
                     <input
                       type="text"
                       className="form-control height-30 font-size-14 background-gray"
@@ -309,14 +309,14 @@ const CheckOut = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-6 d-flex align-items-center reserv-padding-left">
+                <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full reserv-padding-left medium-reserv-padding-left">
                   <label
                     htmlFor="guestphonenumber"
-                    className="col-sm-4 col-form-label font-size-14"
+                    className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                   >
                     Phone No{" "}
                   </label>
-                  <div className="col-sm-8">
+                  <div className="col-sm-8 medium-width-60percent">
                     <input
                       type="text"
                       className="form-control height-30 font-size-14 background-gray"
@@ -329,12 +329,12 @@ const CheckOut = () => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap">
-                <div className="col-md-6 d-flex align-items-center font-size-14">
-                  <label htmlFor="companyname" className="col-sm-6 col-form-label">
+              <div className="d-flex align-items-center medium-flex-column rev-margin-gap">
+                <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full font-size-14">
+                  <label htmlFor="companyname" className="col-sm-6 medium-width-40percent col-form-label">
                     Company{" "}
                   </label>
-                  <div className="col-sm-6">
+                  <div className="col-sm-6 medium-width-60percent">
                     <input
                       type="text"
                       className="form-control height-30 font-size-14 background-gray"
@@ -345,14 +345,14 @@ const CheckOut = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-6 d-flex align-items-center reserv-padding-left">
+                <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full reserv-padding-left medium-reserv-padding-left">
                   <label
                     htmlFor="gstid"
-                    className="col-sm-3 col-form-label font-size-14"
+                    className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                   >
                     GST{" "}
                   </label>
-                  <div className="col-sm-9">
+                  <div className="col-sm-8 medium-width-60percent">
                     <input
                       type="text"
                       className="form-control height-30 font-size-14 background-gray"
@@ -365,11 +365,11 @@ const CheckOut = () => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="billing" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="billing" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Billing{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -380,12 +380,12 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap">
-                <div className="col-md-6 d-flex align-items-center font-size-14">
-                  <label htmlFor="billnumber" className="col-sm-6 col-form-label">
+              <div className="d-flex align-items-center medium-flex-column rev-margin-gap rev-margin-gap">
+                <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full font-size-14">
+                  <label htmlFor="billnumber" className="col-sm-6 col-form-label medium-width-40percent">
                     Bill No{" "}
                   </label>
-                  <div className="col-sm-6">
+                  <div className="col-sm-6 medium-width-60percent">
                     <input
                       type="text"
                       className="form-control height-30 font-size-14 background-gray"
@@ -397,14 +397,14 @@ const CheckOut = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-6 d-flex align-items-center reserv-padding-left">
+                <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full reserv-padding-left medium-reserv-padding-left">
                   <label
                     htmlFor="page"
-                    className="col-sm-3 col-form-label font-size-14"
+                    className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                   >
                     Page{" "}
                   </label>
-                  <div className="col-sm-9">
+                  <div className="col-sm-8 medium-width-60percent">
                     <input
                       type="number"
                       className="form-control height-30 font-size-14 background-gray"
@@ -415,11 +415,11 @@ const CheckOut = () => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="confirmationnumber" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="confirmationnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Confirmation No{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -430,11 +430,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="billdate" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="billdate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Original Bill Date{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="date"
                     className="form-control height-30 font-size-14 background-gray"
@@ -447,11 +447,11 @@ const CheckOut = () => {
               </div>
             </form>
             <form className="col-6 bg-skyblue mt-0 p-2 large-width-full">
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Room No{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -462,11 +462,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="noofrooms" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="noofrooms" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   No of Room{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="number"
                     className="form-control height-30 font-size-14 background-gray"
@@ -478,11 +478,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="roomrate" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="roomrate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Room Rate{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="number"
                     className="form-control height-30 font-size-14 background-gray"
@@ -495,11 +495,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="guestsnumber" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="guestsnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Guests No{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -510,11 +510,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex flex-wrap align-items-center rev-margin-gap">
+                <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Arrival Date{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="date"
                     className="form-control height-30 font-size-14 background-gray"
@@ -526,10 +526,10 @@ const CheckOut = () => {
                     required
                   />
                 </div>
-                <label htmlFor="arrivaltime" className="col-sm-1 col-form-label font-size-14 reserv-padding-left">
+                <label htmlFor="arrivaltime" className="col-sm-1 col-form-label font-size-14 medium-width-40percent reserv-padding-left">
                   at{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="time"
                     className="form-control height-30 font-size-14 background-gray"
@@ -541,11 +541,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="departuredate" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="departuredate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Departure Date{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="date"
                     className="form-control height-30 font-size-14 background-gray"
@@ -557,10 +557,10 @@ const CheckOut = () => {
                     required
                   />
                 </div>
-                <label htmlFor="departuretime" className="col-sm-1 col-form-label font-size-14 reserv-padding-left">
+                <label htmlFor="departuretime" className="col-sm-1 col-form-label font-size-14 medium-width-40percent reserv-padding-left">
                   at{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="time"
                     className="form-control height-30 font-size-14 background-gray"
@@ -572,11 +572,11 @@ const CheckOut = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
-                <label htmlFor="registrationnumber" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                <label htmlFor="registrationnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Registration No{" "}
                 </label>
-                <div className="col-sm-9">
+                <div className="col-sm-9 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -634,7 +634,7 @@ const CheckOut = () => {
               </tbody>
             </table>
           </div>
-          <div className="d-flex align-items-center justify-content-between reserv-col-gap-1 mt-2 p-2 pb-2">
+          <div className="d-flex medium-flex-column align-items-center justify-content-between reserv-col-gap-1 mt-2 p-2 pb-2">
             <div className="d-flex align-items-center">
               <h5>Cashier</h5>
               <input type="text" className="reserv-padding-left bg-light border-bottom-blue" />
@@ -644,7 +644,7 @@ const CheckOut = () => {
               <input type="text" className="reserv-padding-left bg-light border-bottom-blue" />
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex medium-flex-column align-items-center justify-content-between">
             <div className="d-flex align-items-center font-size-14">
               <input
                 type="checkbox"
@@ -654,7 +654,7 @@ const CheckOut = () => {
               />
               <span className="padding-left-16 text-primary font-size-14">I agree to the terms & conditions above</span>
             </div>
-            <div className="d-flex align-items-center justify-content-center">
+            <div className="d-flex align-items-center justify-content-center mb-2">
               <button
                 type="submit"
                 className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5"

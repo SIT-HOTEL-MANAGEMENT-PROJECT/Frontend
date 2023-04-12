@@ -230,7 +230,7 @@ const FandB = () => {
 
   return (
     <div>
-      <div className="bg-light vh-100">
+      <div className="bg-light min-height-vh">
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">
@@ -418,17 +418,17 @@ const FandB = () => {
             </div>
           </div>
           <div className="flex-column width-80percent">
-            <form className="flex-column medium-flex-column p-1">
-              <div className="d-flex justify-content-between">
+            <form className="flex-column p-1">
+              <div className="d-flex medium-flex-column justify-content-between">
                 <div className="flex-column width-48percent medium-width-full">
-                  <div className="d-flex align-items-center rev-margin-gap">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
                       htmlFor="accountingdate"
-                      className="col-sm-4 col-form-label font-size-14"
+                      className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                     >
                       Accounting Date{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="date"
                         className="form-control height-30 font-size-14 background-gray"
@@ -440,17 +440,17 @@ const FandB = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
                       htmlFor="session"
-                      className="col-sm-4 col-form-label font-size-14"
+                      className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                     >
                       Session{" "}
                     </label>
-                    <div className="col-sm-8 d-flex justify-content-between">
+                    <div className="col-sm-8 d-flex justify-content-between medium-width-60percent">
                       <button
                         type="button"
-                        className={`width-120 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${sessionTypeBtnColor === "Morning"
+                        className={`width-120 medium-width-90 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${sessionTypeBtnColor === "Morning"
                           ? "button-color-onHover"
                           : "background-gray"
                           }`}
@@ -462,7 +462,7 @@ const FandB = () => {
                       </button>
                       <button
                         type="button"
-                        className={`width-120 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${sessionTypeBtnColor === "Night"
+                        className={`width-120 medium-width-90 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${sessionTypeBtnColor === "Night"
                           ? "button-color-onHover"
                           : "background-gray"
                           }`}
@@ -474,11 +474,11 @@ const FandB = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
-                    <label htmlFor="name" className="col-sm-4 col-form-label font-size-14">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                    <label htmlFor="name" className="col-sm-4 col-form-label font-size-14 medium-width-40percent">
                       Guest Name
                     </label>
-                    <div className="col-sm-8 d-flex column-gap-1">
+                    <div className="col-sm-8 d-flex column-gap-1 reserv-row-gap-1 medium-width-60percent">
                       <select
                         id="designation"
                         className="form-select w-50 height-30 font-size-14 background-gray"
@@ -521,14 +521,14 @@ const FandB = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
                       htmlFor="itemquantity"
-                      className="col-sm-4 col-form-label font-size-14"
+                      className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                     >
                       Item Quantity{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="number"
                         className="form-control height-30 font-size-14 background-gray"
@@ -541,14 +541,14 @@ const FandB = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
                       htmlFor="tablenumber"
-                      className="col-sm-4 col-form-label font-size-14"
+                      className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                     >
                       Table No{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="number"
                         className="form-control height-30 font-size-14 background-gray"
@@ -563,11 +563,11 @@ const FandB = () => {
                   </div>
                 </div>
                 <div className="flex-column width-48percent medium-width-full">
-                  <div className="d-flex align-items-center font-size-14 rev-margin-gap">
-                    <label htmlFor="itemcode" className="col-sm-3 col-form-label">
+                  <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
+                    <label htmlFor="itemcode" className="col-sm-3 col-form-label medium-width-40percent">
                       Item Code{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="text"
                         className="form-control height-30 font-size-14 background-gray"
@@ -578,11 +578,11 @@ const FandB = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex align-items-center font-size-14 rev-margin-gap">
-                    <label htmlFor="itemname" className="col-sm-3 col-form-label">
+                  <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
+                    <label htmlFor="itemname" className="col-sm-3 col-form-label medium-width-40percent">
                       Item Name{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="text"
                         className="form-control height-30 font-size-14 background-gray"
@@ -593,14 +593,14 @@ const FandB = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
                       htmlFor="plan"
-                      className="col-sm-3 col-form-label font-size-14"
+                      className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
                     >
                       Plan{" "}
                     </label>
-                    <div className="col-sm-8 d-flex justify-content-between">
+                    <div className="col-sm-8 medium-width-60percent d-flex justify-content-between flex-wrap reserv-row-gap-1">
                       <button
                         type="button"
                         className={`width-100p height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${planTypeBtnColor === "Breakfast"
@@ -639,14 +639,14 @@ const FandB = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
                       htmlFor="rate"
-                      className="col-sm-3 col-form-label font-size-14"
+                      className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
                     >
                       Rate{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="text"
                         className="form-control height-30 font-size-14 background-gray"
@@ -658,11 +658,11 @@ const FandB = () => {
                       />
                     </div>
                   </div>
-                  <div className="d-flex align-items-center rev-margin-gap">
-                    <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14">
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                    <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                       Room No{" "}
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 medium-width-60percent">
                       <input
                         type="text"
                         className="form-control height-30 font-size-14 background-gray"
@@ -675,14 +675,14 @@ const FandB = () => {
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label
                   htmlFor="modeofpayment"
                   className="col-sm-2 col-form-label font-size-14"
                 >
                   Mode of Payment{" "}
                 </label>
-                <div className="col-sm-9 d-flex justify-content-between">
+                <div className="col-sm-9 d-flex justify-content-between flex-wrap reserv-row-gap-1">
                   <button
                     type="button"
                     className={`width-150 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "Cash"

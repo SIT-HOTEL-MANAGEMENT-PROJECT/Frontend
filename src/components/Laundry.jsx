@@ -256,7 +256,7 @@ const Laundry = () => {
 
   return (
     <div>
-      <div className="bg-light vh-100">
+      <div className="bg-light min-height-vh">
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand flex-column align-items-center">
@@ -374,11 +374,11 @@ const Laundry = () => {
           </div>
           <form className="d-flex width-80percent medium-flex-column p-1">
             <div className="flex-column width-50percent height-550 medium-width-full">
-              <div className="d-flex align-items-center font-size-14 rev-margin-gap-40">
-                <label htmlFor="itemcode" className="col-sm-3 col-form-label">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+                <label htmlFor="itemcode" className="col-sm-3 col-form-label medium-width-40percent">
                   Item Code{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -389,11 +389,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center font-size-14 rev-margin-gap-40">
-                <label htmlFor="itemname" className="col-sm-3 col-form-label">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+                <label htmlFor="itemname" className="col-sm-3 col-form-label medium-width-40percent">
                   Item Name{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -404,11 +404,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center font-size-14 rev-margin-gap-40">
-                <label htmlFor="cost" className="col-sm-3 col-form-label">
+              <div className="d-flex align-items-center font-size-14 flex-wrap rev-margin-gap-40">
+                <label htmlFor="cost" className="col-sm-3 col-form-label medium-width-40percent">
                   Cost{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -419,11 +419,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center font-size-14 rev-margin-gap-40">
-                <label htmlFor="discountamount" className="col-sm-3 col-form-label">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+                <label htmlFor="discountamount" className="col-sm-3 col-form-label medium-width-40percent">
                   Discount{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="number"
                     className="form-control height-30 font-size-14 background-gray"
@@ -435,11 +435,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap-40">
-                <label htmlFor="servicetype" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+                <label htmlFor="servicetype" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Service Type{" "}
                 </label>
-                <div className="col-sm-7 d-flex justify-content-between reserv-col-gap-5p">
+                <div className="col-sm-7 medium-width-60percent d-flex justify-content-between flex-wrap reserv-row-gap-1 reserv-col-gap-5p">
                   <button
                     type="button"
                     className={`d-flex align-items-center justify-content-center width-100p text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${serviceTypeBtnColor === "Pressing"
@@ -454,7 +454,7 @@ const Laundry = () => {
                   </button>
                   <button
                     type="button"
-                    className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${serviceTypeBtnColor === "Wash" ? "button-color-onHover" : "background-gray"
+                    className={`d-flex align-items-center justify-content-center text-primary width-100p font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${serviceTypeBtnColor === "Wash" ? "button-color-onHover" : "background-gray"
                       }`}
                     onClick={() => {
                       changeServiceBtnColor("Wash");
@@ -464,7 +464,7 @@ const Laundry = () => {
                   </button>
                   <button
                     type="button"
-                    className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${serviceTypeBtnColor === "Dry Wash"
+                    className={`d-flex align-items-center justify-content-center width-120 text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${serviceTypeBtnColor === "Dry Wash"
                       ? "button-color-onHover"
                       : "background-gray"
                       }`}
@@ -476,14 +476,14 @@ const Laundry = () => {
                   </button>
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
                 <label
                   htmlFor="date"
-                  className="col-sm-3 col-form-label font-size-14"
+                  className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
                 >
                   Date{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="date"
                     className="form-control height-30 font-size-14 background-gray"
@@ -495,15 +495,15 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex rev-margin-gap-40">
-                <label htmlFor="specialreq" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex flex-wrap rev-margin-gap-40">
+                <label htmlFor="specialreq" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Special Request{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <textarea
                     className="form-control font-size-14 background-gray"
                     id="inputRequest"
-                    rows="4"
+                    rows="3"
                     name="specialreq"
                     value={specialReq}
                     onChange={handleInputChange}
@@ -512,11 +512,11 @@ const Laundry = () => {
               </div>
             </div>
             <div className="flex-column width-50percent height-550 medium-width-full">
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap-40">
-                <label htmlFor="name" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+                <label htmlFor="name" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Guest Name
                 </label>
-                <div className="col-sm-7 d-flex column-gap-1">
+                <div className="col-sm-7 medium-width-60percent d-flex column-gap-1">
                   <select
                     id="designation"
                     className="form-select w-50 height-30 font-size-14 background-gray"
@@ -559,11 +559,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap-40">
-                <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+                <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Room No{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -574,11 +574,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap-40">
-                <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+                <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Arrival Date{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="date"
                     className="form-control height-30 font-size-14 background-gray"
@@ -591,14 +591,14 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
                 <label
                   htmlFor="departuredate"
-                  className="col-sm-3 col-form-label font-size-14"
+                  className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
                 >
                   Departure Date{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="date"
                     className="form-control height-30 font-size-14 background-gray"
@@ -611,11 +611,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap-40">
-                <label htmlFor="totalitem" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+                <label htmlFor="totalitem" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Total Item{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="number"
                     className="form-control height-30 font-size-14 background-gray"
@@ -627,11 +627,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap rev-margin-gap-40">
-                <label htmlFor="totalamount" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center rev-margin-gap-40">
+                <label htmlFor="totalamount" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Total Amount{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -642,11 +642,11 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center margin-bottom-30">
-                <label htmlFor="paymentType" className="col-sm-3 col-form-label font-size-14">
+              <div className="d-flex align-items-center flex-wrap margin-bottom-30">
+                <label htmlFor="paymentType" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Payment{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <select
                     id="paymenttype"
                     className="form-select font-size-14 background-gray"

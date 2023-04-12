@@ -679,7 +679,7 @@ const Reservation = () => {
 
   return (
     <div>
-      <div className="bg-light vh-100">
+      <div className="bg-light min-height-vh">
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">
@@ -715,11 +715,11 @@ const Reservation = () => {
             className="row g-3 bg-skyblue d-flex align-items-center justify-content-center mt-0 p-1"
             onSubmit={onSubmitAction}
           >
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="name" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center flex-wrap rev-margin-gap medium-width-full">
+              <label htmlFor="name" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Guest Name
               </label>
-              <div className="col-sm-7 d-flex column-gap-1">
+              <div className="col-sm-7 d-flex column-gap-1 medium-width-60percent">
                 <select
                   id="designation"
                   className="form-select w-50 height-30 font-size-14 background-gray"
@@ -762,14 +762,14 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
               <label
                 htmlFor="guestphonenumber"
-                className="col-sm-3 col-form-label font-size-14"
+                className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
               >
                 Phone No{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -781,11 +781,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="address" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="address" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Address{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -797,11 +797,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center font-size-14 rev-margin-gap">
-              <label htmlFor="companyname" className="col-sm-3 col-form-label">
+            <div className="col-md-6 d-flex align-items-center font-size-14 rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="companyname" className="col-sm-3 col-form-label medium-width-40percent">
                 Company{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -812,11 +812,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Arrival Date{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="date"
                   className="form-control height-30 font-size-14 background-gray"
@@ -829,15 +829,15 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center font-size-14 rev-margin-gap">
-              <div className="col-md-6 d-flex align-items-center">
+            <div className="col-md-6 d-flex align-items-center font-size-14 rev-margin-gap flex-wrap">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="designation"
-                  className="col-sm-6 col-form-label font-size-14"
+                  className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
                 >
                   Designation{" "}
                 </label>
-                <div className="col-sm-5">
+                <div className="col-sm-5 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -848,14 +848,14 @@ const Reservation = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-6 d-flex align-items-center">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="travelagentname"
-                  className="col-sm-4 col-form-label font-size-14"
+                  className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                 >
                   Travel Agent{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -867,14 +867,14 @@ const Reservation = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
               <label
                 htmlFor="departuredate"
-                className="col-sm-3 col-form-label font-size-14"
+                className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
               >
                 Departure Date{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="date"
                   className="form-control height-30 font-size-14 background-gray"
@@ -887,11 +887,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="arrivaltime" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="arrivaltime" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Arrival Time{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="time"
                   className="form-control height-30 font-size-14 background-gray"
@@ -903,14 +903,14 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="roomtype" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="roomtype" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Type of Room{" "}
               </label>
-              <div className="col-sm-7 d-flex justify-content-between">
+              <div className="col-sm-7 d-flex flex-wrap justify-content-between medium-width-60percent">
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary width-100p font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Standard"
                       ? "button-color-onHover"
                       : "background-gray"
@@ -923,7 +923,7 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary width-100p font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Delux" ? "button-color-onHover" : "background-gray"
                   }`}
                   onClick={() => {
@@ -934,7 +934,7 @@ const Reservation = () => {
                 </button>
                 <button
                   type="button"
-                  className={`d-flex align-items-center justify-content-center text-primary font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
+                  className={`d-flex align-items-center justify-content-center text-primary width-100p font-size-14 btn button-padding-5 height-30 large-button-width-60 large-button-font-size-12 ${
                     roomTypeBtnColor === "Executive"
                       ? "button-color-onHover"
                       : "background-gray"
@@ -947,14 +947,14 @@ const Reservation = () => {
                 </button>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
               <label
                 htmlFor="departuretime"
-                className="col-sm-3 col-form-label font-size-14"
+                className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
               >
                 Departure Time{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="time"
                   className="form-control height-30 font-size-14 background-gray"
@@ -966,15 +966,15 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center font-size-14 rev-margin-gap">
-              <div className="col-md-6 d-flex align-items-center">
+            <div className="col-md-6 d-flex align-items-center font-size-14 rev-margin-gap flex-wrap">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="noofpax"
-                  className="col-sm-6 col-form-label font-size-14"
+                  className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
                 >
                   No of Pax{" "}
                 </label>
-                <div className="col-sm-5">
+                <div className="col-sm-5 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -985,14 +985,14 @@ const Reservation = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-6 d-flex align-items-center">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="nights"
-                  className="col-sm-4 col-form-label font-size-14"
+                  className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                 >
                   No. of Nights
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -1004,12 +1004,12 @@ const Reservation = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <div className="col-md-6 d-flex align-items-center">
-                <label htmlFor="roomnumber" className="col-sm-6 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center medium-flex-column rev-margin-gap">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
+                <label htmlFor="roomnumber" className="col-sm-6 col-form-label font-size-14 medium-width-40percent">
                   Room No{" "}
                 </label>
-                <div className="col-sm-5">
+                <div className="col-sm-5 medium-width-60percent">
                   <input readOnly={isRoomNoDisabled}
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -1020,11 +1020,11 @@ const Reservation = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-6 d-flex align-items-center">
-                <label htmlFor="noofrooms" className="col-sm-4 col-form-label font-size-14">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
+                <label htmlFor="noofrooms" className="col-sm-4 col-form-label font-size-14 medium-width-40percent">
                   No of Room{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     type="number"
                     className="form-control height-30 font-size-14 background-gray"
@@ -1037,14 +1037,14 @@ const Reservation = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
               <label
                 htmlFor="modeofarrival"
-                className="col-sm-3 col-form-label font-size-14"
+                className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
               >
                 Mode of Arrival{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1055,11 +1055,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="trainno" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="trainno" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Train No{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1070,11 +1070,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="flightno" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="flightno" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Flight No{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1085,11 +1085,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="roomrate" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="roomrate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Room Rate{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="number"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1102,14 +1102,14 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
               <label
                 htmlFor="modeofpayment"
-                className="col-sm-3 col-form-label font-size-14"
+                className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
               >
                 Mode of Payment{" "}
               </label>
-              <div className="col-sm-7 d-flex justify-content-between">
+              <div className="col-sm-7 d-flex justify-content-between medium-width-60percent">
                 <button
                   type="button"
                   className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${
@@ -1151,15 +1151,15 @@ const Reservation = () => {
                 </button>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <div className="col-md-6 d-flex align-items-center">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="discountamount"
-                  className="col-sm-6 col-form-label font-size-14"
+                  className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
                 >
                   Discount amount{" "}
                 </label>
-                <div className="col-sm-5">
+                <div className="col-sm-5 medium-width-60percent">
                   <input
                     readOnly={isDiscountDisabled}
                     type="number"
@@ -1172,14 +1172,14 @@ const Reservation = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-6 d-flex align-items-center">
+              <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="discountpercentage"
-                  className="col-sm-4 col-form-label font-size-14"
+                  className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                 >
                   Discount %{" "}
                 </label>
-                <div className="col-sm-4">
+                <div className="col-sm-4 medium-width-60percent">
                   <input
                     readOnly={isDiscountDisabled}
                     type="number"
@@ -1193,11 +1193,11 @@ const Reservation = () => {
                 </div>
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="cardno" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="cardno" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Card No{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input disabled={isCardNoDisabled}
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1208,11 +1208,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="upi" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="upi" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 UPI{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input disabled={isUpiDisabled}
                   type="text"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1223,11 +1223,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="bookingdate" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="bookingdate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Date of Booking{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <input
                   type="date"
                   className="form-control height-30 font-size-14 background-gray"
@@ -1240,11 +1240,11 @@ const Reservation = () => {
                 />
               </div>
             </div>
-            <div className="col-md-6 d-flex align-items-center rev-margin-gap">
-              <label htmlFor="mealplan" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex align-items-center rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="mealplan" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Meal Plan{" "}
               </label>
-              <div className="col-sm-7 d-flex justify-content-between">
+              <div className="col-sm-7 d-flex justify-content-between flex-wrap medium-width-60percent">
                 <button
                   type="button"
                   className={`w-70 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-40 large-button-font-size-12 ${
@@ -1291,30 +1291,30 @@ const Reservation = () => {
                 </button>
               </div>
             </div>
-            <div className="col-md-6 d-flex rev-margin-gap">
-              <label htmlFor="specialreq" className="col-sm-3 col-form-label font-size-14">
+            <div className="col-md-6 d-flex rev-margin-gap flex-wrap medium-width-full">
+              <label htmlFor="specialreq" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                 Special Request{" "}
               </label>
-              <div className="col-sm-7">
+              <div className="col-sm-7 medium-width-60percent">
                 <textarea
                   className="form-control font-size-14 background-gray"
                   id="inputRequest"
-                  rows="2"
+                  rows="3"
                   name="specialreq"
                   value={specialReq}
                   onChange={handleInputChange}
                 ></textarea>
               </div>
             </div>
-            <div className="col-md-6 d-flex flex-column rev-margin-rev-margin-gap">
-              <div className="col-12 d-flex align-items-center">
+            <div className="col-md-6 d-flex flex-column rev-margin-gap flex-wrap">
+              <div className="col-12 d-flex align-items-center flex-wrap medium-width-full">
                 <label
                   htmlFor="resassisname"
-                  className="col-sm-3 col-form-label font-size-14"
+                  className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
                 >
                   Reservation Assistant Name{" "}
                 </label>
-                <div className="col-sm-7">
+                <div className="col-sm-7 medium-width-60percent">
                   <input
                     type="text"
                     className="form-control height-30 font-size-14 background-gray"
@@ -1326,10 +1326,10 @@ const Reservation = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 d-flex align-items-center justify-content-center">
+              <div className="col-12 d-flex align-items-center justify-content-center mb-2">
                 <button
                   type="submit"
-                  className="d-flex align-items-center justify-content-center font-size-14 text-primary btn button-color-onHover height-30 button-padding-5"
+                  className="d-flex align-items-center justify-content-center font-size-14 text-primary btn button-color-onHover height-30 button-padding-5 medium-margin-button"
                 >
                   Submit
                 </button>
