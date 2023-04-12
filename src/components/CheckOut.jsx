@@ -1,13 +1,15 @@
 import React from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../CustomCss/Reservation.css";
 import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
 const CheckOut = () => {
-
+  let navigate = useNavigate();
+  
   const [guestName, setGuestName] = useState({
     title: "",
     firstname: "",
@@ -37,6 +39,57 @@ const CheckOut = () => {
   const [departureDate, setdepartureDate] = useState("");
   const [departureTime, setDepartureTime] = useState("");
   const [registrationNo, setregistrationNo] = useState("");
+  const [paymentData, setPaymentData] = useState([]);
+  const [ttlDebit, setTtlDebit] = useState(0);
+  const [ttlCredit, setTtlCredit] = useState(0);
+
+
+
+
+
+  // Add :  Add checkout details 
+  // params : none     (directly get data from useState)
+  // return :   1.  {success:true}                                    IF ADDED SUCCESSFULLY
+  //            2.  {success:false, msg: 'Something Went Wrong'}      IF ADD FAILED
+  const updateReservationData = async()=>{
+    try{
+      let reservationData = await db.collection('reservation').doc({ bookingid: registrationNo }).get();
+      if(!reservationData) return {success:false, msg: "Reservation Not Found!"}
+
+      if(roomNumber){
+        let isBooked = await releaseRoomOccupancy(registrationNo);
+        if(!isBooked.success){  return { success: false, msg: isBooked?.msg }}
+      }
+      
+      await db.collection('reservation').doc({bookingid: registrationNo}).update({
+        checkedoutstatus: "done" 
+      })
+
+      return {success: true }     
+    }catch(e){
+      console.log("CheckoutPageError (updateReservationData) : ",e);
+      return {success: false, msg: 'Something Went Wrong'}
+    }
+  }
+
+
+
+  // Get :  Get all user data of a booking against bookingid
+  // params : bookingid
+  // return : 1. {success:true, data: {bookingid:"",name: {..}, phoneno: "", ...} }            IF ALL OK
+  //          2. {success: false, msg: 'Something Went Wrong'}                                 IF SERVER ERROR
+  //          3. {success:false, msg: "Invalid Booking Details"}                               IF BOOKING DATA NOT FOUND
+  const getUserDataAgainstBookingId = async (bookingid) => {
+    try {
+      let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus:"done", checkedoutstatus: "pending" }).get();
+      if (!booking) { return { success: false, msg: "Invalid Booking Details" } }
+      return { success: true, data: booking };
+    } catch (e) {
+      console.log("CheckinPageError (getUserDataAgainstBookingId) : ", e);
+      return { success: false, msg: 'Something Went Wrong' }
+    }
+  }
+
 
   // Delete : Release Room Occupancy from RoomAv. DB
   // params : bookingid (case sensitive)
@@ -84,6 +137,51 @@ const CheckOut = () => {
     }
   };
 
+
+
+
+
+
+  const getAndSetUserData = async(bookingid)=>{
+    let res = await getUserDataAgainstBookingId(bookingid);
+    if(res?.success){
+      let booking = res?.data;
+      setGuestName(booking.name);
+      setTravelAgentName(booking.travelagentname);
+      setGuestPhoneNumber(booking.phoneno);
+      setCompanyName(booking.companyname);
+      setGstId(booking.gst);
+      setBilling(booking.billing);
+      setBillNo(booking.billingno);
+      setConfirmationNo(booking.confno);
+      setRoomNumber(booking.roomno);
+      setNoOfRooms(booking.noofrooms);
+      setRoomRate(booking.roomrate);
+      setGuestsNo(booking.phoneno);
+      setArrivalDate(booking.arrivaldate); 
+      setArrivalTime(booking.arrivaltime);
+      setdepartureDate(booking.departuredate);
+      setDepartureTime(booking.departuretime);
+      setPaymentData(booking.paymenthistory);
+
+      let totalDebit = 0;
+      let totalCredit = 0;
+
+      for (const transaction of booking.paymenthistory) {
+        if (transaction.debit !== '') {
+          totalDebit += parseFloat(transaction.debit);
+        }
+        if (transaction.credit !== '') {
+          totalCredit += parseFloat(transaction.credit);
+        }
+      }
+
+      setTtlDebit(totalDebit);
+      setTtlCredit(totalCredit);
+    }
+  }
+
+
   const handleInputChange = (e) => {
     if (e.target.name == "title") { setGuestName({ ...guestName, title: e.target.value }); }
     else if (e.target.name == "firstname") { setGuestName({ ...guestName, firstname: e.target.value }); }
@@ -110,28 +208,23 @@ const CheckOut = () => {
     else if (e.target.name == "arrivaltime") { setArrivalTime(e.target.value); }
     else if (e.target.name == "departuredate") { setdepartureDate(e.target.value); }
     else if (e.target.name == "departuretime") { setDepartureTime(e.target.value); }
-    else if (e.target.name == "registrationnumber") { setregistrationNo(e.target.value); }
+    else if (e.target.name == "registrationnumber") { 
+      setregistrationNo(e.target.value); 
+      if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
+    }
   };
 
-  const submitAction = (e)=>{
+  const submitAction = async(e)=>{
     e.preventDefault();
-    alert("Your Checkout Successful!");
-    console.log(guestName);
-    console.log(travelAgentName);
-    console.log(guestPhoneNumber);
-    console.log(companyName);
-    console.log(gstId);
-    console.log(billing);
-    console.log(billNo);
-    console.log(confirmationNo);
-    console.log(billDate);
-    console.log(roomNumber);
-    console.log(noOfRooms);
-    console.log(roomRate);
-    console.log(guestsNo);
-    console.log(arrivalDate);
-    console.log(departureDate);
-    console.log(registrationNo);
+    let res = await updateReservationData();
+    if(res.success){
+      alert("Your Checkout Successful!");
+      setTimeout(() => { 
+        navigate(-1);
+      }, 5000);
+    }else{
+      alert(res.msg);
+    }
   }
 
   return (
@@ -294,7 +387,7 @@ const CheckOut = () => {
                   </label>
                   <div className="col-sm-6">
                     <input
-                      type="number"
+                      type="text"
                       className="form-control height-30 font-size-14 background-gray"
                       id="inputBillNumber"
                       name="billnumber"
@@ -508,14 +601,16 @@ const CheckOut = () => {
                 </tr>
               </thead>
               <tbody className="table-group-divider">
-                <tr className='hover-gray make-cursor-pointer' >
-                  <td>Date</td>
-                  <td>Accomodation ++ </td>
-                  <td>Room</td>
-                  <td>Amount</td>
-                  <td>Amount</td>
-                </tr>
-                <tr className='hover-gray make-cursor-pointer' >
+                  {paymentData && paymentData.map((item,index)=>{
+                    return <tr key={index+1} className='hover-gray make-cursor-pointer' >
+                            <td>{item.date}</td>
+                            <td>{item.description}</td>
+                            <td>{item.name}</td>
+                            <td>{item.debit}</td>
+                            <td>{item.credit}</td>
+                          </tr>
+                  })}
+                {/* <tr className='hover-gray make-cursor-pointer' >
                   <td>Date</td>
                   <td>Accomodation SGST @9% </td>
                   <td>Room</td>
@@ -528,13 +623,13 @@ const CheckOut = () => {
                   <td>Room</td>
                   <td>Amount</td>
                   <td>Amount</td>
-                </tr>
+                </tr> */}
                 <tr className='hover-gray make-cursor-pointer table-br-last-blue' >
                   <td className="table-tdata"></td>
                   <td className="table-tdata"></td>
                   <td className="table-tdata"></td>
-                  <td className="table-tdata">Total</td>
-                  <td className="table-tdata">Total</td>
+                  <td className="table-tdata">{ttlDebit}</td>
+                  <td className="table-tdata">{ttlCredit}</td>
                 </tr>
               </tbody>
             </table>
