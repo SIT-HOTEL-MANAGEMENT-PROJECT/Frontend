@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "../CustomCss/Reservation.css";
+import ShortUniqueId from "short-unique-id";
 import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
@@ -131,6 +132,116 @@ const CheckIn = () => {
   }
 
 
+
+  // Add :  Add checkin details 
+  // params : none     (directly get data from useState)
+  // return :   1.  {success:true}                                    IF ADDED SUCCESSFULLY
+  //            2.  {success:false, msg: 'Something Went Wrong'}      IF ADD FAILED
+  const updateReservationData = async()=>{
+    try{
+      let ubid = new ShortUniqueId({ length: 14 });  let billing = ubid(); let billno = ubid(); let confno = ubid();
+      
+      let reservationData = await db.collection('reservation').doc({ bookingid: reservationNumber }).get();
+      if(!reservationData) return {success:false, msg: "Reservation Not Found!"}
+
+      if(roomNumber){
+        let isBooked = await bookRoom(reservationNumber, roomType, roomNumber, arrivalDate, arrivalTime, departureDate, departureTime);
+        if(!isBooked.success){  return { success: false, msg: isBooked?.msg }}
+      }
+
+
+      let updatedpaymenthistory = reservationData.paymenthistory;
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+      
+      if(depositRate){
+        updatedpaymenthistory.push({name:"checkin", description:"Checkin time payment", date:todaydateforpaymentstring, debit:"", credit:depositRate})
+      }
+
+
+      if (!updatedpaymenthistory.some((item) => item.name === "bookingamount")) {
+        updatedpaymenthistory.push({
+          name: "bookingamount",
+          description: "Booking time payment",
+          date: todaydateforpaymentstring,
+          debit: roomRate,
+          credit: "",
+        });
+      }else{
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "bookingamount") {
+            return {
+              ...item,
+              date: todaydateforpaymentstring,
+              debit: roomRate,
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+
+      
+      if (!updatedpaymenthistory.some((item) => item.name === "reservationdiscount")) {
+        updatedpaymenthistory.push({
+          name: "reservationdiscount",
+          description: "Reservation discount",
+          date: todaydateforpaymentstring,
+          debit: "",
+          credit: discountAmount,
+        });
+      }else{
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "reservationdiscount") {
+            return {
+              ...item,
+              date: todaydateforpaymentstring,
+              credit: discountAmount,
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+      
+      await db.collection('reservation').doc({bookingid: reservationNumber}).update({
+          name: guestName,  address: address, icno: guestICNumber, 
+          phoneno: guestPhoneNumber,  telno: tel,  companyname: companyName,
+
+          checkcountry: openCountry, aadhaarno: aadharNo,  passportno: passportNumber, visano: visaNumber, 
+          passportdateofissue: passportDateOfIssue,  arrivedfrom: arrivedFrom,  placeofissue: placeOfIssue, 
+          purdurofstayinhotel: purpose,
+
+          cityledgetacct: cityLedgetAcct, groupid: groupId,
+
+          adultno: adults,  childno: children,
+
+          bookingdate: bookingDate, arrivaldate: arrivalDate, arrivaltime: arrivalTime, 
+          departuredate: departureDate, departuretime: departureTime, nights: nights,
+
+          typeofroom: roomType, roomno: roomNumber, noofrooms: noOfRooms,
+
+          roomrate: roomRate, discountamount: discountAmount, discountpercentage: discountPercentage,
+          paymenthistory:updatedpaymenthistory,  gst: gstRate,  modeofpayment: modeOfPayment,
+
+          mealplan: mealPlan, extrabedtype: extraBed,
+
+          travelagentname: travelAgentName,
+
+          billing:billing, billingno: billno, confno: confno,
+
+          specialreq: specialReq, bookingstatus:"done", checkedinstatus:"done", checkedoutstatus: "pending" 
+      })
+
+      return {success: true }     
+    }catch(e){
+      console.log("CheckinPageError (updateReservationData) : ",e);
+      return {success: false, msg: 'Something Went Wrong'}
+    }
+  }
+
+
+
   // Get :  Get all user data of a booking against bookingid
   // params : bookingid
   // return : 1. {success:true, data: {bookingid:"",name: {..}, phoneno: "", ...} }            IF ALL OK
@@ -138,7 +249,7 @@ const CheckIn = () => {
   //          3. {success:false, msg: "Invalid Booking Details"}                               IF BOOKING DATA NOT FOUND
   const getUserDataAgainstBookingId = async (bookingid) => {
     try {
-      let booking = await db.collection('reservation').doc({ bookingid: bookingid }).get();
+      let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus:"pending" }).get();
       if (!booking) { return { success: false, msg: "Invalid Booking Details" } }
       return { success: true, data: booking };
     } catch (e) {
@@ -283,6 +394,37 @@ const CheckIn = () => {
 
 
 
+  const getAndSetUserData = async(bookingid)=>{
+    let res = await getUserDataAgainstBookingId(bookingid);
+    if(res?.success){
+      let booking = res?.data;
+      setNoOfRooms(booking.noofrooms);
+      setRoomNumber(booking.roomno);
+      setBookingDate(booking.bookingdate);
+      setArrivalDate(booking.arrivaldate); 
+      setArrivalTime(booking.arrivaltime);
+      setNights(booking.nights);
+      setdepartureDate(booking.departuredate);
+      setDepartureTime(booking.departuretime);
+      setRoomRate(booking.roomrate);
+      setDiscountAmount(booking.discountamount); 
+      setDiscountPercentage(booking.discountpercentage);
+      setSpecialReq(booking.specialreq);
+      setGuestName(booking.name);
+      setGuestPhoneNumber(booking.phoneno);
+      setCompanyName(booking.companyname);
+      setAddress(booking.address);  
+      setTravelAgentName(booking.travelagentname);
+
+      changeRoomBtnColor(booking.typeofroom);
+      changePaymentBtnColor(booking.modeofpayment);
+      changeMealBtnColor(booking.mealplan);
+
+      if(booking.roomrate == ''){ setIsDiscountDisabled(true); } else{ setIsDiscountDisabled(false); }
+    }
+  }
+
+
   const changeRoomBtnColor = (whichRoom) => {
     if(roomType == whichRoom){
       setRoomTypeBtnColor(""); setRoomType(""); setIsRoomNoDisabled(true);  return;
@@ -329,7 +471,10 @@ const CheckIn = () => {
       if(!avroomnos.length) { setNoOfRooms("") }
       else { setNoOfRooms(avroomnos.length); }
     }
-    else if (e.target.name == "reservationnumber") { setreservationNumber(e.target.value); }
+    else if (e.target.name == "reservationnumber") { 
+      setreservationNumber(e.target.value); 
+      if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
+    }
     else if (e.target.name == "bookingdate") { setBookingDate(e.target.value); }
     else if (e.target.name == "extrabed") { setExtraBed(e.target.value); }
     else if (e.target.name == "arrivaldate") { 
@@ -389,48 +534,17 @@ const CheckIn = () => {
     else if (e.target.name == "purpose") { setPurpose(e.target.value); }
   };
 
-  const submitAction = (e) => {
+  const submitAction = async(e) => {
     e.preventDefault();
-    alert("Your form submitted!");
-    console.log(roomType);
-    console.log(noOfRooms);
-    console.log(roomNumber);
-    console.log(reservationNumber);
-    console.log(bookingDate);
-    console.log(extraBed);
-    console.log(mealPlan);
-    console.log(arrivalDate);
-    console.log(arrivalTime);
-    console.log(nights);
-    console.log(departureDate);
-    console.log(departureTime);
-    console.log(roomRate);
-    console.log(discountAmount);
-    console.log(discountPercentage);
-    console.log(modeOfPayment);
-    console.log(gstRate);
-    console.log(depositRate);
-    console.log(specialReq);
-    console.log(guestName);
-    console.log(guestICNumber);
-    console.log(guestPhoneNumber);
-    console.log(companyName);
-    console.log(address);
-    console.log(tel);
-    console.log(adults);
-    console.log(children);
-    console.log(cityLedgetAcct);
-    console.log(groupId);
-    console.log(travelAgentName);
-    console.log(openCountry);
-    console.log(aadharNo);
-    console.log(passportNumber);
-    console.log(visaNumber);
-    console.log(passportDateOfIssue);
-    console.log(visaDateOfIssue);
-    console.log(arrivedFrom);
-    console.log(placeOfIssue);
-    console.log(purpose);
+    let res = await updateReservationData();
+    if(res.success){
+      showBookingSuccessful();
+      setTimeout(() => { 
+        navigate(-1);
+      }, 5000);
+    }else{
+      alert(res.msg);
+    } 
   };
 
   return (
@@ -1385,14 +1499,14 @@ const CheckIn = () => {
             <button
               type="button"
               className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`}
-              onClick={(e)=>{showBookingSuccessful(); submitAction(e);}}
+              onClick={(e)=>{submitAction(e);}}
               >
               Pay & Book
             </button>
             <button
               type="button"
               className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`} 
-              onClick={(e)=>{showBookingSuccessful(); submitAction(e);}}
+              onClick={(e)=>{submitAction(e);}}
               >
               Book
             </button>
