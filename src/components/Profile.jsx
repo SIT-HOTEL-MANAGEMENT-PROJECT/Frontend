@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "../CustomCss/Reservation.css";
 import Cookies from 'js-cookie'
 import Localbase from "localbase";
 let db = new Localbase("hmctdb");
@@ -57,7 +58,7 @@ const Profile = () => {
 
   
   return (
-    <div className="container">
+    <div className="bg-light min-height-vh">
       <nav className="navbar sticky-top navbar navbar-expand-lg">
         <div className="container-fluid">
           <div className="navbar-brand d-flex align-items-center">
