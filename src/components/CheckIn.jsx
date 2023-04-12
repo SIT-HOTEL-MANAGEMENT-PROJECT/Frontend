@@ -156,6 +156,7 @@ const CheckIn = () => {
       
       if(depositRate){
         updatedpaymenthistory.push({name:"checkin", description:"Checkin time payment", date:todaydateforpaymentstring, debit:"", credit:depositRate})
+        await updateRupeesAdrValue(depositRate);
       }
 
 
@@ -392,6 +393,34 @@ const CheckIn = () => {
   }
 
 
+  // Update : Update how much amount paid by user today in ADR DB
+  // params : amount (amountpaid by user. not pay-later) (string)
+  // return : 1. {success: true }                                                     IF ALL OK
+  //          2. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
+  let prevvalue = 0;
+  const updateRupeesAdrValue = async(amount)=>{
+    try{
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      let rupeesadrData = await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).get();
+      if(!rupeesadrData){
+        prevvalue = parseFloat(amount);
+        await db.collection('rupeesadr').add({date: todaydateforpaymentstring, value: parseFloat(amount)});
+      }else{
+        let updateval;
+        updateval = parseFloat(rupeesadrData.value) + parseFloat(amount); 
+        if(prevvalue){  updateval = parseFloat(updateval) - parseFloat(prevvalue);  }
+        prevvalue = parseFloat(amount);
+        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({value: parseFloat(updateval)});
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ",e);
+      return {success:false, msg: "Something Went Wrong"}
+    }
+  }
 
 
   const getAndSetUserData = async(bookingid)=>{
