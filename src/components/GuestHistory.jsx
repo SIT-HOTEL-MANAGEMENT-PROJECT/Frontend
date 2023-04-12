@@ -1,16 +1,22 @@
 import React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "../CustomCss/Reservation.css";
 import Localbase from "localbase";
+import { useEffect } from 'react';
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
 
 const GuestHistory = () => {
     const [selectedCheckbox, setSelectedCheckbox] = useState("");
+    const [data, setData] = useState([]);
+    const navigate = useNavigate();
     
-    
+    useEffect(() => {
+      initialFetch();
+    }, [])
     
     
     // Get :  Get Guest Reports based on filters
@@ -103,11 +109,62 @@ const GuestHistory = () => {
     }
 
 
+
+    const initialFetch = async()=>{
+        let res = await getGuestHistory('all','all');
+        if(res.success){
+            setData(res.data);
+        }else{
+            alert(res?.msg);
+        }
+    }
     
-    
-    const handleCheckboxChange = (e) => {
+    const fetchAndSet = async(fltr1,fltr2)=>{
+        let res = await getGuestHistory(fltr1,fltr2);
+        if(res.success){
+            setData(res.data);
+        }
+    }
+
+    const handleCheckboxChange = async(e) => {
         const newSelectedCheckboxValue = e.target.value;
         setSelectedCheckbox(newSelectedCheckboxValue);
+
+        if(e.target.value=='checkin90days'){
+            await fetchAndSet('90days','');
+        }
+
+        else if(e.target.value=='checkout90days'){
+            await fetchAndSet('','90days');
+        }
+
+        else if(e.target.value=='checkin365days'){
+            await fetchAndSet('365days','');
+        }
+
+        else if(e.target.value=='checkout365days'){
+            await fetchAndSet('','365days');
+        }
+
+        else if(e.target.value=='checkin5years'){
+            await fetchAndSet('5years','');
+        }
+
+        else if(e.target.value=='checkout5years'){
+            await fetchAndSet('','5years');
+        }
+
+        else if(e.target.value=='checkinall'){
+            await fetchAndSet('all','');
+        }
+
+        else if(e.target.value=='checkoutall'){
+            await fetchAndSet('','all');
+        }
+    }
+
+    const openCusDetails = (fname,lname,phno)=>{
+        navigate(`/AllReservations?firstname=${fname}&lastname=${lname}&phoneno=${phno}`);
     }
 
     return (
@@ -187,87 +244,17 @@ const GuestHistory = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="table-group-divider">
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td className="table-tdata">Mark</td>
-                                        <td className="table-tdata">Otto</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
+                                    {data && data.map((item,index)=>{
+                                    return <tr key={index+1}>
+                                        <th scope="row">{index+1}</th>
+                                        <td className="table-tdata">{item.name.title + " " + item.name.firstname + " " + item.name.middlename +  " " + item.name.lastname}</td>
+                                        <td className="table-tdata">{item.phoneno}</td>
+                                        <td className="table-tdata">{item.arrivaldate}</td>
+                                        <td className="table-tdata">{item.departuredate}</td>
+                                        <td className="table-tdata">{item.checkcountry =='India' ? item.aadhaarno : item.passportno}</td>
+                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary" onClick={()=>{openCusDetails(item.name.firstname,item.name.lastname,item.phoneno)}}>Check History</button></td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td className="table-tdata">Jacob</td>
-                                        <td className="table-tdata">Thornton</td>
-                                        <td className="table-tdata">@fat</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td className="table-tdata">Larry the Bird</td>
-                                        <td className="table-tdata">fat</td>
-                                        <td className="table-tdata">@twitter</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata">@mdo</td>
-                                        <td className="table-tdata"><button className="font-size-14 btn btn-primary">Check History</button></td>
-                                    </tr>
+                                    })}
                                 </tbody>
                             </table>
                         </div>
