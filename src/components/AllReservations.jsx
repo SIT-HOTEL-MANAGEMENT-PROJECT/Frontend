@@ -235,7 +235,7 @@ const AllReservations = ({isUserAdmin, isAuthenticated}) => {
 
   return (
     <div>
-      <div className="bg-light vh-100">
+      <div className="bg-light min-height-vh">
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">

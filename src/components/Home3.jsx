@@ -63,7 +63,7 @@ const Home3 = ({ resetAppData }) => {
           <div
             className="offcanvas offcanvas-start"
             data-bs-scroll="true"
-            tabindex="-1"
+            tabIndex="-1"
             id="offcanvasWithBothOptions"
             aria-labelledby="offcanvasWithBothOptionsLabel"
           >
@@ -182,11 +182,11 @@ const Home3 = ({ resetAppData }) => {
               <br />
             </div>
           </div>
-          <h1>
+          <h1 className="px-4">
             Welcome to <br />
             Siliguri Hotel Management Association
           </h1>
-          <h3>
+          <h3 className="px-4">
             Let’s make ourself best <br />& make ordinary, extraordinary
           </h3>
         </div>

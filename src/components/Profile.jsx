@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import "../CustomCss/Reservation.css";
 import Cookies from 'js-cookie'
 import Localbase from "localbase";
+import { useEffect } from "react";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
 const Profile = () => {  
-
+  const [userdata, setUserdata] = useState({});
   
+
+  useEffect(() => {
+    getAndSetUserData();
+  }, [])
+  
+
   // Get : Get all data of logged-in user using username
   // params : none         (In Background it take Cookies to get data)
   // return : 1. {success: true, data: {role: "",  username: "",  password: "", name:"",  email:"", 
@@ -55,20 +63,27 @@ const Profile = () => {
 
 
 
+  const getAndSetUserData = async()=>{
+    let res = await getUserData();
+    if(res.success){
+      setUserdata(res?.data);
+    }
+  }
   
+
   return (
-    <div className="container">
+    <div className="bg-light min-height-vh">
       <nav className="navbar sticky-top navbar navbar-expand-lg">
         <div className="container-fluid">
           <div className="navbar-brand d-flex align-items-center">
             <NavLink className="text-primary" to="/Home3">
-              <i className="bx bx-chevrons-left"></i>
+              <i className="bx bx-chevrons-left font-size-25"></i>
             </NavLink>
             <h5 className="text-primary">Profile</h5>
           </div>
         </div>
       </nav>
-      <div className="profile-box">
+      <div className="profile-box container">
         <div className="row">
           <div className="col-sm">
             <i className="fa fa-user-o" aria-hidden="true" id="iconfix"></i>
@@ -78,10 +93,10 @@ const Profile = () => {
             </p>
             <div className="profile-details">
               <p>
-                <b>Name:</b> SIT HMCT
+                <b>Name:</b> {userdata.name}
               </p>
               <p>
-                <b>Username:</b> SITHMCT
+                <b>Username:</b> {userdata.username}
               </p>
               <p>
                 <b>Password:</b> ********
@@ -91,22 +106,22 @@ const Profile = () => {
           <div className="col-sm mt-5">
             <div className="profile-details">
               <p>
-                <b>Email ID:</b> sithmctweb@gmail.com
+                <b>Email ID:</b> {userdata.email}
               </p>
               <p>
-                <b>Phone No:</b> 1234567890
+                <b>Phone No:</b> {userdata.phoneno}
               </p>
               <p>
-                <b>Designation:</b> Manager
+                <b>Designation:</b> {userdata.designation}
               </p>
               <p>
-                <b>Use As:</b> Admin
+                <b>Use As:</b> {userdata.role}
               </p>
               <p>
-                <b>User Since:</b> 2022
+                <b>User Since:</b> {userdata.usersince}
               </p>
               <p>
-                <b>Shift:</b> Morning
+                <b>Shift:</b> {userdata.shift}
               </p>
             </div>
           </div>
