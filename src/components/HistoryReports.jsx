@@ -18,6 +18,11 @@ const HistoryReports = () => {
       initialFetch();
     }, [])
     
+
+    function formatNumber(num) {
+        if (num % 1 === 0) return num;
+        else return num.toFixed(2);
+    }
     
     // Get :  Get Reports based on filters
     // params:  fltr ('all'/'90days'/'365days'/'5years') (string any one value from this list)
@@ -27,14 +32,16 @@ const HistoryReports = () => {
     //          2. {success:false, msg: 'Internal Server Error'}                                                                                    IF SERVER ERROR
     const getReport = async(fltr)=>{
         try{
+            let reportDate = new Date();
+            let reportDateString = reportDate.toISOString().slice(0, 10);
+            
+            
             let reservationData = await db.collection('reservation').get();
             let reportsData = await db.collection('reports').orderBy('date', 'desc').get();
-
+            let rupeesadrData = await db.collection('rupeesadr').doc({ date: reportDateString }).get();
             // if(reservationDt) setReservationData(reservationDt);
             // if(reportsDt) setReportsData(reportsDt);
 
-            let reportDate = new Date();
-            let reportDateString = reportDate.toISOString().slice(0, 10);
 
 
             // ======================   Check for total checkin and rem checkin   ===============================
@@ -92,7 +99,7 @@ const HistoryReports = () => {
             let avrooms = totalRooms - dirtyrm;
             
             const filteredCheckinBookings = reservationData.filter(booking =>
-                ((booking.arrivaldate === reportDateString && booking.checkinstatus  === "done"))
+                ((booking.arrivaldate === reportDateString && booking.checkedinstatus  === "done"))
             );
             
             let checkinoccupiedRooms = 0;
@@ -143,17 +150,16 @@ const HistoryReports = () => {
 
             //  ===============================   Rupees 100 ADR   ==============================================
             let rupeesadr = 0;
-            let rupeesadrData = await db.collection('rupeesadr').doc({ date: reportDateString }).get();
             if(rupeesadrData){
                 rupeesadr = rupeesadrData.value;
             }
             //  -------------------------------  End of Rupees 100 ADR   ----------------------------------------
 
 
-            let resdata = [{ date: reportDateString, totalcheckin: checkedInPercentage, checkinrem: notCheckedInPercentage,
-                totalcheckout: checkedOutPercentage, checkoutrem: notCheckedOutPercentage, noofoccupiedrooms:totalRoomOccupied, roomoccupiedpercentage: roomoccupiedPercentage,
-                rupeesadr: rupeesadr, noofavailableroom: availableRooms, noofroomsbooked: totalBookedRooms,
-                noofroomsmaintainance: roomsinMaintainance, noofroomsdirty: roomsDirty }]
+            let resdata = [{ date: reportDateString, totalcheckin: formatNumber(checkedInPercentage), checkinrem: formatNumber(notCheckedInPercentage),
+                totalcheckout: formatNumber(checkedOutPercentage), checkoutrem: formatNumber(notCheckedOutPercentage), noofoccupiedrooms: formatNumber(totalRoomOccupied), roomoccupiedpercentage: formatNumber(roomoccupiedPercentage),
+                rupeesadr: formatNumber(rupeesadr), noofavailableroom: formatNumber(availableRooms), noofroomsbooked: formatNumber(totalBookedRooms),
+                noofroomsmaintainance: formatNumber(roomsinMaintainance), noofroomsdirty: formatNumber(roomsDirty) }]
 
             
             if(reportsData){
