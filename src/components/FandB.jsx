@@ -234,9 +234,8 @@ const FandB = () => {
     }
     else if (e.target.name == "roomnumber") { 
       setRoomNumber(e.target.value); 
-      if(e.target.value.length < 3) { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
-      if(e.target.value.length > 3) { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
-      if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
+      if(e.target.value.length != 3 && guestName.firstname != '') { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
+      else if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
   }
 

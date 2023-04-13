@@ -244,19 +244,13 @@ const Laundry = () => {
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
     else if (e.target.name == "roomnumber") {
       setRoomNumber(e.target.value);
-      if (e.target.value.length < 3) { 
+      if (e.target.value.length != 3 && departureDate != '') { 
         setBookingIdL(""); 
         setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
         setArrivalDate("");
         setdepartureDate("");
       }
-      if (e.target.value.length > 3) {
-        setBookingIdL("");
-        setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
-        setArrivalDate("");
-        setdepartureDate("");
-      }
-      if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
+      else if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
     else if (e.target.name == "arrivaldate") { setArrivalDate(e.target.value); }
     else if (e.target.name == "departuredate") { setdepartureDate(e.target.value); }
