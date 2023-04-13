@@ -192,7 +192,7 @@ const App = () => {
         <Route exact path="/Home" element={<Home />} />
         <Route exact path="/Home3" element={<Home3  resetAppData={resetAppData} />} />
         <Route exact path="/AllReservations" element={<AllReservations isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
-        <Route exact path="/Reservation" element={<Reservation />} />
+        <Route exact path="/Reservation" element={<Reservation getLoggedInUserDetails={getLoggedInUserDetails}/>} />
         <Route
           exact
           path="/ReservationConfirmation"
