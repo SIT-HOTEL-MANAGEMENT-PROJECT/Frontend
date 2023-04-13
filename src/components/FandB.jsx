@@ -93,14 +93,17 @@ const FandB = () => {
     let reservations;
 
     if (rmno.charAt(0) == '1') {
+      if(roomData[0]['standard'][rmno]['av'] != '0') return
       reservations = roomData[0]['standard'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '2') {
+      if(roomData[0]['delux'][rmno]['av'] != '0') return
       reservations = roomData[0]['delux'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '3') {
+      if(roomData[0]['executive'][rmno]['av'] != '0') return
       reservations = roomData[0]['executive'][rmno]['activeBookings'];
     }
 
@@ -111,11 +114,14 @@ const FandB = () => {
     const bookingId = reservationToday ? reservationToday.bookingid : '';
 
     if (bookingId) {
-      setBookingIdFB(bookingId);
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
-
+      
+      setBookingIdFB(bookingId);
       setGuestName(reservationData.name);
+    }else{
+      setBookingIdFB("");
+      setGuestName({title: "", firstname: "", middlename: "", lastname: "",})
     }
   }
 
@@ -173,15 +179,23 @@ const FandB = () => {
     setItemName(commaSeparatedNames);
     setRate(commaSeparatedPrice);
     setItemQuantity(itemCodeArray.length);
-    const prices = rate.split(",").map(price => parseInt(price.trim()));
-    const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-    setTotalAmount(total);
-    const stgst = (2.50/100)*total;
-    const ctgst = (2.50/100)*total;
-    const netamt = total + ctgst + stgst;
-    setStateGst(stgst);
-    setCentralGst(ctgst);
-    setNetAmount(netamt);
+    // const prices = rate.split(",").map(price => parseInt(price.trim()));
+    const prices = itemCodeArray?.map(item => item?.price);
+    if(prices.length >= 1){
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      setTotalAmount(total);
+      const stgst = (2.50/100)*total;
+      const ctgst = (2.50/100)*total;
+      const netamt = total + ctgst + stgst;
+      setStateGst(stgst);
+      setCentralGst(ctgst);
+      setNetAmount(netamt);
+    }else{
+      setTotalAmount(0);
+      setStateGst(0);
+      setCentralGst(0);
+      setNetAmount(0);
+    }
   }, [itemCodeArray])
 
   
@@ -220,6 +234,8 @@ const FandB = () => {
     }
     else if (e.target.name == "roomnumber") { 
       setRoomNumber(e.target.value); 
+      if(e.target.value.length < 3) { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
+      if(e.target.value.length > 3) { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
       if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
   }

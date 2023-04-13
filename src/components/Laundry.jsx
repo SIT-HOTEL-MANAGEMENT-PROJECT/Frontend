@@ -95,14 +95,17 @@ const Laundry = () => {
     let reservations;
 
     if (rmno.charAt(0) == '1') {
+      if(roomData[0]['standard'][rmno]['av'] != '0') return
       reservations = roomData[0]['standard'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '2') {
+      if(roomData[0]['delux'][rmno]['av'] != '0') return
       reservations = roomData[0]['delux'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '3') {
+      if(roomData[0]['executive'][rmno]['av'] != '0') return
       reservations = roomData[0]['executive'][rmno]['activeBookings'];
     }
 
@@ -113,13 +116,18 @@ const Laundry = () => {
     const bookingId = reservationToday ? reservationToday.bookingid : '';
 
     if (bookingId) {
-      setBookingIdL(bookingId);
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
-
+      
+      setBookingIdL(bookingId);
       setGuestName(reservationData.name);
       setArrivalDate(reservationData.arrivaldate);
       setdepartureDate(reservationData.departuredate);
+    }else{
+      setBookingIdL("");
+      setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
+      setArrivalDate("");
+      setdepartureDate("");
     }
   }
 
@@ -186,9 +194,14 @@ const Laundry = () => {
     setItemName(commaSeparatedNames);
     setCost(commaSeparatedPrice);
     setTotalItem(itemCodeArray.length);
-    const prices = cost.split(",").map(price => parseInt(price.trim()));
-    const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-    setTotalAmount(total - discountAmount);
+    // const prices = cost.split(",").map(price => parseInt(price.trim()));
+    const prices = itemCodeArray?.map(item => item?.price);
+    if(prices.length >= 1){
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      setTotalAmount(total - discountAmount);
+    }else{
+      setTotalAmount(0);
+    }
   }, [itemCodeArray])
 
   const handleInputChange = (e) => {
@@ -231,6 +244,18 @@ const Laundry = () => {
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
     else if (e.target.name == "roomnumber") {
       setRoomNumber(e.target.value);
+      if (e.target.value.length < 3) { 
+        setBookingIdL(""); 
+        setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
+        setArrivalDate("");
+        setdepartureDate("");
+      }
+      if (e.target.value.length > 3) {
+        setBookingIdL("");
+        setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
+        setArrivalDate("");
+        setdepartureDate("");
+      }
       if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
     else if (e.target.name == "arrivaldate") { setArrivalDate(e.target.value); }
