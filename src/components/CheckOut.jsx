@@ -178,6 +178,14 @@ const CheckOut = () => {
 
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
+    }else{
+      setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
+      setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
+      setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate(''); 
+      setArrivalTime(''); setdepartureDate(''); setDepartureTime(''); setPaymentData([]);
+
+      setTtlDebit(0);
+      setTtlCredit(0);
     }
   }
 
@@ -210,7 +218,16 @@ const CheckOut = () => {
     else if (e.target.name == "departuretime") { setDepartureTime(e.target.value); }
     else if (e.target.name == "registrationnumber") { 
       setregistrationNo(e.target.value); 
-      if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
+      if(e.target.value.length != 14 && confirmationNo != '') { 
+        setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
+        setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
+        setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate(''); 
+        setArrivalTime(''); setdepartureDate(''); setDepartureTime(''); setPaymentData([]);
+
+        setTtlDebit(0);
+        setTtlCredit(0); 
+      }
+      else if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
     }
   };
 

@@ -451,6 +451,18 @@ const CheckIn = () => {
 
       if(booking.roomrate == ''){ setIsDiscountDisabled(true); } else{ setIsDiscountDisabled(false); }
     }
+    else{
+      setNoOfRooms(''); setRoomNumber(''); setBookingDate(''); setArrivalDate(''); setArrivalTime(''); setNights('');
+      setdepartureDate(''); setDepartureTime(''); setRoomRate(''); setDiscountAmount(''); setDiscountPercentage(''); setSpecialReq('');
+      setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
+      setGuestPhoneNumber(''); setCompanyName('');
+      setAddress({ ad1: "", city: "", state: "", zip: "", });  
+      setTravelAgentName('');
+
+      changeRoomBtnColor(''); changePaymentBtnColor(''); changeMealBtnColor('');
+
+      setIsDiscountDisabled(true);
+    }
   }
 
 
@@ -502,7 +514,19 @@ const CheckIn = () => {
     }
     else if (e.target.name == "reservationnumber") { 
       setreservationNumber(e.target.value); 
-      if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
+      if(e.target.value.length != 14 && arrivalDate != '') { 
+        setNoOfRooms(''); setRoomNumber(''); setBookingDate(''); setArrivalDate(''); setArrivalTime(''); setNights('');
+        setdepartureDate(''); setDepartureTime(''); setRoomRate(''); setDiscountAmount(''); setDiscountPercentage(''); setSpecialReq('');
+        setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
+        setGuestPhoneNumber(''); setCompanyName('');
+        setAddress({ ad1: "", city: "", state: "", zip: "", });  
+        setTravelAgentName('');
+
+        changeRoomBtnColor(''); changePaymentBtnColor(''); changeMealBtnColor('');
+
+        setIsDiscountDisabled(true);
+      } 
+      else if(e.target.value.length == 14) { getAndSetUserData(e.target.value); } 
     }
     else if (e.target.name == "bookingdate") { setBookingDate(e.target.value); }
     else if (e.target.name == "extrabed") { setExtraBed(e.target.value); }
