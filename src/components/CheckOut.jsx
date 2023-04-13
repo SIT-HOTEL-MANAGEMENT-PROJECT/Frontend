@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../CustomCss/Reservation.css";
 import Localbase from "localbase";
+import { useEffect } from "react";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
@@ -45,6 +46,10 @@ const CheckOut = () => {
 
 
 
+  useEffect(() => {
+    initialPrepopulatedData();
+  }, [])
+  
 
 
   // Add :  Add checkout details 
@@ -160,8 +165,8 @@ const CheckOut = () => {
       setGuestsNo(booking.phoneno);
       setArrivalDate(booking.arrivaldate); 
       setArrivalTime(booking.arrivaltime);
-      setdepartureDate(booking.departuredate);
-      setDepartureTime(booking.departuretime);
+      // setdepartureDate(booking.departuredate);
+      // setDepartureTime(booking.departuretime);
       setPaymentData(booking.paymenthistory);
 
       let totalDebit = 0;
@@ -182,13 +187,22 @@ const CheckOut = () => {
       setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
       setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
       setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate(''); 
-      setArrivalTime(''); setdepartureDate(''); setDepartureTime(''); setPaymentData([]);
+      setArrivalTime(''); setPaymentData([]);
 
       setTtlDebit(0);
       setTtlCredit(0);
     }
   }
 
+
+  const initialPrepopulatedData = async()=>{
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    const hours = todayDate.getHours().toString().padStart(2, '0');
+    const minutes = todayDate.getMinutes().toString().padStart(2, '0');
+    const todayTimeString = `${hours}:${minutes}`;
+    setdepartureDate(todayDateString); setDepartureTime(todayTimeString); setBillDate(todayDateString);
+  }
 
   const handleInputChange = (e) => {
     if (e.target.name == "title") { setGuestName({ ...guestName, title: e.target.value }); }
@@ -222,7 +236,7 @@ const CheckOut = () => {
         setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
         setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
         setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate(''); 
-        setArrivalTime(''); setdepartureDate(''); setDepartureTime(''); setPaymentData([]);
+        setArrivalTime(''); setPaymentData([]);
 
         setTtlDebit(0);
         setTtlCredit(0); 

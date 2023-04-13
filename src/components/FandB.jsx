@@ -172,7 +172,17 @@ const FandB = () => {
   }
 
 
+  const initialPrepopulatedData = async()=>{
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setAccountingDate(todayDateString);
+  }
 
+
+  useEffect(() => {
+    initialPrepopulatedData();
+  }, [])
+  
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
     const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join(",");

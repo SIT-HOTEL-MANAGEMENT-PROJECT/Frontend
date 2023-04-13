@@ -10,7 +10,7 @@ import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
-const Reservation = () => {
+const Reservation = ({getLoggedInUserDetails}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -64,6 +64,8 @@ const Reservation = () => {
       const roomtype = query.get('roomtype');
       const roomnumber = query.get('roomnumber');
     
+      initialPrepopulatedData();
+
       if(bookingid && isupdate){
         setBookingidForUpdate(bookingid);
         setIsForUpdate(isupdate);
@@ -521,6 +523,15 @@ const Reservation = () => {
 
 
 
+
+  const initialPrepopulatedData = async()=>{
+    let res = await getLoggedInUserDetails();
+    if(res?.success){ setResAssisName(res?.data?.name); }
+
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setBookingDate(todayDateString);
+  }
 
 
   const getAndSetUserData = async(bookingid)=>{
