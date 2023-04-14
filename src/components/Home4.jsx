@@ -53,8 +53,8 @@ const Home4 = ({resetAppData}) => {
     return (
         <div>
             <div className="bg-skyblue min-height-vh">
-                <div className="d-flex mx-5">
-                    <div className="d-flex flex-column justify-content-center reserv-row-gap-point5 p-3 vh-100 col-md-6">
+                <div className="d-flex large-flex-column mx-5">
+                    <div className="d-flex flex-column justify-content-center reserv-row-gap-point5 p-3 vh-100 col-md-6 large-width-full">
                         <div>
                             <button className="btn menu_btn mx-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" ><img className="imgfix" src={menu_icon} /></button>
                             <div
@@ -207,7 +207,7 @@ const Home4 = ({resetAppData}) => {
                         <h4 className="text-primary px-5">College Of Hotel Management & Catering Technology</h4>
                         <h5 className="text-primary px-5">Let&apos;s make ourself best <br />& make ordinary, extraordinary</h5>
                     </div>
-                    <div className="d-flex flex-column align-items-end justify-content-between p-4 col-md-6 vh-100">
+                    <div className="d-flex flex-column align-items-end justify-content-between p-4 col-md-6 vh-100 large-width-full">
                         <div className="d-flex w-100 justify-content-end reserv-col-gap-1 margin-top-20p">
                             <button type="button" className="d-flex align-items-center justify-content-center reserv-col-gap-1 col-sm-3 text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12" onClick={()=>{navigate("/Team")}}><i className="fa fa-users" aria-hidden="true"></i>By Team</button>
                             <button type="button" className="d-flex align-items-center justify-content-center col-sm-3 text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12" onClick={()=>{signuout()}}>Sign Out</button>
