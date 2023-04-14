@@ -141,7 +141,7 @@ const Laundry = () => {
       let dbtamt = '';
       let credamt = '';
 
-      if (paymentType == "Pay Later") {
+      if (paymentType == "Postwithroom") {
         dbtamt = totalAmount.toString();
       } else {
         dbtamt = totalAmount.toString();
@@ -721,7 +721,7 @@ const Laundry = () => {
                     <option value={"Card"}>Card</option>
                     <option value={"UPI"}>UPI</option>
                     <option value={"Cash"}>Cash</option>
-                    <option value={"Pay Later"}>Pay Later</option>
+                    <option value={"Postwithroom"}>Post with Room</option>
                   </select>
                 </div>
               </div>
