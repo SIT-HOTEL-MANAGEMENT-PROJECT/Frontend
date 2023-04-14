@@ -69,7 +69,7 @@ const CheckOut = () => {
   const getPendingCheckoutData = async(startdate,enddate)=>{
     try{
         let bookings = await db.collection('reservation').get();
-        if(!Array.isArray(bookings)){ console.log("okkk"); bookings = [bookings]; }
+        if(!Array.isArray(bookings)){ bookings = [bookings]; }
 
         let pendingBookings = [];
         if(bookings?.length >= 1){
