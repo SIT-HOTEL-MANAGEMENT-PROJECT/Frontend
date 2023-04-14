@@ -167,8 +167,6 @@ const AllReservations = ({isUserAdmin, isAuthenticated}) => {
 
 
   const selectReservationData = (bookingID)=>{
-    if(!isAdmin){ return; }
-
     if(selectedBookingId == bookingID){
       let tableRow = document.getElementById(selectedBookingId);
       tableRow.classList.remove('background-gray');
@@ -189,10 +187,11 @@ const AllReservations = ({isUserAdmin, isAuthenticated}) => {
       let tableRow = document.getElementById(bookingID);
       tableRow.classList.add('background-gray')
     }
+
+    if(!isAdmin) { setIsCancelBtnDisabled(true); }
   }
 
   const updateReservationData = ()=>{
-    if(!isAdmin){ alert("Access Denied"); return; }
     navigate(`/Reservation?bookingid=${selectedBookingId}&isupdate=true`);
   }
 
