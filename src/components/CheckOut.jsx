@@ -13,6 +13,8 @@ const CheckOut = () => {
   let navigate = useNavigate();
   const location = useLocation();
 
+  const [paymentTypeBtnColor, setPaymentTypeBtnColor] = useState("");
+
   const [guestName, setGuestName] = useState({
     title: "",
     firstname: "",
@@ -47,9 +49,12 @@ const CheckOut = () => {
   const [ttlCredit, setTtlCredit] = useState(0);
   const [filterFrom, setFilterFrom] = useState("");
   const [filterTo, setFilterTo] = useState("");
+  const [settlementAmount, setSettlementAmount] = useState("");
+  const [modeOfPayment, setModeOfPayment] = useState("");
   const [pendingCheckoutData, setPendingCheckoutData] = useState([]);
 
   const [openGuestInfo, setOpenGuestInfo] = useState(false);
+  const [openSettlementPopup, setOpenSettlementPopup] = useState(false);
 
 
 
@@ -60,30 +65,30 @@ const CheckOut = () => {
     setTimeout(() => {
       const query = new URLSearchParams(location.search);
       const bookingid = query.get('bookingid');
-      if(bookingid && bookingid.length === 14){ getAndSetUserData(bookingid); setregistrationNo(bookingid); }
-      else if(!bookingid){ showPendingCheckoutDataAction(); }
+      if (bookingid && bookingid.length === 14) { getAndSetUserData(bookingid); setregistrationNo(bookingid); }
+      else if (!bookingid) { showPendingCheckoutDataAction(); }
     }, 1000);
-  }, [location])  
+  }, [location])
 
 
-  const getPendingCheckoutData = async(startdate,enddate)=>{
-    try{
-        let bookings = await db.collection('reservation').get();
-        if(!Array.isArray(bookings)){ bookings = [bookings]; }
+  const getPendingCheckoutData = async (startdate, enddate) => {
+    try {
+      let bookings = await db.collection('reservation').get();
+      if (!Array.isArray(bookings)) { bookings = [bookings]; }
 
-        let pendingBookings = [];
-        if(bookings?.length >= 1){
-            pendingBookings = bookings.filter(booking => {
-                return booking.checkedoutstatus === 'pending' &&
-                    booking.departuredate >= startdate &&
-                    booking.departuredate <= enddate;
-            });
-        }
+      let pendingBookings = [];
+      if (bookings?.length >= 1) {
+        pendingBookings = bookings.filter(booking => {
+          return booking.checkedoutstatus === 'pending' &&
+            booking.departuredate >= startdate &&
+            booking.departuredate <= enddate;
+        });
+      }
 
-        return {success: true, data:pendingBookings};
+      return { success: true, data: pendingBookings };
     } catch (e) {
-        console.log("CheckoutPageError (getPendingCheckoutData) : ", e);
-        return { success: false, msg: 'Something Went Wrong' }
+      console.log("CheckoutPageError (getPendingCheckoutData) : ", e);
+      return { success: false, msg: 'Something Went Wrong' }
     }
   }
 
@@ -184,8 +189,8 @@ const CheckOut = () => {
   const showPendingCheckoutDataAction = async () => {
     let todayDate = new Date();
     let todayDateString = todayDate.toISOString().slice(0, 10);
-    let res = await getPendingCheckoutData(todayDateString,todayDateString);
-    if(res?.success){ if(res?.data.length >=1){setOpenGuestInfo(true);} setPendingCheckoutData(res?.data); } else{ setOpenGuestInfo(false);setPendingCheckoutData([]); }
+    let res = await getPendingCheckoutData(todayDateString, todayDateString);
+    if (res?.success) { if (res?.data.length >= 1) { setOpenGuestInfo(true); } setPendingCheckoutData(res?.data); } else { setOpenGuestInfo(false); setPendingCheckoutData([]); }
   }
 
 
@@ -247,9 +252,32 @@ const CheckOut = () => {
     setFilterFrom(todayDateString); setFilterTo(todayDateString);
   }
 
-  const showGuestInfo = async()=>{
-    let res = await getPendingCheckoutData(filterFrom,filterTo);
-    if(res?.success){ if(res?.data.length >=1){setOpenGuestInfo(true);} setPendingCheckoutData(res?.data); } else{ setOpenGuestInfo(false);setPendingCheckoutData([]); }
+  const showGuestInfo = async () => {
+    let res = await getPendingCheckoutData(filterFrom, filterTo);
+    if (res?.success) { if (res?.data.length >= 1) { setOpenGuestInfo(true); } setPendingCheckoutData(res?.data); } else { setOpenGuestInfo(false); setPendingCheckoutData([]); }
+  }
+
+  const showSettlementPopup = () => {
+    setModeOfPayment(""); setSettlementAmount(""); setPaymentTypeBtnColor("");
+    setOpenSettlementPopup(!openSettlementPopup);
+  }
+
+  const settlementAction = ()=>{
+    alert(modeOfPayment);
+    alert(settlementAmount);
+  }
+
+  const changePaymentBtnColor = (paymentType) => {
+    if (paymentType == modeOfPayment) {
+      setPaymentTypeBtnColor(""); setModeOfPayment(""); return;
+    }
+    setPaymentTypeBtnColor(paymentType);
+    setModeOfPayment(paymentType);
+  };
+
+  const printBill = ()=>{
+    const bill = document.getElementById("billpopup");
+    bill.contentWindow.print();
   }
 
   const handleInputChange = (e) => {
@@ -293,6 +321,7 @@ const CheckOut = () => {
     }
     else if (e.target.name == "filterfrom") { setFilterFrom(e.target.value); }
     else if (e.target.name == "filterto") { setFilterTo(e.target.value); }
+    else if (e.target.name == "settlementamount") { setSettlementAmount(e.target.value); }
   };
 
   const submitAction = async (e) => {
@@ -341,13 +370,14 @@ const CheckOut = () => {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                {pendingCheckoutData.length >=1 && pendingCheckoutData.map((item,index)=>{
-                  return <tr key={index+1} className='hover-gray make-cursor-pointer'>
-                    <td className="col-md-6">{`${item.name.title} ${item.name.firstname} ${item.name.middlename} ${item.name.lastname}`}</td>
-                    <td className="col-md-2">{item.phoneno}</td>
-                    <td className="col-md-3">{item.roomno}</td>
-                    <td className="col-md-1"><button onClick={()=>{getAndSetUserData(item.bookingid); setOpenGuestInfo(false); setregistrationNo(item.bookingid); }} type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12">Select</button></td>
-                  </tr>})}
+                  {pendingCheckoutData.length >= 1 && pendingCheckoutData.map((item, index) => {
+                    return <tr key={index + 1} className='hover-gray make-cursor-pointer'>
+                      <td className="col-md-6">{`${item.name.title} ${item.name.firstname} ${item.name.middlename} ${item.name.lastname}`}</td>
+                      <td className="col-md-2">{item.phoneno}</td>
+                      <td className="col-md-3">{item.roomno}</td>
+                      <td className="col-md-1"><button onClick={() => { getAndSetUserData(item.bookingid); setOpenGuestInfo(false); setregistrationNo(item.bookingid); }} type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12">Select</button></td>
+                    </tr>
+                  })}
                 </tbody>
               </table>
             </div>}
@@ -765,16 +795,107 @@ const CheckOut = () => {
               />
               <span className="padding-left-16 text-primary font-size-14">I agree to the terms & conditions above</span>
             </div>
-            <div className="d-flex align-items-center justify-content-center mb-2">
-              <button
-                type="submit"
-                className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5"
-                onClick={(e) => { submitAction(e) }}
-              >
-                Submit
-              </button>
+          </div>
+          <div>
+            <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mb-2">
+              <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{showSettlementPopup()}}>  Settlement </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{printBill()}}>  Print Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={(e) => { submitAction(e) }} >  Submit </button>
             </div>
           </div>
+          {openSettlementPopup && <div className="d-flex align-items-center justify-content-center overlay">
+            <div className="bg-light height-300 width-50percent position-fixed z-index-3 mt-4 p-4 border-radius-10">
+              <div className="d-flex justify-content-between">
+                <h4>Settlement</h4>
+                <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSettlementPopup()}}><i class="fa fa-times" aria-hidden="true"></i></button>
+              </div>
+              <div className="mt-3">
+                <div className="d-flex align-items-center flex-wrap">
+                  <label
+                    htmlFor="modeofpayment"
+                    className="col-sm-3 col-form-label font-size-18 medium-width-40percent text-primary"
+                  >
+                    Mode of Payment{" "}
+                  </label>
+                  <div className="col-sm-9 d-flex justify-content-between medium-width-60percent">
+                    <button
+                      type="button"
+                      className={`w-70 height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "Cash"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changePaymentBtnColor("Cash");
+                      }}
+                    >
+                      Cash
+                    </button>
+                    <button
+                      type="button"
+                      className={`w-150 height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "CreditCard"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changePaymentBtnColor("CreditCard");
+                      }}
+                    >
+                      Credit Card
+                    </button>
+                    <button
+                      type="button"
+                      className={`w-150 height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "DebitCard"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changePaymentBtnColor("DebitCard");
+                      }}
+                    >
+                      Debit Card
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`w-70 height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "UPI"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changePaymentBtnColor("UPI");
+                      }}
+                    >
+                      UPI
+                    </button>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center flex-wrap">
+                  <label
+                    htmlFor="modeofpayment"
+                    className="col-sm-3 col-form-label font-size-18 medium-width-40percent text-primary"
+                  >
+                    Total Amount{" "}
+                  </label>
+                  <div className="col-sm-9 d-flex justify-content-between medium-width-60percent">
+                    <input
+                      type="number"
+                      className="form-control height-40 font-size-18 background-gray"
+                      min="0"
+                      id="inputsettlementAmount"
+                      name="settlementamount"
+                      value={settlementAmount}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mt-3">
+                <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{settlementAction()}}>  Settlement </button>
+                <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{showSettlementPopup()}}>  Cancel </button>
+              </div>
+            </div>
+          </div>}
+          <iframe id="billpopup" src="http://localhost:3000/Billing" className="display-none"/>
         </div>
       </div>
     </div>
