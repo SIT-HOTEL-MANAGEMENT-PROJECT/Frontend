@@ -92,17 +92,17 @@ const Home3 = ({ resetAppData }) => {
             </div>
             <div className="offcanvas-body">
               <NavLink to="/Dashboard" className="NavLinks">
-                <i id="iconcolor" className="fa fa-user" aria-hidden="true"></i>
+                <i id="iconcolor" className="fa fa-bar-chart" aria-hidden="true"></i>
                 &nbsp; Dashboard
               </NavLink>
               <br />
               <br />
-              {/* <NavLink to="/Home4" className="NavLinks">
-                <i id="iconcolor" className="fa fa-user" aria-hidden="true"></i>
-                &nbsp; Home4
+              <NavLink to="/Home4" className="NavLinks">
+                <i id="iconcolor" className="fa fa-home" aria-hidden="true"></i>
+                &nbsp; Home
               </NavLink>
               <br />
-              <br /> */}
+              <br />
               <NavLink to="/Reservation" className="NavLinks">
                 <i
                   id="iconcolor"
@@ -116,7 +116,7 @@ const Home3 = ({ resetAppData }) => {
               <NavLink to="/AllReservations" className="NavLinks">
                 <i
                   id="iconcolor"
-                  className="fa fa-id-card-o"
+                  className="fa fa-table"
                   aria-hidden="true"
                 ></i>
                 &nbsp; All Reservation

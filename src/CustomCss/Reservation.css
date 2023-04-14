@@ -66,6 +66,10 @@
   width: 80%;
 }
 
+.width-85percent {
+  width: 85%;
+}
+
 .bg-skyblue {
   background-color: #EDF8FD  !important;
 }
@@ -478,6 +482,8 @@
 
 .reserv-col-gap-2{column-gap: 2rem !important;}
 
+.reserv-row-gap-point5{row-gap: 0.2rem !important;}
+
 .reserv-row-gap-1{row-gap: 1rem !important;}
 
 .reserv-row-gap-2{row-gap: 2rem !important;}
@@ -502,4 +508,12 @@
 
 .overflow-hidden{
   overflow: hidden !important;
+}
+
+.margin-bottom-50{
+  margin-bottom: 50px;
+}
+
+.margin-top-20p{
+  margin-top: 16px;
 }
