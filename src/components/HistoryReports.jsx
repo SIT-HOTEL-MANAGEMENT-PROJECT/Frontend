@@ -129,7 +129,7 @@ const HistoryReports = () => {
                 return data.date === prevdatestring;
             });
             // if(prevdatedt) setPrevdatedata(prevdatedt);
-            if(prevdatedata){
+            if(prevdatedata.length >= 1){
                 avrooms = parseInt(prevdatedata.noofavailableroom); 
                 totaloccupied = totaloccupied + parseInt(prevdatedata.noofoccupiedrooms);
 
