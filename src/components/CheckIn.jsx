@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "../CustomCss/Reservation.css";
 import ShortUniqueId from "short-unique-id";
@@ -11,6 +11,7 @@ db.config.debug = false;
 
 const CheckIn = () => {
   let navigate = useNavigate();
+  const location = useLocation();
 
   const [roomTypeBtnColor, setRoomTypeBtnColor] = useState("");
   const [paymentTypeBtnColor, setPaymentTypeBtnColor] = useState("");
@@ -70,6 +71,7 @@ const CheckIn = () => {
   const [purpose, setPurpose] = useState("");
   const [filterFrom, setFilterFrom] = useState("");
   const [filterTo, setFilterTo] = useState("");
+  const [pendingCheckinData, setPendingCheckinData] = useState([]);
 
   const [openCountry, setOpenCountry] = useState("India");
   const [openBookingSuccessful, setOpenBookingSuccessful] = useState(false);
@@ -77,8 +79,40 @@ const CheckIn = () => {
   const [openGuestInfo, setOpenGuestInfo] = useState(false);
 
 
+  useEffect(() => { initialPrepopulatedData(); }, [])
+  
+
+  useEffect(() => {
+    setTimeout(() => {
+      const query = new URLSearchParams(location.search);
+      const bookingid = query.get('bookingid');
+      if(bookingid && bookingid.length === 14){ getAndSetUserData(bookingid); setreservationNumber(bookingid); }
+      else if(!bookingid){ showPendingCheckinDataAction(); }
+    }, 1000);
+  }, [location])  
 
 
+  const getPendingCheckinData = async(startdate,enddate)=>{
+    try{
+        let bookings = await db.collection('reservation').get();
+
+        if(!Array.isArray(bookings)){ console.log("okkk"); bookings = [bookings]; }
+
+        let pendingBookings = [];
+        if(bookings?.length >= 1){
+            pendingBookings = bookings.filter(booking => {
+                return booking.checkedinstatus === 'pending' &&
+                    booking.arrivaldate >= startdate &&
+                    booking.arrivaldate <= enddate;
+            });
+        }
+
+        return {success: true, data:pendingBookings};
+    } catch (e) {
+        console.log("CheckinPageError (getPendingCheckinData) : ", e);
+        return { success: false, msg: 'Something Went Wrong' }
+    }
+  }  
 
   // Add :  Book room number against bookingid
   // params : bookingid, roomtype, roomnumber, arrivaldate, arrivaltime, departuredate, departuretime
@@ -469,6 +503,20 @@ const CheckIn = () => {
   }
 
 
+
+  const initialPrepopulatedData = async () => {
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setFilterFrom(todayDateString); setFilterTo(todayDateString);
+  }
+
+  const showPendingCheckinDataAction = async () => {
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    let res = await getPendingCheckinData(todayDateString,todayDateString);
+    if(res?.success){ if(res?.data.length >=1){setOpenGuestInfo(true);} setPendingCheckinData(res?.data); } else{ setOpenGuestInfo(false);setPendingCheckinData([]); }
+  }
+
   const changeRoomBtnColor = (whichRoom) => {
     if (roomType == whichRoom) {
       setRoomTypeBtnColor(""); setRoomType(""); setIsRoomNoDisabled(true); return;
@@ -499,8 +547,9 @@ const CheckIn = () => {
     setOpenBookingButtons(false);
   }
 
-  const showGuestInfo = ()=>{
-    setOpenGuestInfo(!openGuestInfo);
+  const showGuestInfo = async()=>{
+    let res = await getPendingCheckinData(filterFrom,filterTo);
+    if(res?.success){ if(res?.data.length >=1){setOpenGuestInfo(true);} setPendingCheckinData(res?.data); } else{ setOpenGuestInfo(false);setPendingCheckinData([]); }
   }
 
   const handleInputChange = (e) => {
@@ -626,9 +675,9 @@ const CheckIn = () => {
           <div>
             <div className='d-flex justify-content-center align-items-center reserv-col-gap-1'>
               <h5>From</h5>
-              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterfrom" onChange={handleInputChange}></input>
+              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterfrom" value={filterFrom} onChange={handleInputChange}></input>
               <h5>To</h5>
-              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterto" onChange={handleInputChange}></input>
+              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterto" value={filterTo} onChange={handleInputChange}></input>
               <button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12" onClick={()=>{showGuestInfo()}}>Apply</button>
             </div>
             {openGuestInfo && <div className="table-responsive height-200 bg-skyblue mt-2 mx-5">
@@ -642,12 +691,13 @@ const CheckIn = () => {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                  <tr className='hover-gray make-cursor-pointer'>
-                    <td className="col-md-6">Maya Sen</td>
-                    <td className="col-md-2">7894561230</td>
-                    <td className="col-md-3">102</td>
-                    <td className="col-md-1"><button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12">Select</button></td>
-                  </tr>
+                  {pendingCheckinData.length >=1 && pendingCheckinData.map((item,index)=>{
+                    return <tr key={index+1} className='hover-gray make-cursor-pointer'>
+                    <td className="col-md-6">{`${item.name.title} ${item.name.firstname} ${item.name.middlename} ${item.name.lastname}`}</td>
+                    <td className="col-md-2">{item.phoneno}</td>
+                    <td className="col-md-3">{item.roomno}</td>
+                    <td className="col-md-1"><button onClick={()=>{getAndSetUserData(item.bookingid); setOpenGuestInfo(false); setreservationNumber(item.bookingid);}} type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12">Select</button></td>
+                  </tr>})}
                 </tbody>
               </table>
             </div>}
