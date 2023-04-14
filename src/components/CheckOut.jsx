@@ -10,7 +10,7 @@ db.config.debug = false;
 
 const CheckOut = () => {
   let navigate = useNavigate();
-  
+
   const [guestName, setGuestName] = useState({
     title: "",
     firstname: "",
@@ -43,37 +43,41 @@ const CheckOut = () => {
   const [paymentData, setPaymentData] = useState([]);
   const [ttlDebit, setTtlDebit] = useState(0);
   const [ttlCredit, setTtlCredit] = useState(0);
+  const [filterFrom, setFilterFrom] = useState("");
+  const [filterTo, setFilterTo] = useState("");
+
+  const [openGuestInfo, setOpenGuestInfo] = useState(false);
 
 
 
   useEffect(() => {
     initialPrepopulatedData();
   }, [])
-  
+
 
 
   // Add :  Add checkout details 
   // params : none     (directly get data from useState)
   // return :   1.  {success:true}                                    IF ADDED SUCCESSFULLY
   //            2.  {success:false, msg: 'Something Went Wrong'}      IF ADD FAILED
-  const updateReservationData = async()=>{
-    try{
+  const updateReservationData = async () => {
+    try {
       let reservationData = await db.collection('reservation').doc({ bookingid: registrationNo }).get();
-      if(!reservationData) return {success:false, msg: "Reservation Not Found!"}
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
 
-      if(roomNumber){
+      if (roomNumber) {
         let isBooked = await releaseRoomOccupancy(registrationNo);
-        if(!isBooked.success){  return { success: false, msg: isBooked?.msg }}
+        if (!isBooked.success) { return { success: false, msg: isBooked?.msg } }
       }
-      
-      await db.collection('reservation').doc({bookingid: registrationNo}).update({
-        checkedoutstatus: "done" 
+
+      await db.collection('reservation').doc({ bookingid: registrationNo }).update({
+        checkedoutstatus: "done"
       })
 
-      return {success: true }     
-    }catch(e){
-      console.log("CheckoutPageError (updateReservationData) : ",e);
-      return {success: false, msg: 'Something Went Wrong'}
+      return { success: true }
+    } catch (e) {
+      console.log("CheckoutPageError (updateReservationData) : ", e);
+      return { success: false, msg: 'Something Went Wrong' }
     }
   }
 
@@ -86,7 +90,7 @@ const CheckOut = () => {
   //          3. {success:false, msg: "Invalid Booking Details"}                               IF BOOKING DATA NOT FOUND
   const getUserDataAgainstBookingId = async (bookingid) => {
     try {
-      let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus:"done", checkedoutstatus: "pending" }).get();
+      let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus: "done", checkedoutstatus: "pending" }).get();
       if (!booking) { return { success: false, msg: "Invalid Booking Details" } }
       return { success: true, data: booking };
     } catch (e) {
@@ -147,9 +151,9 @@ const CheckOut = () => {
 
 
 
-  const getAndSetUserData = async(bookingid)=>{
+  const getAndSetUserData = async (bookingid) => {
     let res = await getUserDataAgainstBookingId(bookingid);
-    if(res?.success){
+    if (res?.success) {
       let booking = res?.data;
       setGuestName(booking.name);
       setTravelAgentName(booking.travelagentname);
@@ -163,7 +167,7 @@ const CheckOut = () => {
       setNoOfRooms(booking.noofrooms);
       setRoomRate(booking.roomrate);
       setGuestsNo(booking.phoneno);
-      setArrivalDate(booking.arrivaldate); 
+      setArrivalDate(booking.arrivaldate);
       setArrivalTime(booking.arrivaltime);
       // setdepartureDate(booking.departuredate);
       // setDepartureTime(booking.departuretime);
@@ -183,10 +187,10 @@ const CheckOut = () => {
 
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
-    }else{
+    } else {
       setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
       setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
-      setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate(''); 
+      setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate('');
       setArrivalTime(''); setPaymentData([]);
 
       setTtlDebit(0);
@@ -195,13 +199,17 @@ const CheckOut = () => {
   }
 
 
-  const initialPrepopulatedData = async()=>{
+  const initialPrepopulatedData = async () => {
     let todayDate = new Date();
     let todayDateString = todayDate.toISOString().slice(0, 10);
     const hours = todayDate.getHours().toString().padStart(2, '0');
     const minutes = todayDate.getMinutes().toString().padStart(2, '0');
     const todayTimeString = `${hours}:${minutes}`;
     setdepartureDate(todayDateString); setDepartureTime(todayTimeString); setBillDate(todayDateString);
+  }
+
+  const showGuestInfo = ()=>{
+    setOpenGuestInfo(!openGuestInfo);
   }
 
   const handleInputChange = (e) => {
@@ -217,10 +225,10 @@ const CheckOut = () => {
     else if (e.target.name == "billnumber") { setBillNo(e.target.value); }
     else if (e.target.name == "confirmationnumber") { setConfirmationNo(e.target.value); }
     else if (e.target.name == "billdate") { setBillDate(e.target.value); }
-    else if (e.target.name == "roomnumber" && e.target.value!=" ") { 
-      setRoomNumber(e.target.value); 
+    else if (e.target.name == "roomnumber" && e.target.value != " ") {
+      setRoomNumber(e.target.value);
       const avroomnos = e.target.value.split(',').map(value => value.trim()).filter(value => value !== '');
-      if(!avroomnos.length) { setNoOfRooms("") }
+      if (!avroomnos.length) { setNoOfRooms("") }
       else { setNoOfRooms(avroomnos.length); }
     }
     else if (e.target.name == "noofrooms") { setNoOfRooms(e.target.value); }
@@ -230,30 +238,32 @@ const CheckOut = () => {
     else if (e.target.name == "arrivaltime") { setArrivalTime(e.target.value); }
     else if (e.target.name == "departuredate") { setdepartureDate(e.target.value); }
     else if (e.target.name == "departuretime") { setDepartureTime(e.target.value); }
-    else if (e.target.name == "registrationnumber") { 
-      setregistrationNo(e.target.value); 
-      if(e.target.value.length != 14 && confirmationNo != '') { 
+    else if (e.target.name == "registrationnumber") {
+      setregistrationNo(e.target.value);
+      if (e.target.value.length != 14 && confirmationNo != '') {
         setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
         setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
-        setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate(''); 
+        setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate('');
         setArrivalTime(''); setPaymentData([]);
 
         setTtlDebit(0);
-        setTtlCredit(0); 
+        setTtlCredit(0);
       }
-      else if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
+      else if (e.target.value.length == 14) { getAndSetUserData(e.target.value); }
     }
+    else if (e.target.name == "filterfrom") { setFilterFrom(e.target.value); }
+    else if (e.target.name == "filterTo") { setFilterTo(e.target.value); }
   };
 
-  const submitAction = async(e)=>{
+  const submitAction = async (e) => {
     e.preventDefault();
     let res = await updateReservationData();
-    if(res.success){
+    if (res.success) {
       alert("Your Checkout Successful!");
-      setTimeout(() => { 
+      setTimeout(() => {
         navigate(-1);
       }, 5000);
-    }else{
+    } else {
       alert(res.msg);
     }
   }
@@ -272,7 +282,36 @@ const CheckOut = () => {
           </div>
         </nav>
         <div className="container mb-1">
-          <div className="d-flex align-items-center justify-content-between large-flex-column reserv-col-gap-1">
+          <div>
+            <div className='d-flex justify-content-center align-items-center reserv-col-gap-1'>
+              <h5>From</h5>
+              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterfrom" onChange={handleInputChange}></input>
+              <h5>To</h5>
+              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterto" onChange={handleInputChange}></input>
+              <button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12" onClick={() => { showGuestInfo() }}>Apply</button>
+            </div>
+            {openGuestInfo && <div className="table-responsive height-200 bg-skyblue mt-2 mx-5">
+              <table className="table table-borderless table-border-collapse text-primary">
+                <thead className="table-head">
+                  <tr>
+                    <th scope="col" className="col-md-6">Guest Name</th>
+                    <th scope="col" className="col-md-2">Phone No</th>
+                    <th scope="col" className="col-md-3">Room No</th>
+                    <th scope="col" className="col-md-1"></th>
+                  </tr>
+                </thead>
+                <tbody className="table-group-divider">
+                  <tr className='hover-gray make-cursor-pointer'>
+                    <td className="col-md-6">Maya Sen</td>
+                    <td className="col-md-2">7894561230</td>
+                    <td className="col-md-3">102</td>
+                    <td className="col-md-1"><button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12">Select</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>}
+          </div>
+          <div className="d-flex align-items-center justify-content-between large-flex-column reserv-col-gap-1 mt-4">
             <form className="col-6 bg-skyblue mt-0 p-2 large-width-full">
               <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="name" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
@@ -632,15 +671,15 @@ const CheckOut = () => {
                 </tr>
               </thead>
               <tbody className="table-group-divider">
-                  {paymentData && paymentData.map((item,index)=>{
-                    return <tr key={index+1} className='hover-gray make-cursor-pointer' >
-                            <td>{item.date}</td>
-                            <td>{item.description}</td>
-                            <td>{item.name}</td>
-                            <td>{item.debit}</td>
-                            <td>{item.credit}</td>
-                          </tr>
-                  })}
+                {paymentData && paymentData.map((item, index) => {
+                  return <tr key={index + 1} className='hover-gray make-cursor-pointer' >
+                    <td>{item.date}</td>
+                    <td>{item.description}</td>
+                    <td>{item.name}</td>
+                    <td>{item.debit}</td>
+                    <td>{item.credit}</td>
+                  </tr>
+                })}
                 {/* <tr className='hover-gray make-cursor-pointer' >
                   <td>Date</td>
                   <td>Accomodation SGST @9% </td>
@@ -689,7 +728,7 @@ const CheckOut = () => {
               <button
                 type="submit"
                 className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5"
-                onClick={(e)=>{submitAction(e)}}
+                onClick={(e) => { submitAction(e) }}
               >
                 Submit
               </button>
