@@ -1,5 +1,6 @@
 import React from "react";
 import homeimg from "../img/homeimg.png";
+// import "../CustomCss/Reservation.css";
 import "../CustomCss/home3css.css";
 import { NavLink } from "react-router-dom";
 import menu_icon from "../img/menu_icon.png";
@@ -89,6 +90,18 @@ const Home3 = ({ resetAppData }) => {
               ></button>
             </div>
             <div className="offcanvas-body">
+              <NavLink to="/Dashboard" className="NavLinks">
+                <i id="iconcolor" className="fa fa-user" aria-hidden="true"></i>
+                &nbsp; Dashboard
+              </NavLink>
+              <br />
+              <br />
+              {/* <NavLink to="/Home4" className="NavLinks">
+                <i id="iconcolor" className="fa fa-user" aria-hidden="true"></i>
+                &nbsp; Home4
+              </NavLink>
+              <br />
+              <br /> */}
               <NavLink to="/Reservation" className="NavLinks">
                 <i
                   id="iconcolor"
@@ -96,6 +109,16 @@ const Home3 = ({ resetAppData }) => {
                   aria-hidden="true"
                 ></i>
                 &nbsp; Reservation
+              </NavLink>
+              <br />
+              <br />
+              <NavLink to="/AllReservations" className="NavLinks">
+                <i
+                  id="iconcolor"
+                  className="fa fa-id-card-o"
+                  aria-hidden="true"
+                ></i>
+                &nbsp; All Reservation
               </NavLink>
               <br />
               <br />
@@ -144,7 +167,7 @@ const Home3 = ({ resetAppData }) => {
               </NavLink>
               <br />
               <br />
-              <NavLink to="/Application" className="NavLinks">
+              {/* <NavLink to="/Application" className="NavLinks">
                 <i id="iconcolor" className="fa fa-pencil" aria-hidden="true"></i>
                 &nbsp; Application
               </NavLink>
@@ -159,7 +182,7 @@ const Home3 = ({ resetAppData }) => {
                 &nbsp; Notice
               </NavLink>
               <br />
-              <br />
+              <br /> */}
               <NavLink to="/Profile" className="NavLinks">
                 <i
                   id="iconcolor"
@@ -191,7 +214,7 @@ const Home3 = ({ resetAppData }) => {
           </h3>
         </div>
       </div>
-      <div className="right" style={{ minHeight: "100vh" }}>
+      <div className="right flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
       <button className="btn btn-primary" style={{float:"right",marginRight:"10px",marginTop:"30px"}} onClick={signuout}>Sign Out</button>
         <img
           src={homeimg}
