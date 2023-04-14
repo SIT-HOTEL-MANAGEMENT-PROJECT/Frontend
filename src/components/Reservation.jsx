@@ -493,8 +493,8 @@ const Reservation = ({getLoggedInUserDetails}) => {
       const bookingArrivalDT = new Date(booking.arrivaldate + 'T' + booking.arrivaltime);
       const bookingDepartureDT = new Date(booking.departuredate + 'T' + booking.departuretime);
 
-      if (requestedArrivalDT >= bookingArrivalDT && requestedArrivalDT < bookingDepartureDT       ||
-          requestedDepartureDT > bookingArrivalDT && requestedDepartureDT <= bookingDepartureDT) 
+      if ( (requestedArrivalDT >= bookingArrivalDT && requestedArrivalDT < bookingDepartureDT)       ||
+          (requestedDepartureDT > bookingArrivalDT && requestedDepartureDT <= bookingDepartureDT) ) 
       {
         isAv = false;
         break;
