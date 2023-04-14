@@ -125,7 +125,9 @@ const HistoryReports = () => {
             let prevdate = new Date();
             prevdate.setDate(reportDate.getDate()-1);
             let prevdatestring = prevdate.toISOString().slice(0, 10);
-            let prevdatedata = await db.collection("reports").doc({date: prevdatestring}).get();
+            let prevdatedata = reportsData.filter((data) => {
+                return data.date === prevdatestring;
+            });
             // if(prevdatedt) setPrevdatedata(prevdatedt);
             if(prevdatedata){
                 avrooms = parseInt(prevdatedata.noofavailableroom); 
