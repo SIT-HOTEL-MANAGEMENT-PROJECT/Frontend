@@ -108,8 +108,8 @@ const generateReports = async(lastReportDateString)=>{
             let prevdatestring = prevdate.toISOString().slice(0, 10);
             let prevdatedata = await db.collection("reports").doc({date: prevdatestring}).get();
             if(prevdatedata){
-                avrooms = prevdatedata.noofavailableroom; 
-                totaloccupied = totaloccupied + prevdatedata.noofoccupiedrooms;
+                avrooms = parseInt(prevdatedata.noofavailableroom); 
+                totaloccupied = totaloccupied + parseInt(prevdatedata.noofoccupiedrooms);
                 occupiedpercentage = (totaloccupied/totalRooms)*100;
                 avrooms = avrooms - checkinoccupiedRooms + checkoutreleaseRooms;
             }
