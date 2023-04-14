@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable eqeqeq */
 import React, { useEffect } from "react";
 import { useState } from "react";
 import {NavLink} from "react-router-dom";

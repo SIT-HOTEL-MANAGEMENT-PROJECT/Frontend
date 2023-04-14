@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from "react";
 import { NavLink } from "react-router-dom";
 import homeimg from "../img/homeimg.png";

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";

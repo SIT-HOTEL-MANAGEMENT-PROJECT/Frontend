@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from "react";
 import homeimg from "../img/homeimg.png";
 // import "../CustomCss/Reservation.css";
