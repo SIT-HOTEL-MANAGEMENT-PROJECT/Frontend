@@ -91,7 +91,7 @@ const Home = () => {
               <div className="row">
                 <div className="col-sm">
                   {" "}
-                  <label for="exampleInputEmail1" className="form-label">
+                  <label htmlFor="exampleInputEmail1" className="form-label">
                     <h4>Role:</h4>
                   </label>
                 </div>
@@ -101,9 +101,10 @@ const Home = () => {
                     id="roles"
                     className="selectcss"
                     onChange={(e) => setRole(e.target.value)}
+                    defaultValue="Employee"
                   >
                     <option value="Admin">Admin</option>
-                    <option value="Employee" selected>
+                    <option value="Employee">
                       Employee
                     </option>
                   </select>
@@ -113,7 +114,7 @@ const Home = () => {
             <div className="mb-3">
               <div className="row">
                 <div className="col-sm">
-                  <label for="exampleInputEmail1" className="form-label">
+                  <label htmlFor="exampleInputEmail1" className="form-label">
                     <h4>Username:</h4>
                   </label>
                 </div>
@@ -133,7 +134,7 @@ const Home = () => {
               <div className="row">
                 <div className="col-sm">
                   <h4>
-                    <label for="exampleInputEmail1" className="form-label">
+                    <label htmlFor="exampleInputEmail1" className="form-label">
                       Password:
                     </label>
                   </h4>
