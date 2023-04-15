@@ -50,7 +50,7 @@ const CheckOut = () => {
   const [ttlCredit, setTtlCredit] = useState(0);
   const [filterFrom, setFilterFrom] = useState("");
   const [filterTo, setFilterTo] = useState("");
-  const [settlementAmount, setSettlementAmount] = useState("");
+  const [settlementAmount, setSettlementAmount] = useState(0);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [modeOfSplit, setModeOfSplit] = useState("");
   const [pendingCheckoutData, setPendingCheckoutData] = useState([]);
@@ -111,7 +111,7 @@ const CheckOut = () => {
       }
 
       await db.collection('reservation').doc({ bookingid: registrationNo }).update({
-        checkedoutstatus: "done"
+        departuredate: departureDate, departuretime: departureTime, billingdate: billDate, checkedoutstatus: "done"
       })
 
       return { success: true }
@@ -187,6 +187,107 @@ const CheckOut = () => {
   };
 
 
+  const updatePaymentSettlement = async()=>{
+    try{
+      let reservationData = await db.collection('reservation').doc({ bookingid: registrationNo }).get();
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+      let updatedpaymenthistory = reservationData.paymenthistory;
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      let paym = settlementAmount;
+      let paymString = paym.toString();
+
+      if (!updatedpaymenthistory.some((item) => item.name === "settlement")) {
+        updatedpaymenthistory.push({
+          name: "settlement",
+          description: "Checkout time payment",
+          date: todaydateforpaymentstring,
+          debit: "",
+          credit: paymString,
+        });
+      } else {
+        updatedpaymenthistory = updatedpaymenthistory.map((item) => {
+          if (item.name === "settlement") {
+            paym = paym + parseInt(item.credit)
+            paymString = paym.toString();
+            return {
+              ...item,
+              date: todaydateforpaymentstring,
+              debit:"",
+              credit: paymString,
+            };
+          } else {
+            return item;
+          }
+        });
+      }
+
+      await db.collection('reservation').doc({ bookingid: registrationNo }).update({
+        departuredate: departureDate, departuretime: departureTime, 
+        paymenthistory: updatedpaymenthistory
+      })
+
+      await updateRupeesAdrValue(paymString);
+      
+      setPaymentData(updatedpaymenthistory);
+
+      let totalDebit = 0;
+      let totalCredit = 0;
+
+      for (const transaction of updatedpaymenthistory) {
+        if (transaction.debit !== '') {
+          totalDebit += parseFloat(transaction.debit);
+        }
+        if (transaction.credit !== '') {
+          totalCredit += parseFloat(transaction.credit);
+        }
+      }
+
+      setTtlDebit(totalDebit);
+      setTtlCredit(totalCredit);
+      checkBillSettlement(totalDebit,totalCredit);
+      const bill = document.getElementById("billpopup");
+      bill.contentWindow.location.reload();
+
+      return { success: true }
+    }catch(e){
+      console.log("CheckoutPageError (updatePaymentSettlement) : ", e);
+      return { success: false, msg: "Something Went Wrong" };
+    }
+  }
+
+
+  // Update : Update how much amount paid by user today in ADR DB
+  // params : amount (amountpaid by user. not pay-later) (string)
+  // return : 1. {success: true }                                                     IF ALL OK
+  //          2. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
+  let prevvalue = 0;
+  const updateRupeesAdrValue = async (amount) => {
+    try {
+      const todaydateforpayment = new Date();
+      const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
+
+      let rupeesadrData = await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).get();
+      if (!rupeesadrData) {
+        prevvalue = parseFloat(amount);
+        await db.collection('rupeesadr').add({ date: todaydateforpaymentstring, value: parseFloat(amount) });
+      } else {
+        let updateval;
+        updateval = parseFloat(rupeesadrData.value) + parseFloat(amount);
+        if (prevvalue) { updateval = parseFloat(updateval) - parseFloat(prevvalue); }
+        prevvalue = parseFloat(amount);
+        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({ value: parseFloat(updateval) });
+      }
+
+      return { success: true }
+    } catch (e) {
+      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ", e);
+      return { success: false, msg: "Something Went Wrong" }
+    }
+  }
+
 
 
   const showPendingCheckoutDataAction = async () => {
@@ -196,6 +297,14 @@ const CheckOut = () => {
     if (res?.success) { if (res?.data.length >= 1) { setOpenGuestInfo(true); } setPendingCheckoutData(res?.data); } else { setOpenGuestInfo(false); setPendingCheckoutData([]); }
   }
 
+
+  const checkBillSettlement = (debitamt,creditamt)=>{
+    if(debitamt==0){ setSettlementAmount(0); return; }
+    if(creditamt > debitamt) { setSettlementAmount(0); return; }
+
+    let stamt = debitamt - creditamt;
+    setSettlementAmount(stamt);
+  }
 
   const getAndSetUserData = async (bookingid) => {
     let res = await getUserDataAgainstBookingId(bookingid);
@@ -233,6 +342,7 @@ const CheckOut = () => {
 
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
+      checkBillSettlement(totalDebit,totalCredit);
     } else {
       setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
       setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
@@ -241,6 +351,7 @@ const CheckOut = () => {
 
       setTtlDebit(0);
       setTtlCredit(0);
+      checkBillSettlement(0,0);
     }
   }
 
@@ -261,13 +372,18 @@ const CheckOut = () => {
   }
 
   const showSettlementPopup = () => {
-    setModeOfPayment(""); setSettlementAmount(""); setPaymentTypeBtnColor("");
+    setModeOfPayment(""); setPaymentTypeBtnColor("");
     setOpenSettlementPopup(!openSettlementPopup);
   }
 
-  const settlementAction = ()=>{
-    alert(modeOfPayment);
-    alert(settlementAmount);
+  const settlementAction = async()=>{
+    let res = await updatePaymentSettlement();
+    if(res?.success){
+      showSettlementPopup();
+      alert("Payment Settled");
+    }else{
+      alert(res?.msg);
+    }
   }
   
   const changePaymentBtnColor = (paymentType) => {
@@ -331,7 +447,7 @@ const CheckOut = () => {
         setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
         setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setGstId(''); setBilling(''); setBillNo('');
         setConfirmationNo(''); setRoomNumber(''); setNoOfRooms(''); setRoomRate(''); setGuestsNo(''); setArrivalDate('');
-        setArrivalTime(''); setPaymentData([]);
+        setArrivalTime(''); setPaymentData([]); setSettlementAmount(0);
 
         setTtlDebit(0);
         setTtlCredit(0);
@@ -348,9 +464,7 @@ const CheckOut = () => {
     let res = await updateReservationData();
     if (res.success) {
       alert("Your Checkout Successful!");
-      setTimeout(() => {
-        navigate(-1);
-      }, 5000);
+      navigate(-1);
     } else {
       alert(res.msg);
     }
@@ -818,16 +932,19 @@ const CheckOut = () => {
           <div>
             <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mb-2">
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{showSettlementPopup()}}>  Settlement </button>
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{printBill()}}>  Print Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(settlementAmount > 0.0)} onClick={()=>{showSettlementPopup()}}>  Settlement </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={()=>{printBill()}}>  Print Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={(e) => { submitAction(e) }} >  Submit </button>
             </div>
           </div>
+
+
+
           {openSettlementPopup && <div className="d-flex align-items-center justify-content-center overlay">
             <div className="bg-light height-300 width-50percent position-fixed z-index-3 mt-4 p-4 border-radius-10">
               <div className="d-flex justify-content-between">
                 <h4>Settlement</h4>
-                <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSettlementPopup()}}><i class="fa fa-times" aria-hidden="true"></i></button>
+                <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSettlementPopup()}}><i className="fa fa-times" aria-hidden="true"></i></button>
               </div>
               <div className="mt-3">
                 <div className="d-flex align-items-center flex-wrap">
@@ -915,11 +1032,15 @@ const CheckOut = () => {
               </div>
             </div>
           </div>}
+          
+          
+          
+          
           {openSplitBillPopup && <div className="d-flex align-items-center justify-content-center overlay">
             <div className="bg-light height-200 width-50percent position-fixed z-index-3 mt-4 p-4 border-radius-10">
             <div className="d-flex justify-content-between">
                 <h4>Split Bill</h4>
-                <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSplitBillPopup()}}><i class="fa fa-times" aria-hidden="true"></i></button>
+                <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSplitBillPopup()}}><i className="fa fa-times" aria-hidden="true"></i></button>
               </div>
               <div className="mt-3">
                 <div className="d-flex align-items-center flex-wrap">
@@ -962,7 +1083,11 @@ const CheckOut = () => {
               </div>
             </div>
           </div>}
+
+
           <iframe id="billpopup" src={`http://localhost:3000/Billing?bookingid=${registrationNo}`} className="display-none"/>
+        
+        
         </div>
       </div>
     </div>
