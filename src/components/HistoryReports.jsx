@@ -130,8 +130,8 @@ const HistoryReports = () => {
             });
             // if(prevdatedt) setPrevdatedata(prevdatedt);
             if(prevdatedata.length >= 1){
-                avrooms = parseInt(prevdatedata.noofavailableroom); 
-                totaloccupied = totaloccupied + parseInt(prevdatedata.noofoccupiedrooms);
+                avrooms = parseInt(prevdatedata[0].noofavailableroom); 
+                totaloccupied = totaloccupied + parseInt(prevdatedata[0].noofoccupiedrooms);
 
                 occupiedpercentage = (totaloccupied/totalRooms)*100;
                 avrooms = avrooms - checkinoccupiedRooms + checkoutreleaseRooms;
