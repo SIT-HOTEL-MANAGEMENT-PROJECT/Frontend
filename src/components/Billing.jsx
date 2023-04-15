@@ -75,10 +75,17 @@ const Billing = () => {
           setGuestsNo(booking.phoneno);
           setArrivalDate(booking.arrivaldate);
           setArrivalTime(booking.arrivaltime);
-          setdepartureDate(booking.departuredate);
-          setDepartureTime(booking.departuretime);
+        //   setdepartureDate(booking.departuredate);
+        //   setDepartureTime(booking.departuretime);
           setPaymentData(booking.paymenthistory);
           setregistrationNo(booking.bookingid);
+
+          let todayDate = new Date();
+          let todayDateString = todayDate.toISOString().slice(0, 10);
+          const hours = todayDate.getHours().toString().padStart(2, '0');
+          const minutes = todayDate.getMinutes().toString().padStart(2, '0');
+          const todayTimeString = `${hours}:${minutes}`;
+          setdepartureDate(todayDateString); setDepartureTime(todayTimeString); 
 
           let totalDebit = 0;
           let totalCredit = 0;
