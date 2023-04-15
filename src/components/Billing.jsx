@@ -12,8 +12,8 @@ const Billing = () => {
                             <h6>Sukna, Siliguri</h6>
                         </div>
                     </div>
-                    <div className='mt-3 d-flex'>
-                        <div className='col-md-6'>
+                    <div className='mt-3 d-flex justify-content-between medium-flex-column reserv-col-gap-2'>
+                        <div className='col-md-6 medium-full-width'>
                             <div className='d-flex'>
                                 <h5 className='font-size-16 col-sm-4'>Guest Name :</h5>
                                 <h5 className='font-size-16 col-sm-8'>Prasun Roy</h5>
@@ -47,7 +47,7 @@ const Billing = () => {
                                 <h5 className='font-size-16 col-sm-8'>1235</h5>
                             </div>
                         </div>
-                        <div className='col-md-6'>
+                        <div className='col-md-6 medium-full-width'>
                             <div className='d-flex'>
                                 <h5 className='font-size-16 col-sm-4'>Room No :</h5>
                                 <h5 className='font-size-16 col-sm-8'>101,102</h5>
