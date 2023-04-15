@@ -962,7 +962,7 @@ const CheckOut = () => {
               </div>
             </div>
           </div>}
-          <iframe id="billpopup" src="http://localhost:3000/Billing" className="display-none"/>
+          <iframe id="billpopup" src={`http://localhost:3000/Billing?bookingid=${registrationNo}`} className="display-none"/>
         </div>
       </div>
     </div>
