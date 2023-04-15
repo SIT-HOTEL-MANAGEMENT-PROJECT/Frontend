@@ -14,6 +14,7 @@ const CheckOut = () => {
   const location = useLocation();
 
   const [paymentTypeBtnColor, setPaymentTypeBtnColor] = useState("");
+  const [splitTypeBtnColor, setSplitTypeBtnColor] = useState("");
 
   const [guestName, setGuestName] = useState({
     title: "",
@@ -51,10 +52,12 @@ const CheckOut = () => {
   const [filterTo, setFilterTo] = useState("");
   const [settlementAmount, setSettlementAmount] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
+  const [modeOfSplit, setModeOfSplit] = useState("");
   const [pendingCheckoutData, setPendingCheckoutData] = useState([]);
 
   const [openGuestInfo, setOpenGuestInfo] = useState(false);
   const [openSettlementPopup, setOpenSettlementPopup] = useState(false);
+  const [openSplitBillPopup, setOpenSplitBillPopup] = useState(false);
 
 
 
@@ -266,7 +269,7 @@ const CheckOut = () => {
     alert(modeOfPayment);
     alert(settlementAmount);
   }
-
+  
   const changePaymentBtnColor = (paymentType) => {
     if (paymentType == modeOfPayment) {
       setPaymentTypeBtnColor(""); setModeOfPayment(""); return;
@@ -274,12 +277,28 @@ const CheckOut = () => {
     setPaymentTypeBtnColor(paymentType);
     setModeOfPayment(paymentType);
   };
-
+  
   const printBill = ()=>{
     const bill = document.getElementById("billpopup");
     bill.contentWindow.print();
   }
+  
+  const showSplitBillPopup = ()=>{
+    setOpenSplitBillPopup(!openSplitBillPopup);
+  }
 
+  const changeSplitBillBtnColor = (splitType) => {
+    if (splitType == modeOfSplit) {
+      setSplitTypeBtnColor(""); setModeOfSplit(""); return;
+    }
+    setSplitTypeBtnColor(splitType);
+    setModeOfSplit(splitType);
+  };
+
+  const printAction = ()=>{
+    alert(modeOfSplit);
+  }
+  
   const handleInputChange = (e) => {
     if (e.target.name == "title") { setGuestName({ ...guestName, title: e.target.value }); }
     else if (e.target.name == "firstname") { setGuestName({ ...guestName, firstname: e.target.value }); }
@@ -798,7 +817,8 @@ const CheckOut = () => {
           </div>
           <div>
             <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mb-2">
-              <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{showSettlementPopup()}}>  Settlement </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{showSettlementPopup()}}>  Settlement </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{printBill()}}>  Print Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={(e) => { submitAction(e) }} >  Submit </button>
             </div>
@@ -892,6 +912,53 @@ const CheckOut = () => {
               <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mt-3">
                 <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{settlementAction()}}>  Settlement </button>
                 <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{showSettlementPopup()}}>  Cancel </button>
+              </div>
+            </div>
+          </div>}
+          {openSplitBillPopup && <div className="d-flex align-items-center justify-content-center overlay">
+            <div className="bg-light height-200 width-50percent position-fixed z-index-3 mt-4 p-4 border-radius-10">
+            <div className="d-flex justify-content-between">
+                <h4>Split Bill</h4>
+                <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSplitBillPopup()}}><i class="fa fa-times" aria-hidden="true"></i></button>
+              </div>
+              <div className="mt-3">
+                <div className="d-flex align-items-center flex-wrap">
+                  <label
+                    htmlFor="modeofpayment"
+                    className="col-sm-3 col-form-label font-size-18 medium-width-40percent text-primary"
+                  >
+                    Mode Of Split{" "}
+                  </label>
+                  <div className="col-sm-9 d-flex justify-content-between medium-width-60percent">
+                    <button
+                      type="button"
+                      className={`width-45percent height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${splitTypeBtnColor === "roombill"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changeSplitBillBtnColor("roombill");
+                      }}
+                    >
+                      Room Bill
+                    </button>
+                    <button
+                      type="button"
+                      className={`width-45percent height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${splitTypeBtnColor === "servicebill"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changeSplitBillBtnColor("servicebill");
+                      }}
+                    >
+                      Service Bill
+                    </button>
+                  </div>
+                </div>
+            </div>
+            <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mt-3">
+                <button type="submit" className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={()=>{printAction()}}>  Print Bill </button>
               </div>
             </div>
           </div>}
