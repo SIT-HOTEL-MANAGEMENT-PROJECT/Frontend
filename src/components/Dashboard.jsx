@@ -54,7 +54,7 @@ const Dashboard = () => {
             let pendingBookings = [];
             if(bookings?.length >= 1){
                 pendingBookings = bookings.filter(booking => {
-                    return booking.checkedoutstatus === 'pending' &&
+                    return booking.checkedoutstatus === 'pending' && booking.checkedinstatus === 'done' &&
                         booking.departuredate >= startdate &&
                         booking.departuredate <= enddate;
                 });
