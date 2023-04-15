@@ -48,7 +48,7 @@ const Billing = () => {
     //          3. {success:false, msg: "Invalid Booking Details"}                               IF BOOKING DATA NOT FOUND
     const getUserDataAgainstBookingId = async (bookingid) => {
         try {
-            let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus: "done", checkedoutstatus: "pending" }).get();
+            let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus: "done" }).get();
             if (!booking) { return { success: false, msg: "Invalid Booking Details" } }
             return { success: true, data: booking };
         } catch (e) {
