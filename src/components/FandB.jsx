@@ -132,6 +132,17 @@ const FandB = () => {
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingIdFB }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
 
+
+      let dbtamt = '0';
+      let credamt = '0';
+
+      if (modeOfPayment == "Postwithroom") {
+        dbtamt = netAmount.toString();
+      } else {
+        dbtamt = netAmount.toString();
+        credamt = netAmount.toString();
+      }
+
       let updatedpaymenthistory = reservationData.paymenthistory;
       const todaydateforpayment = new Date();
       const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
@@ -141,17 +152,19 @@ const FandB = () => {
           name: "f&b",
           description: "F&B time payment",
           date: todaydateforpaymentstring,
-          debit: netAmount,
-          credit: netAmount,
+          debit: dbtamt,
+          credit: credamt,
         });
       } else {
         updatedpaymenthistory = updatedpaymenthistory.map((item) => {
           if (item.name === "f&b") {
+            let fdbtamt = parseFloat(dbtamt) + parseFloat(item.debit);
+            let fcredamt = parseFloat(credamt) + parseFloat(item.credit);
             return {
               ...item,
               date: todaydateforpaymentstring,
-              debit: netAmount,
-              credit: netAmount
+              debit: fdbtamt,
+              credit: fcredamt
             };
           } else {
             return item;
@@ -169,6 +182,30 @@ const FandB = () => {
     } catch (e) {
       console.log("LaundryPageError (settlePayment) : ",e);
       return {success: false, msg: 'Something Went Wrong'}
+    }
+  }
+
+
+  
+  const updateFnBData = async(ordersData)=>{
+    try{
+      const todaydate = new Date();
+      const todaydateString = todaydate.toISOString().slice(0, 10);
+
+      let paidstatus = true;
+      if(modeOfPayment == 'Postwithroom') paidstatus = false;
+
+      if(bookingIdFB && bookingIdFB!=""){
+        await db.collection('fnbservice').add({
+          bookingid:bookingIdFB, date:todaydateString,roomno:roomNumber, orders:ordersData, sgst:stateGst,cgst:centralGst,
+          totalamount:totalAmount,netamount:netAmount, paymentmode:modeOfPayment, paid: paidstatus
+        })
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("LaundryPageError (updateLaundryData) : ",e);
+      return {success: false, msg: 'Something Went Wrong'} 
     }
   }
 
@@ -275,12 +312,32 @@ const FandB = () => {
 
   const submitAction = async(e)=>{
     e.preventDefault();
+
+    if(!bookingIdFB || bookingIdFB==""){ alert("Order Placed Successfully!"); return;}
+
+    const nameArr = itemName.split(",").filter(Boolean);
+    const codeArr = itemCode.split(",").filter(Boolean);
+    const priceArr = rate.split(",").filter(Boolean);
+
+    const result = [];
+
+    for (let i = 0; i < codeArr.length; i++) {
+      result.push({
+        code: codeArr[i],
+        name: nameArr[i],
+        price: Number(priceArr[i])
+      });
+    }
+
     let res = await settlePayment();
+    let res1 = await updateFnBData(result);
     if(res.success){
-      setTimeout(() => { 
+      if(res1.success){
+        alert("Food & Beverage Bill generated!")
         navigate(-1);
-      }, 5000);
-      alert("Food & Beverage Bill generated!")
+      }else{
+        alert(res1?.msg);
+      }
     }else{
       alert(res.msg);
     } 
@@ -779,12 +836,12 @@ const FandB = () => {
                   </button>
                   <button
                     type="button"
-                    className={`width-150 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "Post with room"
+                    className={`width-150 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "Postwithroom"
                       ? "button-color-onHover"
                       : "background-gray"
                       }`}
                     onClick={() => {
-                      changePaymentBtnColor("Post with room");
+                      changePaymentBtnColor("Postwithroom");
                     }}
                   >
                     Post with room
