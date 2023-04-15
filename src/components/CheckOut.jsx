@@ -248,8 +248,15 @@ const CheckOut = () => {
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
       checkBillSettlement(totalDebit,totalCredit);
+      
       const bill = document.getElementById("billpopup");
       bill.contentWindow.location.reload();
+      
+      const roombill = document.getElementById("roombillpopup");
+      roombill.contentWindow.location.reload();
+      
+      const servicebill = document.getElementById("servicebillpopup");
+      servicebill.contentWindow.location.reload();
 
       return { success: true }
     }catch(e){
@@ -399,6 +406,16 @@ const CheckOut = () => {
     bill.contentWindow.print();
   }
   
+  const printRoomBill = ()=>{
+    const roombill = document.getElementById("roombillpopup");
+    roombill.contentWindow.print();
+  }
+  
+  const printServiceBill= ()=>{
+    const servicebill = document.getElementById("servicebillpopup");
+    servicebill.contentWindow.print();
+  }
+  
   const showSplitBillPopup = ()=>{
     setOpenSplitBillPopup(!openSplitBillPopup);
   }
@@ -412,7 +429,9 @@ const CheckOut = () => {
   };
 
   const printAction = ()=>{
-    alert(modeOfSplit);
+    showSplitBillPopup();
+    if(modeOfSplit == 'roombill'){ printRoomBill(); }
+    else if(modeOfSplit == 'servicebill'){ printServiceBill(); }
   }
   
   const handleInputChange = (e) => {
@@ -931,10 +950,10 @@ const CheckOut = () => {
           </div>
           <div>
             <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mb-2">
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(settlementAmount > 0.0)} onClick={()=>{showSettlementPopup()}}>  Settlement </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={()=>{printBill()}}>  Print Bill </button>
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={(e) => { submitAction(e) }} >  Submit </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={(e) => { submitAction(e) }} >  Submit </button>
             </div>
           </div>
 
@@ -1086,6 +1105,8 @@ const CheckOut = () => {
 
 
           <iframe id="billpopup" src={`http://localhost:3000/Billing?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="roombillpopup" src={`http://localhost:3000/RoomBill?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="servicebillpopup" src={`http://localhost:3000/ServiceBill?bookingid=${registrationNo}`} className="display-none"/>
         
         
         </div>
