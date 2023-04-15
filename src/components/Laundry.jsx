@@ -138,8 +138,8 @@ const Laundry = () => {
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingIdL }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
 
-      let dbtamt = '';
-      let credamt = '';
+      let dbtamt = '0';
+      let credamt = '0';
 
       if (paymentType == "Postwithroom") {
         dbtamt = totalAmount.toString();
@@ -163,11 +163,13 @@ const Laundry = () => {
       } else {
         updatedpaymenthistory = updatedpaymenthistory.map((item) => {
           if (item.name === "laundry") {
+            let fdbtamt = parseFloat(dbtamt) + parseFloat(item.debit);
+            let fcredamt = parseFloat(credamt) + parseFloat(item.credit);
             return {
               ...item,
               date: todaydateforpaymentstring,
-              debit: dbtamt,
-              credit: credamt
+              debit: fdbtamt,
+              credit: fcredamt
             };
           } else {
             return item;
@@ -185,6 +187,28 @@ const Laundry = () => {
     } catch (e) {
       console.log("LaundryPageError (settlePayment) : ",e);
       return {success: false, msg: 'Something Went Wrong'}
+    }
+  }
+
+
+  const updateLaundryData = async(ordersData)=>{
+    try{
+      const todaydate = new Date();
+      const todaydateString = todaydate.toISOString().slice(0, 10);
+
+      let paidstatus = true;
+      if(paymentType == 'Postwithroom') paidstatus = false;
+
+      if(bookingIdL && bookingIdL!=""){
+        await db.collection('laundryservice').add({
+          bookingid:bookingIdL, date: todaydateString ,roomno:roomNumber, orders:ordersData, discount:discountAmount, netamount:totalAmount, paymentmode:paymentType, paid: paidstatus
+        })
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("LaundryPageError (updateLaundryData) : ",e);
+      return {success: false, msg: 'Something Went Wrong'} 
     }
   }
 
@@ -288,32 +312,36 @@ const Laundry = () => {
 
   const submitAction = async(e) => {
     e.preventDefault();
+    
+    if(!bookingIdL || bookingIdL==""){ alert("Invalid Bookingid!"); return;}
+
+    const nameArr = itemName.split(",").filter(Boolean);
+    const codeArr = itemCode.split(",").filter(Boolean);
+    const priceArr = cost.split(",").filter(Boolean);
+
+    const result = [];
+
+    for (let i = 0; i < codeArr.length; i++) {
+      result.push({
+        code: codeArr[i],
+        name: nameArr[i],
+        price: Number(priceArr[i])
+      });
+    }
+
 
     let res = await settlePayment();
+    let res1 = await updateLaundryData(result);
     if(res.success){
-      setTimeout(() => { 
+      if(res1.success){
+        alert("Your Laundry Bill Generated");
         navigate(-1);
-      }, 5000);
-      alert("Your Laundry Bill Generated");
+      }else{
+        alert(res1.msg);
+      }
     }else{
       alert(res.msg);
-    } 
-    
-
-    // const nameArr = itemName.split(",");
-    // const codeArr = itemCode.split(",");
-    // const priceArr = cost.split(",");
-
-    // const result = [];
-
-    // for (let i = 0; i < codeArr.length; i++) {
-    //   result.push({
-    //     code: codeArr[i],
-    //     name: nameArr[i],
-    //     price: Number(priceArr[i])
-    //   });
-    // }
-
+    }
   }
 
   return (
