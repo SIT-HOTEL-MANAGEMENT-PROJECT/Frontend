@@ -417,6 +417,7 @@ const CheckOut = () => {
   }
   
   const showSplitBillPopup = ()=>{
+    setModeOfSplit(""); setSplitTypeBtnColor("");
     setOpenSplitBillPopup(!openSplitBillPopup);
   }
 
