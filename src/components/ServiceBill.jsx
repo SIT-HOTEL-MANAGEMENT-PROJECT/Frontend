@@ -105,15 +105,21 @@ const ServiceBill = () => {
 
     const getandSetLaundryBill = async(bookingid)=>{
         try{
-            let laundryDb = await db.collection('laundryservice').doc({ bookingid: bookingid }).get();
+            let laundryDb = await db.collection('laundryservice').get();
 
+            if(!laundryDb || laundryDb.length <1) { return {success:false, msg: "No Data Exist in Record!"} };
+            
             if (laundryDb && !Array.isArray(laundryDb)) { laundryDb = [laundryDb]; }
+            
+            laundryDb = laundryDb.filter((booking)=> booking.bookingid === bookingid);
+            
             if (laundryDb.length >= 1) {
                 let ttlDebt = 0.0;
                 let ttlCred = 0.0;
                 let ttlDiscount = 0.0;
                 let ttlAmountPaid = 0.0;
                 const transformedData = laundryDb.reduce((acc, bk) => {
+                    let thisbookingdebt = 0.0;
                     bk.orders.forEach((od) => {
                         const existingItemIndex = acc.findIndex(
                             (item) => item["name"] === od.name
@@ -132,9 +138,11 @@ const ServiceBill = () => {
                         }
 
                         ttlDebt += parseFloat(od.price);
+                        thisbookingdebt += parseFloat(od.price);
                     });
                     ttlDiscount += parseFloat(bk?.discount);
-                    if(bk?.paid){ ttlAmountPaid += parseFloat(ttlDebt); }
+                    if(bk?.paid === true){ ttlAmountPaid += parseFloat(thisbookingdebt); }
+                    if((parseFloat(bk?.discount) > 0.0) && bk?.paid === true) { ttlAmountPaid -= parseFloat(bk?.discount) }
                     return acc;
                 }, []);
 
@@ -163,9 +171,14 @@ const ServiceBill = () => {
 
     const getandSetFandBBill = async(bookingid)=>{
         try{
-            let fnbDb = await db.collection('fnbservice').doc({ bookingid: bookingid }).get();
+            let fnbDb = await db.collection('fnbservice').get();
 
+            if(!fnbDb || fnbDb.length <1) { return {success:false, msg: "No Data Exist in Record!"} };
+            
             if (fnbDb && !Array.isArray(fnbDb)) { fnbDb = [fnbDb]; }
+            
+            fnbDb = fnbDb.filter((booking)=> booking.bookingid === bookingid);
+
             if (fnbDb.length >= 1) {
                 let ttlDebt = 0.0;
                 let ttlCred = 0.0;
@@ -173,6 +186,7 @@ const ServiceBill = () => {
                 let ttlCgst = 0.0;
                 let ttlAmountPaid = 0.0;
                 const transformedData = fnbDb.reduce((acc, bk) => {
+                    let thisbookingdebt = 0.0;
                     bk.orders.forEach((od) => {
                         const existingItemIndex = acc.findIndex(
                             (item) => item["name"] === od.name
@@ -191,9 +205,10 @@ const ServiceBill = () => {
                         }
 
                         ttlDebt += parseFloat(od.price);
+                        thisbookingdebt += parseFloat(od.price);
                     });
 
-                    if(bk?.paid){ ttlAmountPaid += parseFloat(ttlDebt); }
+                    if(bk?.paid){ ttlAmountPaid += parseFloat(thisbookingdebt) + parseFloat(bk?.sgst) + parseFloat(bk?.cgst); }
                     if(bk?.sgst){ ttlSgst += parseFloat(bk.sgst); }
                     if(bk?.cgst){ ttlCgst += parseFloat(bk.cgst); }
                     return acc;

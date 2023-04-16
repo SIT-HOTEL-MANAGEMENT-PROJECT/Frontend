@@ -200,7 +200,7 @@ const Dashboard = () => {
                                 </div>})}
                                 
                                 {pendingCheckinData.length < 1 && <div className='d-flex align-items-center justify-content-center h-75'>
-                                    <h5 className='font-size-18'>No Check In Data  found!</h5>
+                                    <h5 className='font-size-18'>No Check In Data found!</h5>
                                 </div>}
                             </div>
                         </div>
@@ -226,7 +226,7 @@ const Dashboard = () => {
                                     <button type="button" onClick={()=>{navigate(`/CheckOut?bookingid=${item.bookingid}`)}} className="d-flex align-items-center justify-content-center col-sm-4 small-width-30percent text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12">Check Out</button>
                                 </div>})}
                                 {pendingCheckoutData.length < 1 && <div className='d-flex align-items-center justify-content-center h-75'>
-                                    <h5 className='font-size-18'>No Check In Data  found!</h5>
+                                    <h5 className='font-size-18'>No Check Out Data found!</h5>
                                 </div>}
                             </div>
                         </div>
