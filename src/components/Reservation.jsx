@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable eqeqeq */
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ import Localbase from "localbase";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
-const Reservation = () => {
+const Reservation = ({getLoggedInUserDetails}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -64,6 +65,8 @@ const Reservation = () => {
       const roomtype = query.get('roomtype');
       const roomnumber = query.get('roomnumber');
     
+      initialPrepopulatedData();
+
       if(bookingid && isupdate){
         setBookingidForUpdate(bookingid);
         setIsForUpdate(isupdate);
@@ -490,8 +493,8 @@ const Reservation = () => {
       const bookingArrivalDT = new Date(booking.arrivaldate + 'T' + booking.arrivaltime);
       const bookingDepartureDT = new Date(booking.departuredate + 'T' + booking.departuretime);
 
-      if (requestedArrivalDT >= bookingArrivalDT && requestedArrivalDT < bookingDepartureDT       ||
-          requestedDepartureDT > bookingArrivalDT && requestedDepartureDT <= bookingDepartureDT) 
+      if ( (requestedArrivalDT >= bookingArrivalDT && requestedArrivalDT < bookingDepartureDT)       ||
+          (requestedDepartureDT > bookingArrivalDT && requestedDepartureDT <= bookingDepartureDT) ) 
       {
         isAv = false;
         break;
@@ -521,6 +524,15 @@ const Reservation = () => {
 
 
 
+
+  const initialPrepopulatedData = async()=>{
+    let res = await getLoggedInUserDetails();
+    if(res?.success){ setResAssisName(res?.data?.name); }
+
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setBookingDate(todayDateString);
+  }
 
 
   const getAndSetUserData = async(bookingid)=>{

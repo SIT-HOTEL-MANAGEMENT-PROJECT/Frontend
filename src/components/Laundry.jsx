@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -95,14 +96,17 @@ const Laundry = () => {
     let reservations;
 
     if (rmno.charAt(0) == '1') {
+      if(roomData[0]['standard'][rmno]['av'] != '0') return
       reservations = roomData[0]['standard'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '2') {
+      if(roomData[0]['delux'][rmno]['av'] != '0') return
       reservations = roomData[0]['delux'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '3') {
+      if(roomData[0]['executive'][rmno]['av'] != '0') return
       reservations = roomData[0]['executive'][rmno]['activeBookings'];
     }
 
@@ -113,13 +117,18 @@ const Laundry = () => {
     const bookingId = reservationToday ? reservationToday.bookingid : '';
 
     if (bookingId) {
-      setBookingIdL(bookingId);
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
-
+      
+      setBookingIdL(bookingId);
       setGuestName(reservationData.name);
       setArrivalDate(reservationData.arrivaldate);
       setdepartureDate(reservationData.departuredate);
+    }else{
+      setBookingIdL("");
+      setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
+      setArrivalDate("");
+      setdepartureDate("");
     }
   }
 
@@ -129,10 +138,10 @@ const Laundry = () => {
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingIdL }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
 
-      let dbtamt = '';
-      let credamt = '';
+      let dbtamt = '0';
+      let credamt = '0';
 
-      if (paymentType == "Pay Later") {
+      if (paymentType == "Postwithroom") {
         dbtamt = totalAmount.toString();
       } else {
         dbtamt = totalAmount.toString();
@@ -154,11 +163,13 @@ const Laundry = () => {
       } else {
         updatedpaymenthistory = updatedpaymenthistory.map((item) => {
           if (item.name === "laundry") {
+            let fdbtamt = parseFloat(dbtamt) + parseFloat(item.debit);
+            let fcredamt = parseFloat(credamt) + parseFloat(item.credit);
             return {
               ...item,
               date: todaydateforpaymentstring,
-              debit: dbtamt,
-              credit: credamt
+              debit: fdbtamt,
+              credit: fcredamt
             };
           } else {
             return item;
@@ -180,15 +191,52 @@ const Laundry = () => {
   }
 
 
+  const updateLaundryData = async(ordersData)=>{
+    try{
+      const todaydate = new Date();
+      const todaydateString = todaydate.toISOString().slice(0, 10);
+
+      let paidstatus = true;
+      if(paymentType == 'Postwithroom') paidstatus = false;
+
+      if(bookingIdL && bookingIdL!=""){
+        await db.collection('laundryservice').add({
+          bookingid:bookingIdL, date: todaydateString ,roomno:roomNumber, orders:ordersData, discount:discountAmount, netamount:totalAmount, paymentmode:paymentType, paid: paidstatus
+        })
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("LaundryPageError (updateLaundryData) : ",e);
+      return {success: false, msg: 'Something Went Wrong'} 
+    }
+  }
+
+  const initialPrepopulatedData = async()=>{
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setDate(todayDateString);
+  }
+
+
+  useEffect(() => {
+    initialPrepopulatedData();
+  }, [])
+  
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
     const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join(",");
     setItemName(commaSeparatedNames);
     setCost(commaSeparatedPrice);
     setTotalItem(itemCodeArray.length);
-    const prices = cost.split(",").map(price => parseInt(price.trim()));
-    const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-    setTotalAmount(total - discountAmount);
+    // const prices = cost.split(",").map(price => parseInt(price.trim()));
+    const prices = itemCodeArray?.map(item => item?.price);
+    if(prices.length >= 1){
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      setTotalAmount(total - discountAmount);
+    }else{
+      setTotalAmount(0);
+    }
   }, [itemCodeArray])
 
   const handleInputChange = (e) => {
@@ -231,7 +279,13 @@ const Laundry = () => {
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
     else if (e.target.name == "roomnumber") {
       setRoomNumber(e.target.value);
-      if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
+      if (e.target.value.length != 3 && departureDate != '') { 
+        setBookingIdL(""); 
+        setGuestName({title: "", firstname: "", middlename: "", lastname: "",});
+        setArrivalDate("");
+        setdepartureDate("");
+      }
+      else if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
     else if (e.target.name == "arrivaldate") { setArrivalDate(e.target.value); }
     else if (e.target.name == "departuredate") { setdepartureDate(e.target.value); }
@@ -258,32 +312,36 @@ const Laundry = () => {
 
   const submitAction = async(e) => {
     e.preventDefault();
+    
+    if(!bookingIdL || bookingIdL==""){ alert("Invalid Bookingid!"); return;}
+
+    const nameArr = itemName.split(",").filter(Boolean);
+    const codeArr = itemCode.split(",").filter(Boolean);
+    const priceArr = cost.split(",").filter(Boolean);
+
+    const result = [];
+
+    for (let i = 0; i < codeArr.length; i++) {
+      result.push({
+        code: codeArr[i],
+        name: nameArr[i],
+        price: Number(priceArr[i])
+      });
+    }
+
 
     let res = await settlePayment();
+    let res1 = await updateLaundryData(result);
     if(res.success){
-      setTimeout(() => { 
+      if(res1.success){
+        alert("Your Laundry Bill Generated");
         navigate(-1);
-      }, 5000);
-      alert("Your Laundry Bill Generated");
+      }else{
+        alert(res1.msg);
+      }
     }else{
       alert(res.msg);
-    } 
-    
-
-    // const nameArr = itemName.split(",");
-    // const codeArr = itemCode.split(",");
-    // const priceArr = cost.split(",");
-
-    // const result = [];
-
-    // for (let i = 0; i < codeArr.length; i++) {
-    //   result.push({
-    //     code: codeArr[i],
-    //     name: nameArr[i],
-    //     price: Number(priceArr[i])
-    //   });
-    // }
-
+    }
   }
 
   return (
@@ -691,7 +749,7 @@ const Laundry = () => {
                     <option value={"Card"}>Card</option>
                     <option value={"UPI"}>UPI</option>
                     <option value={"Cash"}>Cash</option>
-                    <option value={"Pay Later"}>Pay Later</option>
+                    <option value={"Postwithroom"}>Post with Room</option>
                   </select>
                 </div>
               </div>

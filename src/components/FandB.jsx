@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from "react";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
@@ -93,14 +94,17 @@ const FandB = () => {
     let reservations;
 
     if (rmno.charAt(0) == '1') {
+      if(roomData[0]['standard'][rmno]['av'] != '0') return
       reservations = roomData[0]['standard'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '2') {
+      if(roomData[0]['delux'][rmno]['av'] != '0') return
       reservations = roomData[0]['delux'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '3') {
+      if(roomData[0]['executive'][rmno]['av'] != '0') return
       reservations = roomData[0]['executive'][rmno]['activeBookings'];
     }
 
@@ -111,11 +115,14 @@ const FandB = () => {
     const bookingId = reservationToday ? reservationToday.bookingid : '';
 
     if (bookingId) {
-      setBookingIdFB(bookingId);
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
-
+      
+      setBookingIdFB(bookingId);
       setGuestName(reservationData.name);
+    }else{
+      setBookingIdFB("");
+      setGuestName({title: "", firstname: "", middlename: "", lastname: "",})
     }
   }
 
@@ -124,6 +131,17 @@ const FandB = () => {
     try {
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingIdFB }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+
+      let dbtamt = '0';
+      let credamt = '0';
+
+      if (modeOfPayment == "Postwithroom") {
+        dbtamt = netAmount.toString();
+      } else {
+        dbtamt = netAmount.toString();
+        credamt = netAmount.toString();
+      }
 
       let updatedpaymenthistory = reservationData.paymenthistory;
       const todaydateforpayment = new Date();
@@ -134,17 +152,19 @@ const FandB = () => {
           name: "f&b",
           description: "F&B time payment",
           date: todaydateforpaymentstring,
-          debit: netAmount,
-          credit: netAmount,
+          debit: dbtamt,
+          credit: credamt,
         });
       } else {
         updatedpaymenthistory = updatedpaymenthistory.map((item) => {
           if (item.name === "f&b") {
+            let fdbtamt = parseFloat(dbtamt) + parseFloat(item.debit);
+            let fcredamt = parseFloat(credamt) + parseFloat(item.credit);
             return {
               ...item,
               date: todaydateforpaymentstring,
-              debit: netAmount,
-              credit: netAmount
+              debit: fdbtamt,
+              credit: fcredamt
             };
           } else {
             return item;
@@ -166,22 +186,64 @@ const FandB = () => {
   }
 
 
+  
+  const updateFnBData = async(ordersData)=>{
+    try{
+      const todaydate = new Date();
+      const todaydateString = todaydate.toISOString().slice(0, 10);
 
+      let paidstatus = true;
+      if(modeOfPayment == 'Postwithroom') paidstatus = false;
+
+      if(bookingIdFB && bookingIdFB!=""){
+        await db.collection('fnbservice').add({
+          bookingid:bookingIdFB, date:todaydateString,roomno:roomNumber, orders:ordersData, sgst:stateGst,cgst:centralGst,
+          totalamount:totalAmount,netamount:netAmount, paymentmode:modeOfPayment, paid: paidstatus
+        })
+      }
+
+      return {success:true}
+    }catch(e){
+      console.log("LaundryPageError (updateLaundryData) : ",e);
+      return {success: false, msg: 'Something Went Wrong'} 
+    }
+  }
+
+
+  const initialPrepopulatedData = async()=>{
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setAccountingDate(todayDateString);
+  }
+
+
+  useEffect(() => {
+    initialPrepopulatedData();
+  }, [])
+  
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
     const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join(",");
     setItemName(commaSeparatedNames);
     setRate(commaSeparatedPrice);
     setItemQuantity(itemCodeArray.length);
-    const prices = rate.split(",").map(price => parseInt(price.trim()));
-    const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-    setTotalAmount(total);
-    const stgst = (2.50/100)*total;
-    const ctgst = (2.50/100)*total;
-    const netamt = total + ctgst + stgst;
-    setStateGst(stgst);
-    setCentralGst(ctgst);
-    setNetAmount(netamt);
+    // const prices = rate.split(",").map(price => parseInt(price.trim()));
+    const prices = itemCodeArray?.map(item => item?.price);
+    if(prices.length >= 1){
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      setTotalAmount(total);
+      const stgst = (2.50/100)*total;
+      const ctgst = (2.50/100)*total;
+      const netamt = total + ctgst + stgst;
+      setStateGst(stgst);
+      setCentralGst(ctgst);
+      setNetAmount(netamt);
+    }else{
+      setTotalAmount(0);
+      setStateGst(0);
+      setCentralGst(0);
+      setNetAmount(0);
+    }
   }, [itemCodeArray])
 
   
@@ -220,7 +282,8 @@ const FandB = () => {
     }
     else if (e.target.name == "roomnumber") { 
       setRoomNumber(e.target.value); 
-      if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
+      if(e.target.value.length != 3 && guestName.firstname != '') { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
+      else if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
   }
 
@@ -249,12 +312,32 @@ const FandB = () => {
 
   const submitAction = async(e)=>{
     e.preventDefault();
+
+    if(!bookingIdFB || bookingIdFB==""){ alert("Order Placed Successfully!"); return;}
+
+    const nameArr = itemName.split(",").filter(Boolean);
+    const codeArr = itemCode.split(",").filter(Boolean);
+    const priceArr = rate.split(",").filter(Boolean);
+
+    const result = [];
+
+    for (let i = 0; i < codeArr.length; i++) {
+      result.push({
+        code: codeArr[i],
+        name: nameArr[i],
+        price: Number(priceArr[i])
+      });
+    }
+
     let res = await settlePayment();
+    let res1 = await updateFnBData(result);
     if(res.success){
-      setTimeout(() => { 
+      if(res1.success){
+        alert("Food & Beverage Bill generated!")
         navigate(-1);
-      }, 5000);
-      alert("Food & Beverage Bill generated!")
+      }else{
+        alert(res1?.msg);
+      }
     }else{
       alert(res.msg);
     } 
@@ -753,12 +836,12 @@ const FandB = () => {
                   </button>
                   <button
                     type="button"
-                    className={`width-150 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "Post with room"
+                    className={`width-150 height-30 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "Postwithroom"
                       ? "button-color-onHover"
                       : "background-gray"
                       }`}
                     onClick={() => {
-                      changePaymentBtnColor("Post with room");
+                      changePaymentBtnColor("Postwithroom");
                     }}
                   >
                     Post with room

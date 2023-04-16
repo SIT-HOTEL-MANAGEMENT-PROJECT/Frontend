@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -18,6 +19,11 @@ const HistoryReports = () => {
       initialFetch();
     }, [])
     
+
+    function formatNumber(num) {
+        if (num % 1 === 0) return num;
+        else return num.toFixed(2);
+    }
     
     // Get :  Get Reports based on filters
     // params:  fltr ('all'/'90days'/'365days'/'5years') (string any one value from this list)
@@ -27,14 +33,16 @@ const HistoryReports = () => {
     //          2. {success:false, msg: 'Internal Server Error'}                                                                                    IF SERVER ERROR
     const getReport = async(fltr)=>{
         try{
+            let reportDate = new Date();
+            let reportDateString = reportDate.toISOString().slice(0, 10);
+            
+            
             let reservationData = await db.collection('reservation').get();
             let reportsData = await db.collection('reports').orderBy('date', 'desc').get();
-
+            let rupeesadrData = await db.collection('rupeesadr').doc({ date: reportDateString }).get();
             // if(reservationDt) setReservationData(reservationDt);
             // if(reportsDt) setReportsData(reportsDt);
 
-            let reportDate = new Date();
-            let reportDateString = reportDate.toISOString().slice(0, 10);
 
 
             // ======================   Check for total checkin and rem checkin   ===============================
@@ -92,7 +100,7 @@ const HistoryReports = () => {
             let avrooms = totalRooms - dirtyrm;
             
             const filteredCheckinBookings = reservationData.filter(booking =>
-                ((booking.arrivaldate === reportDateString && booking.checkinstatus  === "done"))
+                ((booking.arrivaldate === reportDateString && booking.checkedinstatus  === "done"))
             );
             
             let checkinoccupiedRooms = 0;
@@ -117,11 +125,14 @@ const HistoryReports = () => {
             let prevdate = new Date();
             prevdate.setDate(reportDate.getDate()-1);
             let prevdatestring = prevdate.toISOString().slice(0, 10);
-            let prevdatedata = await db.collection("reports").doc({date: prevdatestring}).get();
+            let prevdatedata = reportsData.filter((data) => {
+                return data.date === prevdatestring;
+            });
             // if(prevdatedt) setPrevdatedata(prevdatedt);
-            if(prevdatedata){
-                avrooms = prevdatedata.noofavailableroom; 
-                totaloccupied = totaloccupied + prevdatedata.noofoccupiedrooms;
+            if(prevdatedata.length >= 1){
+                avrooms = parseInt(prevdatedata[0].noofavailableroom); 
+                totaloccupied = totaloccupied + parseInt(prevdatedata[0].noofoccupiedrooms);
+
                 occupiedpercentage = (totaloccupied/totalRooms)*100;
                 avrooms = avrooms - checkinoccupiedRooms + checkoutreleaseRooms;
             }
@@ -143,17 +154,16 @@ const HistoryReports = () => {
 
             //  ===============================   Rupees 100 ADR   ==============================================
             let rupeesadr = 0;
-            let rupeesadrData = await db.collection('rupeesadr').doc({ date: reportDateString }).get();
             if(rupeesadrData){
                 rupeesadr = rupeesadrData.value;
             }
             //  -------------------------------  End of Rupees 100 ADR   ----------------------------------------
 
 
-            let resdata = [{ date: reportDateString, totalcheckin: checkedInPercentage, checkinrem: notCheckedInPercentage,
-                totalcheckout: checkedOutPercentage, checkoutrem: notCheckedOutPercentage, noofoccupiedrooms:totalRoomOccupied, roomoccupiedpercentage: roomoccupiedPercentage,
-                rupeesadr: rupeesadr, noofavailableroom: availableRooms, noofroomsbooked: totalBookedRooms,
-                noofroomsmaintainance: roomsinMaintainance, noofroomsdirty: roomsDirty }]
+            let resdata = [{ date: reportDateString, totalcheckin: formatNumber(checkedInPercentage), checkinrem: formatNumber(notCheckedInPercentage),
+                totalcheckout: formatNumber(checkedOutPercentage), checkoutrem: formatNumber(notCheckedOutPercentage), noofoccupiedrooms: formatNumber(totalRoomOccupied), roomoccupiedpercentage: formatNumber(roomoccupiedPercentage),
+                rupeesadr: formatNumber(rupeesadr), noofavailableroom: formatNumber(availableRooms), noofroomsbooked: formatNumber(totalBookedRooms),
+                noofroomsmaintainance: formatNumber(roomsinMaintainance), noofroomsdirty: formatNumber(roomsDirty) }]
 
             
             if(reportsData){
@@ -303,10 +313,10 @@ const HistoryReports = () => {
                         </div>
                     </div>
                     <div className="container flex-column">
-                        <div className="d-flex width-280 height-30 background-gray search-bar">
+                        {/* <div className="d-flex width-280 height-30 background-gray search-bar">
                             <input type="search" className="search-input width-280 padding-left-35" placeholder="Search" />
                             <button type="search" className="search-icon width-35 height-30 text-align-center d-flex align-items-center justify-content-center"><i className='bx bx-search-alt search-boxicon text-primary'></i></button>
-                        </div>
+                        </div> */}
                         <div className='container mt-5 height-450 overflow-y-axis-auto'>
                             {data && data.map((item,index)=>{
                                 return <div key={index+1} className="container">

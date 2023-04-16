@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+/* eslint-disable eqeqeq */
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "../CustomCss/Reservation.css";
 import ShortUniqueId from "short-unique-id";
@@ -11,6 +12,7 @@ db.config.debug = false;
 
 const CheckIn = () => {
   let navigate = useNavigate();
+  const location = useLocation();
 
   const [roomTypeBtnColor, setRoomTypeBtnColor] = useState("");
   const [paymentTypeBtnColor, setPaymentTypeBtnColor] = useState("");
@@ -68,14 +70,50 @@ const CheckIn = () => {
   const [arrivedFrom, setArrivedFrom] = useState("");
   const [placeOfIssue, setPlaceOfIssue] = useState("");
   const [purpose, setPurpose] = useState("");
+  const [filterFrom, setFilterFrom] = useState("");
+  const [filterTo, setFilterTo] = useState("");
+  const [pendingCheckinData, setPendingCheckinData] = useState([]);
 
   const [openCountry, setOpenCountry] = useState("India");
   const [openBookingSuccessful, setOpenBookingSuccessful] = useState(false);
   const [openBookingButtons, setOpenBookingButtons] = useState(true);
+  const [openGuestInfo, setOpenGuestInfo] = useState(false);
 
 
+  useEffect(() => { initialPrepopulatedData(); }, [])
+  
+
+  useEffect(() => {
+    setTimeout(() => {
+      const query = new URLSearchParams(location.search);
+      const bookingid = query.get('bookingid');
+      if(bookingid && bookingid.length === 14){ getAndSetUserData(bookingid); setreservationNumber(bookingid); }
+      else if(!bookingid){ showPendingCheckinDataAction(); }
+    }, 1000);
+  }, [location])  
 
 
+  const getPendingCheckinData = async(startdate,enddate)=>{
+    try{
+        let bookings = await db.collection('reservation').get();
+
+        if(!Array.isArray(bookings)){ bookings = [bookings]; }
+
+        let pendingBookings = [];
+        if(bookings?.length >= 1){
+            pendingBookings = bookings.filter(booking => {
+                return booking.checkedinstatus === 'pending' &&
+                    booking.arrivaldate >= startdate &&
+                    booking.arrivaldate <= enddate;
+            });
+        }
+
+        return {success: true, data:pendingBookings};
+    } catch (e) {
+        console.log("CheckinPageError (getPendingCheckinData) : ", e);
+        return { success: false, msg: 'Something Went Wrong' }
+    }
+  }  
 
   // Add :  Book room number against bookingid
   // params : bookingid, roomtype, roomnumber, arrivaldate, arrivaltime, departuredate, departuretime
@@ -137,25 +175,25 @@ const CheckIn = () => {
   // params : none     (directly get data from useState)
   // return :   1.  {success:true}                                    IF ADDED SUCCESSFULLY
   //            2.  {success:false, msg: 'Something Went Wrong'}      IF ADD FAILED
-  const updateReservationData = async()=>{
-    try{
-      let ubid = new ShortUniqueId({ length: 14 });  let billing = ubid(); let billno = ubid(); let confno = ubid();
-      
-      let reservationData = await db.collection('reservation').doc({ bookingid: reservationNumber }).get();
-      if(!reservationData) return {success:false, msg: "Reservation Not Found!"}
+  const updateReservationData = async () => {
+    try {
+      let ubid = new ShortUniqueId({ length: 14 }); let billing = ubid(); let billno = ubid(); let confno = ubid();
 
-      if(roomNumber){
+      let reservationData = await db.collection('reservation').doc({ bookingid: reservationNumber }).get();
+      if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
+
+      if (roomNumber) {
         let isBooked = await bookRoom(reservationNumber, roomType, roomNumber, arrivalDate, arrivalTime, departureDate, departureTime);
-        if(!isBooked.success){  return { success: false, msg: isBooked?.msg }}
+        if (!isBooked.success) { return { success: false, msg: isBooked?.msg } }
       }
 
 
       let updatedpaymenthistory = reservationData.paymenthistory;
       const todaydateforpayment = new Date();
       const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
-      
-      if(depositRate){
-        updatedpaymenthistory.push({name:"checkin", description:"Checkin time payment", date:todaydateforpaymentstring, debit:"", credit:depositRate})
+
+      if (depositRate) {
+        updatedpaymenthistory.push({ name: "checkin", description: "Checkin time payment", date: todaydateforpaymentstring, debit: "", credit: depositRate })
         await updateRupeesAdrValue(depositRate);
       }
 
@@ -168,7 +206,7 @@ const CheckIn = () => {
           debit: roomRate,
           credit: "",
         });
-      }else{
+      } else {
         updatedpaymenthistory = updatedpaymenthistory.map((item) => {
           if (item.name === "bookingamount") {
             return {
@@ -182,7 +220,7 @@ const CheckIn = () => {
         });
       }
 
-      
+
       if (!updatedpaymenthistory.some((item) => item.name === "reservationdiscount")) {
         updatedpaymenthistory.push({
           name: "reservationdiscount",
@@ -191,7 +229,7 @@ const CheckIn = () => {
           debit: "",
           credit: discountAmount,
         });
-      }else{
+      } else {
         updatedpaymenthistory = updatedpaymenthistory.map((item) => {
           if (item.name === "reservationdiscount") {
             return {
@@ -204,40 +242,40 @@ const CheckIn = () => {
           }
         });
       }
-      
-      await db.collection('reservation').doc({bookingid: reservationNumber}).update({
-          name: guestName,  address: address, icno: guestICNumber, 
-          phoneno: guestPhoneNumber,  telno: tel,  companyname: companyName,
 
-          checkcountry: openCountry, aadhaarno: aadharNo,  passportno: passportNumber, visano: visaNumber, 
-          passportdateofissue: passportDateOfIssue,  arrivedfrom: arrivedFrom,  placeofissue: placeOfIssue, 
-          purdurofstayinhotel: purpose,
+      await db.collection('reservation').doc({ bookingid: reservationNumber }).update({
+        name: guestName, address: address, icno: guestICNumber,
+        phoneno: guestPhoneNumber, telno: tel, companyname: companyName,
 
-          cityledgetacct: cityLedgetAcct, groupid: groupId,
+        checkcountry: openCountry, aadhaarno: aadharNo, passportno: passportNumber, visano: visaNumber,
+        passportdateofissue: passportDateOfIssue, arrivedfrom: arrivedFrom, placeofissue: placeOfIssue,
+        purdurofstayinhotel: purpose,
 
-          adultno: adults,  childno: children,
+        cityledgetacct: cityLedgetAcct, groupid: groupId,
 
-          bookingdate: bookingDate, arrivaldate: arrivalDate, arrivaltime: arrivalTime, 
-          departuredate: departureDate, departuretime: departureTime, nights: nights,
+        adultno: adults, childno: children,
 
-          typeofroom: roomType, roomno: roomNumber, noofrooms: noOfRooms,
+        bookingdate: bookingDate, arrivaldate: arrivalDate, arrivaltime: arrivalTime,
+        departuredate: departureDate, departuretime: departureTime, nights: nights,
 
-          roomrate: roomRate, discountamount: discountAmount, discountpercentage: discountPercentage,
-          paymenthistory:updatedpaymenthistory,  gst: gstRate,  modeofpayment: modeOfPayment,
+        typeofroom: roomType, roomno: roomNumber, noofrooms: noOfRooms,
 
-          mealplan: mealPlan, extrabedtype: extraBed,
+        roomrate: roomRate, discountamount: discountAmount, discountpercentage: discountPercentage,
+        paymenthistory: updatedpaymenthistory, gst: gstRate, modeofpayment: modeOfPayment,
 
-          travelagentname: travelAgentName,
+        mealplan: mealPlan, extrabedtype: extraBed,
 
-          billing:billing, billingno: billno, confno: confno,
+        travelagentname: travelAgentName,
 
-          specialreq: specialReq, bookingstatus:"done", checkedinstatus:"done", checkedoutstatus: "pending" 
+        billing: billing, billingno: billno, confno: confno,
+
+        specialreq: specialReq, bookingstatus: "done", checkedinstatus: "done", checkedoutstatus: "pending"
       })
 
-      return {success: true }     
-    }catch(e){
-      console.log("CheckinPageError (updateReservationData) : ",e);
-      return {success: false, msg: 'Something Went Wrong'}
+      return { success: true }
+    } catch (e) {
+      console.log("CheckinPageError (updateReservationData) : ", e);
+      return { success: false, msg: 'Something Went Wrong' }
     }
   }
 
@@ -250,7 +288,7 @@ const CheckIn = () => {
   //          3. {success:false, msg: "Invalid Booking Details"}                               IF BOOKING DATA NOT FOUND
   const getUserDataAgainstBookingId = async (bookingid) => {
     try {
-      let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus:"pending" }).get();
+      let booking = await db.collection('reservation').doc({ bookingid: bookingid, checkedinstatus: "pending" }).get();
       if (!booking) { return { success: false, msg: "Invalid Booking Details" } }
       return { success: true, data: booking };
     } catch (e) {
@@ -398,65 +436,91 @@ const CheckIn = () => {
   // return : 1. {success: true }                                                     IF ALL OK
   //          2. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
   let prevvalue = 0;
-  const updateRupeesAdrValue = async(amount)=>{
-    try{
+  const updateRupeesAdrValue = async (amount) => {
+    try {
       const todaydateforpayment = new Date();
       const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
 
       let rupeesadrData = await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).get();
-      if(!rupeesadrData){
+      if (!rupeesadrData) {
         prevvalue = parseFloat(amount);
-        await db.collection('rupeesadr').add({date: todaydateforpaymentstring, value: parseFloat(amount)});
-      }else{
+        await db.collection('rupeesadr').add({ date: todaydateforpaymentstring, value: parseFloat(amount) });
+      } else {
         let updateval;
-        updateval = parseFloat(rupeesadrData.value) + parseFloat(amount); 
-        if(prevvalue){  updateval = parseFloat(updateval) - parseFloat(prevvalue);  }
+        updateval = parseFloat(rupeesadrData.value) + parseFloat(amount);
+        if (prevvalue) { updateval = parseFloat(updateval) - parseFloat(prevvalue); }
         prevvalue = parseFloat(amount);
-        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({value: parseFloat(updateval)});
+        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({ value: parseFloat(updateval) });
       }
 
-      return {success:true}
-    }catch(e){
-      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ",e);
-      return {success:false, msg: "Something Went Wrong"}
+      return { success: true }
+    } catch (e) {
+      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ", e);
+      return { success: false, msg: "Something Went Wrong" }
     }
   }
 
 
-  const getAndSetUserData = async(bookingid)=>{
+  const getAndSetUserData = async (bookingid) => {
     let res = await getUserDataAgainstBookingId(bookingid);
-    if(res?.success){
+    if (res?.success) {
       let booking = res?.data;
       setNoOfRooms(booking.noofrooms);
       setRoomNumber(booking.roomno);
       setBookingDate(booking.bookingdate);
-      setArrivalDate(booking.arrivaldate); 
+      setArrivalDate(booking.arrivaldate);
       setArrivalTime(booking.arrivaltime);
       setNights(booking.nights);
       setdepartureDate(booking.departuredate);
       setDepartureTime(booking.departuretime);
       setRoomRate(booking.roomrate);
-      setDiscountAmount(booking.discountamount); 
+      setDiscountAmount(booking.discountamount);
       setDiscountPercentage(booking.discountpercentage);
       setSpecialReq(booking.specialreq);
       setGuestName(booking.name);
       setGuestPhoneNumber(booking.phoneno);
       setCompanyName(booking.companyname);
-      setAddress(booking.address);  
+      setAddress(booking.address);
       setTravelAgentName(booking.travelagentname);
 
       changeRoomBtnColor(booking.typeofroom);
       changePaymentBtnColor(booking.modeofpayment);
       changeMealBtnColor(booking.mealplan);
 
-      if(booking.roomrate == ''){ setIsDiscountDisabled(true); } else{ setIsDiscountDisabled(false); }
+      if (booking.roomrate == '') { setIsDiscountDisabled(true); } else { setIsDiscountDisabled(false); }
+    }
+    else {
+      setNoOfRooms(''); setRoomNumber(''); setBookingDate(''); setArrivalDate(''); setArrivalTime(''); setNights('');
+      setdepartureDate(''); setDepartureTime(''); setRoomRate(''); setDiscountAmount(''); setDiscountPercentage(''); setSpecialReq('');
+      setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
+      setGuestPhoneNumber(''); setCompanyName('');
+      setAddress({ ad1: "", city: "", state: "", zip: "", });
+      setTravelAgentName('');
+
+      changeRoomBtnColor(''); changePaymentBtnColor(''); changeMealBtnColor('');
+
+      setIsDiscountDisabled(true);
     }
   }
 
 
+
+  const initialPrepopulatedData = async () => {
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    setFilterFrom(todayDateString); setFilterTo(todayDateString);
+  }
+
+  const showPendingCheckinDataAction = async () => {
+    let todayDate = new Date();
+    let todayDateString = todayDate.toISOString().slice(0, 10);
+    let res = await getPendingCheckinData(todayDateString,todayDateString);
+    if(res?.success){ if(res?.data.length >=1){setOpenGuestInfo(true);} setPendingCheckinData(res?.data); } else{ setOpenGuestInfo(false);setPendingCheckinData([]); }
+  }
+
   const changeRoomBtnColor = (whichRoom) => {
-    if(roomType == whichRoom){
-      setRoomTypeBtnColor(""); setRoomType(""); setIsRoomNoDisabled(true);  return;
+    if (roomType == whichRoom) {
+      setRoomTypeBtnColor(""); setRoomType(""); setIsRoomNoDisabled(true); return;
     }
     setRoomTypeBtnColor(whichRoom);
     setRoomType(whichRoom);
@@ -464,7 +528,7 @@ const CheckIn = () => {
   };
 
   const changePaymentBtnColor = (paymentType) => {
-    if(paymentType == modeOfPayment){
+    if (paymentType == modeOfPayment) {
       setPaymentTypeBtnColor(""); setModeOfPayment(""); return;
     }
     setPaymentTypeBtnColor(paymentType);
@@ -472,16 +536,21 @@ const CheckIn = () => {
   };
 
   const changeMealBtnColor = (mealType) => {
-    if(mealPlan == mealType){
+    if (mealPlan == mealType) {
       setMealTypeBtnColor(""); setMealPlan(""); return;
     }
     setMealTypeBtnColor(mealType);
     setMealPlan(mealType);
   };
 
-  const showBookingSuccessful = ()=>{
+  const showBookingSuccessful = () => {
     setOpenBookingSuccessful(!openBookingSuccessful);
     setOpenBookingButtons(false);
+  }
+
+  const showGuestInfo = async()=>{
+    let res = await getPendingCheckinData(filterFrom,filterTo);
+    if(res?.success){ if(res?.data.length >=1){setOpenGuestInfo(true);} setPendingCheckinData(res?.data); } else{ setOpenGuestInfo(false);setPendingCheckinData([]); }
   }
 
   const handleInputChange = (e) => {
@@ -494,21 +563,33 @@ const CheckIn = () => {
     else if (e.target.name == "state") { setAddress({ ...address, state: e.target.value }); }
     else if (e.target.name == "zip") { setAddress({ ...address, zip: e.target.value }); }
     else if (e.target.name == "noofrooms") { setNoOfRooms(e.target.value); }
-    else if (e.target.name == "roomnumber" && e.target.value!=" ") { 
-      setRoomNumber(e.target.value); 
+    else if (e.target.name == "roomnumber" && e.target.value != " ") {
+      setRoomNumber(e.target.value);
       const avroomnos = e.target.value.split(',').map(value => value.trim()).filter(value => value !== '');
-      if(!avroomnos.length) { setNoOfRooms("") }
+      if (!avroomnos.length) { setNoOfRooms("") }
       else { setNoOfRooms(avroomnos.length); }
     }
-    else if (e.target.name == "reservationnumber") { 
-      setreservationNumber(e.target.value); 
-      if(e.target.value.length ==14) { getAndSetUserData(e.target.value); } 
+    else if (e.target.name == "reservationnumber") {
+      setreservationNumber(e.target.value);
+      if (e.target.value.length != 14 && arrivalDate != '') {
+        setNoOfRooms(''); setRoomNumber(''); setBookingDate(''); setArrivalDate(''); setArrivalTime(''); setNights('');
+        setdepartureDate(''); setDepartureTime(''); setRoomRate(''); setDiscountAmount(''); setDiscountPercentage(''); setSpecialReq('');
+        setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
+        setGuestPhoneNumber(''); setCompanyName('');
+        setAddress({ ad1: "", city: "", state: "", zip: "", });
+        setTravelAgentName('');
+
+        changeRoomBtnColor(''); changePaymentBtnColor(''); changeMealBtnColor('');
+
+        setIsDiscountDisabled(true);
+      }
+      else if (e.target.value.length == 14) { getAndSetUserData(e.target.value); }
     }
     else if (e.target.name == "bookingdate") { setBookingDate(e.target.value); }
     else if (e.target.name == "extrabed") { setExtraBed(e.target.value); }
-    else if (e.target.name == "arrivaldate") { 
+    else if (e.target.name == "arrivaldate") {
       setArrivalDate(e.target.value);
-      if(departureDate && e.target.value) { 
+      if (departureDate && e.target.value) {
         const date2 = new Date(departureDate);
         const date1 = new Date(e.target.value);
 
@@ -519,9 +600,9 @@ const CheckIn = () => {
     }
     else if (e.target.name == "arrivaltime") { setArrivalTime(e.target.value); }
     else if (e.target.name == "nights") { setNights(e.target.value); }
-    else if (e.target.name == "departuredate") { 
-      setdepartureDate(e.target.value); 
-      if(arrivalDate && e.target.value) { 
+    else if (e.target.name == "departuredate") {
+      setdepartureDate(e.target.value);
+      if (arrivalDate && e.target.value) {
         const date1 = new Date(e.target.value);
         const date2 = new Date(arrivalDate);
 
@@ -531,21 +612,21 @@ const CheckIn = () => {
       }
     }
     else if (e.target.name == "departuretime") { setDepartureTime(e.target.value); }
-    else if (e.target.name == "roomrate") { 
-      setRoomRate(e.target.value); if(e.target.value == ''){ setIsDiscountDisabled(true); }else{ setIsDiscountDisabled(false); }
+    else if (e.target.name == "roomrate") {
+      setRoomRate(e.target.value); if (e.target.value == '') { setIsDiscountDisabled(true); } else { setIsDiscountDisabled(false); }
       setDiscountAmount(""); setDiscountPercentage("");
     }
-    else if (e.target.name == "discountamount") { 
-      setDiscountAmount(e.target.value);  let result = (e.target.value / roomRate) * 100; setDiscountPercentage(result);
+    else if (e.target.name == "discountamount") {
+      setDiscountAmount(e.target.value); let result = (e.target.value / roomRate) * 100; setDiscountPercentage(result);
     }
-    else if (e.target.name == "discountpercentage") { 
-      setDiscountPercentage(e.target.value);  let result = (e.target.value * roomRate) / 100; setDiscountAmount(result);
+    else if (e.target.name == "discountpercentage") {
+      setDiscountPercentage(e.target.value); let result = (e.target.value * roomRate) / 100; setDiscountAmount(result);
     }
     else if (e.target.name == "gstrate") { setgstRate(e.target.value); }
     else if (e.target.name == "deposit") { setDepositRate(e.target.value); }
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
     else if (e.target.name == "guesticnumber") { setGuestICNumber(e.target.value); }
-    else if (e.target.name == "guestphonenumber" && !isNaN(e.target.value) && e.target.value.length < 14 ) { setGuestPhoneNumber(e.target.value); }
+    else if (e.target.name == "guestphonenumber" && !isNaN(e.target.value) && e.target.value.length < 14) { setGuestPhoneNumber(e.target.value); }
     else if (e.target.name == "companyname") { setCompanyName(e.target.value); }
     else if (e.target.name == "tel") { setTel(e.target.value); }
     else if (e.target.name == "adults") { setAdults(e.target.value); }
@@ -553,7 +634,7 @@ const CheckIn = () => {
     else if (e.target.name == "cityledgetacct") { setCityLedgetAcct(e.target.value); }
     else if (e.target.name == "groupid") { setGroupId(e.target.value); }
     else if (e.target.name == "travelagentname") { setTravelAgentName(e.target.value); }
-    else if (e.target.name == "aadharno" && !isNaN(e.target.value) && e.target.value.length < 17 ) { setAadharNo(e.target.value); }
+    else if (e.target.name == "aadharno" && !isNaN(e.target.value) && e.target.value.length < 17) { setAadharNo(e.target.value); }
     else if (e.target.name == "passportnumber") { setPassportNumber(e.target.value); }
     else if (e.target.name == "visanumber") { setVisaNumber(e.target.value); }
     else if (e.target.name == "passportdateofissue") { setPassportDateOfIssue(e.target.value); }
@@ -561,19 +642,21 @@ const CheckIn = () => {
     else if (e.target.name == "arrivedfrom") { setArrivedFrom(e.target.value); }
     else if (e.target.name == "placeofissue") { setPlaceOfIssue(e.target.value); }
     else if (e.target.name == "purpose") { setPurpose(e.target.value); }
+    else if (e.target.name == "filterfrom") { setFilterFrom(e.target.value); }
+    else if (e.target.name == "filterTo") { setFilterTo(e.target.value); }
   };
 
-  const submitAction = async(e) => {
+  const submitAction = async (e) => {
     e.preventDefault();
     let res = await updateReservationData();
-    if(res.success){
+    if (res.success) {
       showBookingSuccessful();
-      setTimeout(() => { 
+      setTimeout(() => {
         navigate(-1);
       }, 5000);
-    }else{
+    } else {
       alert(res.msg);
-    } 
+    }
   };
 
   return (
@@ -590,7 +673,37 @@ const CheckIn = () => {
           </div>
         </nav>
         <div className="container mb-1">
-          <div className="d-flex align-items-center justify-content-between large-flex-column reserv-col-gap-1">
+          <div>
+            <div className='d-flex justify-content-center align-items-center reserv-col-gap-1'>
+              <h5>From</h5>
+              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterfrom" value={filterFrom} onChange={handleInputChange}></input>
+              <h5>To</h5>
+              <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="filterto" value={filterTo} onChange={handleInputChange}></input>
+              <button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12" onClick={()=>{showGuestInfo()}}>Apply</button>
+            </div>
+            {openGuestInfo && <div className="table-responsive height-200 bg-skyblue mt-2 mx-5">
+              <table className="table table-borderless table-border-collapse text-primary">
+                <thead className="table-head">
+                  <tr>
+                    <th scope="col" className="col-md-6">Guest Name</th>
+                    <th scope="col" className="col-md-2">Phone No</th>
+                    <th scope="col" className="col-md-3">Room No</th>
+                    <th scope="col" className="col-md-1"></th>
+                  </tr>
+                </thead>
+                <tbody className="table-group-divider">
+                  {pendingCheckinData.length >=1 && pendingCheckinData.map((item,index)=>{
+                    return <tr key={index+1} className='hover-gray make-cursor-pointer'>
+                    <td className="col-md-6">{`${item.name.title} ${item.name.firstname} ${item.name.middlename} ${item.name.lastname}`}</td>
+                    <td className="col-md-2">{item.phoneno}</td>
+                    <td className="col-md-3">{item.roomno}</td>
+                    <td className="col-md-1"><button onClick={()=>{getAndSetUserData(item.bookingid); setOpenGuestInfo(false); setreservationNumber(item.bookingid);}} type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-30 large-button-width-60 large-button-font-size-12">Select</button></td>
+                  </tr>})}
+                </tbody>
+              </table>
+            </div>}
+          </div>
+          <div className="d-flex align-items-center justify-content-between large-flex-column reserv-col-gap-1 mt-4">
             <form className="col-6 bg-skyblue mt-0 p-2 height-650 medium-height-750 large-width-full">
               <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="roomtype" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
@@ -1521,22 +1634,22 @@ const CheckIn = () => {
             <button
               type="button"
               className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`}
-              onClick={()=>{navigate('/Home3')}}
-              >
+              onClick={() => { navigate('/Home3') }}
+            >
               Booking Hold
             </button>
             <button
               type="button"
               className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`}
-              onClick={(e)=>{submitAction(e);}}
-              >
+              onClick={(e) => { submitAction(e); }}
+            >
               Pay & Book
             </button>
             <button
               type="button"
-              className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`} 
-              onClick={(e)=>{submitAction(e);}}
-              >
+              className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`}
+              onClick={(e) => { submitAction(e); }}
+            >
               Book
             </button>
           </div>}
