@@ -1105,9 +1105,9 @@ const CheckOut = () => {
           </div>}
 
 
-          <iframe id="billpopup" src={`http://localhost:3000/Billing?bookingid=${registrationNo}`} className="display-none"/>
-          <iframe id="roombillpopup" src={`http://localhost:3000/RoomBill?bookingid=${registrationNo}`} className="display-none"/>
-          <iframe id="servicebillpopup" src={`http://localhost:3000/ServiceBill?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="billpopup" title="SIT HMCT Bill" src={`http://localhost:3000/Billing?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="roombillpopup" title="SIT HMCT Room Bill" src={`http://localhost:3000/RoomBill?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="servicebillpopup" title="SIT HMCT Service Bill" src={`http://localhost:3000/ServiceBill?bookingid=${registrationNo}`} className="display-none"/>
         
         
         </div>
