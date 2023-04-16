@@ -1067,9 +1067,8 @@ const CheckIn = () => {
                 </label>
                 <div className="col-sm-9 medium-width-60percent">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control height-30 font-size-14 background-gray"
-                    min="0"
                     id="inputGst"
                     name="gstrate"
                     value={gstRate}
