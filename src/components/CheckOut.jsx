@@ -9,6 +9,8 @@ import { useEffect } from "react";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
+const printUrl = process.env.REACT_APP_PRINT_URL;
+
 const CheckOut = () => {
   let navigate = useNavigate();
   const location = useLocation();
@@ -1105,9 +1107,9 @@ const CheckOut = () => {
           </div>}
 
 
-          <iframe id="billpopup" title="SIT HMCT Bill" src={`http://localhost:3000/Billing?bookingid=${registrationNo}`} className="display-none"/>
-          <iframe id="roombillpopup" title="SIT HMCT Room Bill" src={`http://localhost:3000/RoomBill?bookingid=${registrationNo}`} className="display-none"/>
-          <iframe id="servicebillpopup" title="SIT HMCT Service Bill" src={`http://localhost:3000/ServiceBill?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="billpopup" title="SIT HMCT Bill" src={`${printUrl}/Billing?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="roombillpopup" title="SIT HMCT Room Bill" src={`${printUrl}/RoomBill?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="servicebillpopup" title="SIT HMCT Service Bill" src={`${printUrl}/ServiceBill?bookingid=${registrationNo}`} className="display-none"/>
         
         
         </div>
