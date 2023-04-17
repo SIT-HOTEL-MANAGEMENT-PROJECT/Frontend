@@ -225,11 +225,11 @@ const Laundry = () => {
   
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
-    const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join(",");
+    const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join("+");
     setItemName(commaSeparatedNames);
     setCost(commaSeparatedPrice);
     setTotalItem(itemCodeArray.length);
-    // const prices = cost.split(",").map(price => parseInt(price.trim()));
+    // const prices = cost.split("+").map(price => parseInt(price.trim()));
     const prices = itemCodeArray?.map(item => item?.price);
     if(prices.length >= 1){
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
@@ -259,13 +259,13 @@ const Laundry = () => {
     else if (e.target.name == "itemname") { setItemName(e.target.value); }
     else if (e.target.name == "cost") {
       setCost(e.target.value);
-      const prices = e.target.value.split(",").map(price => parseInt(price.trim()));
+      const prices = e.target.value.split("+").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
       setTotalAmount(total);
     }
     else if (e.target.name == "discountamount") {
       setDiscountAmount(e.target.value);
-      const prices = cost.split(",").map(price => parseInt(price.trim()));
+      const prices = cost.split("+").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
       if (!e.target.value || e.target.value == 0) {
         setTotalAmount(total);
@@ -317,7 +317,7 @@ const Laundry = () => {
 
     const nameArr = itemName.split(",").filter(Boolean);
     const codeArr = itemCode.split(",").filter(Boolean);
-    const priceArr = cost.split(",").filter(Boolean);
+    const priceArr = cost.split("+").filter(Boolean);
 
     const result = [];
 
