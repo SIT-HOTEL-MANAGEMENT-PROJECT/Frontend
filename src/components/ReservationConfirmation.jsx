@@ -154,11 +154,11 @@ const ReservationConfirmation = () => {
 
       if(isNaN(discountamount)){
         setAmountPaid(roomrate);
-        await updateReservationTimePayment(bookingData.bookingid, roomrate.toString());
+        // await updateReservationTimePayment(bookingData.bookingid, roomrate.toString());
       }else{
         let amountPaidHere = roomrate - discountamount;
         setAmountPaid(amountPaidHere);
-        await updateReservationTimePayment(bookingData.bookingid, amountPaidHere.toString());
+        // await updateReservationTimePayment(bookingData.bookingid, amountPaidHere.toString());
       }
     }
   }
@@ -262,7 +262,7 @@ const ReservationConfirmation = () => {
                       htmlFor="amountpaid"
                       className="col-sm-5 col-form-label fw-bold"
                     >
-                      Amount Paid
+                      Amount to be Paid
                     </label>
                     <div className="col-sm-7">
                       <input
@@ -270,11 +270,11 @@ const ReservationConfirmation = () => {
                         className="form-control"
                         id="inputAmount"
                         min="0"
-                        name="amountpaid" value={amountPaid} onChange={handleInputChange}
+                        name="amountpaid" readOnly="true" value={amountPaid} onChange={handleInputChange}
                       />
                     </div>
                   </div>
-                  <button className="width-100 btn btn-primary" onClick={updateAmountValue}>Update</button>
+                  {/* <button className="width-100 btn btn-primary" onClick={updateAmountValue}>Update</button> */}
                 </div>  
               </div>
             </div>

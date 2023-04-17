@@ -223,11 +223,11 @@ const FandB = () => {
   
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
-    const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join(",");
+    const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join("+");
     setItemName(commaSeparatedNames);
     setRate(commaSeparatedPrice);
     setItemQuantity(itemCodeArray.length);
-    // const prices = rate.split(",").map(price => parseInt(price.trim()));
+    // const prices = rate.split("+").map(price => parseInt(price.trim()));
     const prices = itemCodeArray?.map(item => item?.price);
     if(prices.length >= 1){
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
@@ -270,7 +270,7 @@ const FandB = () => {
     else if (e.target.name == "itemname") { setItemName(e.target.value); }
     else if (e.target.name == "rate") { 
       setRate(e.target.value);
-      const prices = e.target.value.split(",").map(price => parseInt(price.trim()));
+      const prices = e.target.value.split("+").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
       setTotalAmount(total);
       const stgst = (2.50/100)*total;
@@ -317,7 +317,7 @@ const FandB = () => {
 
     const nameArr = itemName.split(",").filter(Boolean);
     const codeArr = itemCode.split(",").filter(Boolean);
-    const priceArr = rate.split(",").filter(Boolean);
+    const priceArr = rate.split("+").filter(Boolean);
 
     const result = [];
 

@@ -486,7 +486,7 @@ const CheckOut = () => {
     let res = await updateReservationData();
     if (res.success) {
       alert("Your Checkout Successful!");
-      navigate(-1);
+      navigate('/Home3');
     } else {
       alert(res.msg);
     }
@@ -926,6 +926,13 @@ const CheckOut = () => {
                   <td className="table-tdata"></td>
                   <td className="table-tdata">{ttlDebit}</td>
                   <td className="table-tdata">{ttlCredit}</td>
+                </tr>
+                <tr className='hover-gray make-cursor-pointer table-br-last-blue' >
+                  <td className="table-tdata"></td>
+                  <td className="table-tdata"></td>
+                  <td className="table-tdata">Amount to be Paid</td>
+                  <td className="table-tdata">{settlementAmount}</td>
+                  <td className="table-tdata"></td>
                 </tr>
               </tbody>
             </table>

@@ -28,6 +28,7 @@ const ServiceBill = () => {
     const [laundryAmountPaid, setLaundryAmountPaid] = useState(0)
     const [laundryTtlDebit, setLaundryTtlDebit] = useState(0);
     const [laundryTtlCredit, setLaundryTtlCredit] = useState(0);
+    const [laundrySettlementAmount, setLaundrySettlementAmount] = useState(0);
 
     const [fnbBill, setFnbBill] = useState([]);
     const [fnbAmountPaid, setFnbAmountPaid] = useState(0)
@@ -35,6 +36,7 @@ const ServiceBill = () => {
     const [fnbCgst, setFnbCgst] = useState(0);
     const [fnbTtlDebit, setFnbTtlDebit] = useState(0);
     const [fnbTtlCredit, setFnbTtlCredit] = useState(0);
+    const [fnbSettlementAmount, setFnbSettlementAmount] = useState(0);
 
     useEffect(() => {
         setTimeout(() => {
@@ -95,10 +97,10 @@ const ServiceBill = () => {
             setArrivalTime(''); setdepartureDate(''); setDepartureTime(''); setregistrationNo('');
 
             setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
-            setLaundryAmountPaid(0); setLaundryTtlCredit(0);
+            setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0);
 
             setFnbBill([]); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-            setFnbTtlCredit(0);
+            setFnbTtlCredit(0); setFnbSettlementAmount(0);
         }
     }
 
@@ -152,18 +154,24 @@ const ServiceBill = () => {
                     setLaundryTtlDebit(parseFloat(ttlDebt));
                     setLaundryAmountPaid(parseFloat(ttlAmountPaid));
                     ttlCred += parseFloat(ttlDiscount) + parseFloat(ttlAmountPaid);
+
+
+                    let sstlamt = 0.0;
+                    if(ttlDebt > ttlCred) { sstlamt = parseFloat(ttlDebt) - parseFloat(ttlCred); }
+                    ttlCred += parseFloat(sstlamt);
+                    setLaundrySettlementAmount(parseFloat(sstlamt));
                     setLaundryTtlCredit(parseFloat(ttlCred));
                 }
                 else{ 
                     setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
-                    setLaundryAmountPaid(0); setLaundryTtlCredit(0);
+                    setLaundryAmountPaid(0); setLaundrySettlementAmount(0); setLaundryTtlCredit(0);
                 }
             }
 
             return {success:true};
         }catch(e){
             setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
-            setLaundryAmountPaid(0); setLaundryTtlCredit(0);
+            setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0);
             console.log("ServiceBillPageError (getandSetLaundryBill) : ", e);
             return { success: false, msg: 'Something Went Wrong' }
         }
@@ -224,18 +232,23 @@ const ServiceBill = () => {
                     setFnbAmountPaid(parseFloat(ttlAmountPaid));
                     
                     ttlCred += parseFloat(ttlAmountPaid);
+
+                    let sstlamt = 0.0;
+                    if(fnlDebit > ttlCred) { sstlamt = parseFloat(fnlDebit) - parseFloat(ttlCred); }
+                    setFnbSettlementAmount(parseFloat(sstlamt));
+                    ttlCred += parseFloat(sstlamt);
                     setFnbTtlCredit(parseFloat(ttlCred));
                 }
                 else{ 
                     setFnbBill([]); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-                    setFnbTtlCredit(0);
+                    setFnbTtlCredit(0); setFnbSettlementAmount(0);
                 }
             }
 
             return {success:true};
         }catch(e){
             setFnbBill([]); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-            setFnbTtlCredit(0);
+            setFnbTtlCredit(0); setFnbSettlementAmount(0);
             console.log("ServiceBillPageError (getandSetLaundryBill) : ", e);
             return { success: false, msg: 'Something Went Wrong' }
         }
@@ -354,6 +367,15 @@ const ServiceBill = () => {
                                     <td></td>
                                     <td className="text-dark">{laundryAmountPaid}</td>
                                 </tr>}
+                                {laundrySettlementAmount > 0.0 && <tr>
+                                    <td>{departureDate}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Settlement Amount</td>
+                                    <td></td>
+                                    <td className="text-dark">{laundrySettlementAmount}</td>
+                                </tr>}
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -391,7 +413,7 @@ const ServiceBill = () => {
                                     <td>{item?.price}</td>
                                     <td></td>
                                 </tr>})}
-                                <tr>
+                                {fnbCgst > 0.0 && <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -399,8 +421,8 @@ const ServiceBill = () => {
                                     <td className="text-dark">Total Cgst @2.50</td>
                                     <td>{fnbCgst}</td>
                                     <td className="text-dark"></td>
-                                </tr>
-                                <tr>
+                                </tr>}
+                                {fnbSgst > 0.0 && <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -408,7 +430,7 @@ const ServiceBill = () => {
                                     <td className="text-dark">Total Sgst @2.50</td>
                                     <td>{fnbSgst}</td>
                                     <td></td>
-                                </tr>
+                                </tr>}
                                 {fnbAmountPaid > 0.0 && <tr>
                                     <td></td>
                                     <td></td>
@@ -417,6 +439,15 @@ const ServiceBill = () => {
                                     <td className="text-dark">Total Amount Paid</td>
                                     <td></td>
                                     <td>{fnbAmountPaid}</td>
+                                </tr>}
+                                {fnbSettlementAmount > 0.0 && <tr>
+                                    <td>{departureDate}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Settlement Amount</td>
+                                    <td></td>
+                                    <td>{fnbSettlementAmount}</td>
                                 </tr>}
                                 <tr>
                                     <td></td>
