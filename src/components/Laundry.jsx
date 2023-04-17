@@ -23,6 +23,7 @@ const Laundry = () => {
   const [itemName, setItemName] = useState("");
   const [cost, setCost] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const [serviceType, setServiceType] = useState("");
   const [date, setDate] = useState("");
   const [specialReq, setSpecialReq] = useState("");
@@ -274,6 +275,9 @@ const Laundry = () => {
         let res = total - e.target.value;
         setTotalAmount(res);
       }
+    }  
+    else if (e.target.name == "discountpercentage") {  
+      setDiscountPercentage(e.target.value);
     }
     else if (e.target.name == "date") { setDate(e.target.value); }
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
@@ -462,7 +466,7 @@ const Laundry = () => {
               </div>
             </div>
           </div>
-          <form className="d-flex width-80percent medium-flex-column p-1">
+          <form className="d-flex width-80percent medium-flex-column reserv-row-gap-2 p-1">
             <div className="flex-column width-50percent height-550 medium-width-full">
               <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
                 <label htmlFor="itemcode" className="col-sm-3 col-form-label medium-width-40percent">
@@ -511,7 +515,7 @@ const Laundry = () => {
               </div>
               <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
                 <label htmlFor="discountamount" className="col-sm-3 col-form-label medium-width-40percent">
-                  Discount{" "}
+                  Discount Amt{" "}
                 </label>
                 <div className="col-sm-7 medium-width-60percent">
                   <input
@@ -521,6 +525,22 @@ const Laundry = () => {
                     id="inputDiscountAmount"
                     name="discountamount"
                     value={discountAmount}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+                <label htmlFor="discountpercentage" className="col-sm-3 col-form-label medium-width-40percent">
+                  Discount %{" "}
+                </label>
+                <div className="col-sm-7 medium-width-60percent">
+                  <input
+                    type="number"
+                    className="form-control height-30 font-size-14 background-gray"
+                    min="0"
+                    id="inputDiscountPercentage"
+                    name="discountpercentage"
+                    value={discountPercentage}
                     onChange={handleInputChange}
                   />
                 </div>

@@ -29,6 +29,8 @@ const FandB = () => {
   const [itemName, setItemName] = useState("");
   const [modeOfPlan, setModeOfPlan] = useState("");
   const [rate, setRate] = useState("");
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const [roomNumber, setRoomNumber] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [stateGst, setStateGst] = useState(0);
@@ -63,27 +65,27 @@ const FandB = () => {
   // return : 1. {success: true }                                                     IF ALL OK
   //          2. {success: false, msg: 'Something Went Wrong'}                        IF INTERNAL SERVER ERROR
   let prevvalue = 0;
-  const updateRupeesAdrValue = async(amount)=>{
-    try{
+  const updateRupeesAdrValue = async (amount) => {
+    try {
       const todaydateforpayment = new Date();
       const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
 
       let rupeesadrData = await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).get();
-      if(!rupeesadrData){
+      if (!rupeesadrData) {
         prevvalue = parseFloat(amount);
-        await db.collection('rupeesadr').add({date: todaydateforpaymentstring, value: parseFloat(amount)});
-      }else{
+        await db.collection('rupeesadr').add({ date: todaydateforpaymentstring, value: parseFloat(amount) });
+      } else {
         let updateval;
-        updateval = parseFloat(rupeesadrData.value) + parseFloat(amount); 
-        if(prevvalue){  updateval = parseFloat(updateval) - parseFloat(prevvalue);  }
+        updateval = parseFloat(rupeesadrData.value) + parseFloat(amount);
+        if (prevvalue) { updateval = parseFloat(updateval) - parseFloat(prevvalue); }
         prevvalue = parseFloat(amount);
-        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({value: parseFloat(updateval)});
+        await db.collection('rupeesadr').doc({ date: todaydateforpaymentstring }).update({ value: parseFloat(updateval) });
       }
 
-      return {success:true}
-    }catch(e){
-      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ",e);
-      return {success:false, msg: "Something Went Wrong"}
+      return { success: true }
+    } catch (e) {
+      console.log("ReservationConfirmationPageError (updateRupeesAdrValue) : ", e);
+      return { success: false, msg: "Something Went Wrong" }
     }
   }
 
@@ -94,17 +96,17 @@ const FandB = () => {
     let reservations;
 
     if (rmno.charAt(0) == '1') {
-      if(roomData[0]['standard'][rmno]['av'] != '0') return
+      if (roomData[0]['standard'][rmno]['av'] != '0') return
       reservations = roomData[0]['standard'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '2') {
-      if(roomData[0]['delux'][rmno]['av'] != '0') return
+      if (roomData[0]['delux'][rmno]['av'] != '0') return
       reservations = roomData[0]['delux'][rmno]['activeBookings'];
     }
 
     if (rmno.charAt(0) == '3') {
-      if(roomData[0]['executive'][rmno]['av'] != '0') return
+      if (roomData[0]['executive'][rmno]['av'] != '0') return
       reservations = roomData[0]['executive'][rmno]['activeBookings'];
     }
 
@@ -117,12 +119,12 @@ const FandB = () => {
     if (bookingId) {
       let reservationData = await db.collection('reservation').doc({ bookingid: bookingId }).get();
       if (!reservationData) return { success: false, msg: "Reservation Not Found!" }
-      
+
       setBookingIdFB(bookingId);
       setGuestName(reservationData.name);
-    }else{
+    } else {
       setBookingIdFB("");
-      setGuestName({title: "", firstname: "", middlename: "", lastname: "",})
+      setGuestName({ title: "", firstname: "", middlename: "", lastname: "", })
     }
   }
 
@@ -180,37 +182,37 @@ const FandB = () => {
 
       return { success: true }
     } catch (e) {
-      console.log("LaundryPageError (settlePayment) : ",e);
-      return {success: false, msg: 'Something Went Wrong'}
+      console.log("LaundryPageError (settlePayment) : ", e);
+      return { success: false, msg: 'Something Went Wrong' }
     }
   }
 
 
-  
-  const updateFnBData = async(ordersData)=>{
-    try{
+
+  const updateFnBData = async (ordersData) => {
+    try {
       const todaydate = new Date();
       const todaydateString = todaydate.toISOString().slice(0, 10);
 
       let paidstatus = true;
-      if(modeOfPayment == 'Postwithroom') paidstatus = false;
+      if (modeOfPayment == 'Postwithroom') paidstatus = false;
 
-      if(bookingIdFB && bookingIdFB!=""){
+      if (bookingIdFB && bookingIdFB != "") {
         await db.collection('fnbservice').add({
-          bookingid:bookingIdFB, date:todaydateString,roomno:roomNumber, orders:ordersData, sgst:stateGst,cgst:centralGst,
-          totalamount:totalAmount,netamount:netAmount, paymentmode:modeOfPayment, paid: paidstatus
+          bookingid: bookingIdFB, date: todaydateString, roomno: roomNumber, orders: ordersData, sgst: stateGst, cgst: centralGst,
+          totalamount: totalAmount, netamount: netAmount, paymentmode: modeOfPayment, paid: paidstatus
         })
       }
 
-      return {success:true}
-    }catch(e){
-      console.log("LaundryPageError (updateLaundryData) : ",e);
-      return {success: false, msg: 'Something Went Wrong'} 
+      return { success: true }
+    } catch (e) {
+      console.log("LaundryPageError (updateLaundryData) : ", e);
+      return { success: false, msg: 'Something Went Wrong' }
     }
   }
 
 
-  const initialPrepopulatedData = async()=>{
+  const initialPrepopulatedData = async () => {
     let todayDate = new Date();
     let todayDateString = todayDate.toISOString().slice(0, 10);
     setAccountingDate(todayDateString);
@@ -220,7 +222,7 @@ const FandB = () => {
   useEffect(() => {
     initialPrepopulatedData();
   }, [])
-  
+
   useEffect(() => {
     const commaSeparatedNames = itemCodeArray?.map(item => item?.name).join(",");
     const commaSeparatedPrice = itemCodeArray?.map(item => item?.price).join("+");
@@ -229,16 +231,16 @@ const FandB = () => {
     setItemQuantity(itemCodeArray.length);
     // const prices = rate.split("+").map(price => parseInt(price.trim()));
     const prices = itemCodeArray?.map(item => item?.price);
-    if(prices.length >= 1){
+    if (prices.length >= 1) {
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
       setTotalAmount(total);
-      const stgst = (2.50/100)*total;
-      const ctgst = (2.50/100)*total;
+      const stgst = (2.50 / 100) * total;
+      const ctgst = (2.50 / 100) * total;
       const netamt = total + ctgst + stgst;
       setStateGst(stgst);
       setCentralGst(ctgst);
       setNetAmount(netamt);
-    }else{
+    } else {
       setTotalAmount(0);
       setStateGst(0);
       setCentralGst(0);
@@ -246,43 +248,45 @@ const FandB = () => {
     }
   }, [itemCodeArray])
 
-  
+
   const handleInputChange = (e) => {
     if (e.target.name == "title") { setGuestName({ ...guestName, title: e.target.value }); }
     else if (e.target.name == "firstname") { setGuestName({ ...guestName, firstname: e.target.value }); }
     else if (e.target.name == "middlename") { setGuestName({ ...guestName, middlename: e.target.value }); }
     else if (e.target.name == "lastname") { setGuestName({ ...guestName, lastname: e.target.value }); }
     else if (e.target.name == "accountingdate") { setAccountingDate(e.target.value); }
+    else if (e.target.name == "discountamount") { setDiscountAmount(e.target.value); }
+    else if (e.target.name == "discountpercentage") { setDiscountPercentage(e.target.value); }
     else if (e.target.name == "itemquantity") { setItemQuantity(e.target.value); }
     else if (e.target.name == "tablenumber") { setTableNo(e.target.value); }
-    else if (e.target.name == "itemcode") { 
+    else if (e.target.name == "itemcode") {
       setItemCode(e.target.value);
       const arr = e.target.value.split(",");
       const resultArr = [];
       arr.forEach((code) => {
         const obj = itemData.find((item) => item.code === code);
-        if(obj){
+        if (obj) {
           resultArr.push(obj);
         }
       });
-      setItemCodeArray(resultArr); 
+      setItemCodeArray(resultArr);
     }
     else if (e.target.name == "itemname") { setItemName(e.target.value); }
-    else if (e.target.name == "rate") { 
+    else if (e.target.name == "rate") {
       setRate(e.target.value);
       const prices = e.target.value.split("+").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
       setTotalAmount(total);
-      const stgst = (2.50/100)*total;
-      const ctgst = (2.50/100)*total;
+      const stgst = (2.50 / 100) * total;
+      const ctgst = (2.50 / 100) * total;
       const netamt = total + ctgst + stgst;
       setStateGst(stgst);
       setCentralGst(ctgst);
       setNetAmount(netamt);
     }
-    else if (e.target.name == "roomnumber") { 
-      setRoomNumber(e.target.value); 
-      if(e.target.value.length != 3 && guestName.firstname != '') { setBookingIdFB(""); setGuestName({title: "", firstname: "", middlename: "", lastname: "",}) }
+    else if (e.target.name == "roomnumber") {
+      setRoomNumber(e.target.value);
+      if (e.target.value.length != 3 && guestName.firstname != '') { setBookingIdFB(""); setGuestName({ title: "", firstname: "", middlename: "", lastname: "", }) }
       else if (e.target.value.length === 3) findBookingIDAgainstRoomNo(e.target.value);
     }
   }
@@ -310,10 +314,10 @@ const FandB = () => {
     setModeOfSession(sessionType);
   };
 
-  const submitAction = async(e)=>{
+  const submitAction = async (e) => {
     e.preventDefault();
 
-    if(!bookingIdFB || bookingIdFB==""){ alert("Order Placed Successfully!"); return;}
+    if (!bookingIdFB || bookingIdFB == "") { alert("Order Placed Successfully!"); return; }
 
     const nameArr = itemName.split(",").filter(Boolean);
     const codeArr = itemCode.split(",").filter(Boolean);
@@ -331,16 +335,16 @@ const FandB = () => {
 
     let res = await settlePayment();
     let res1 = await updateFnBData(result);
-    if(res.success){
-      if(res1.success){
+    if (res.success) {
+      if (res1.success) {
         alert("Food & Beverage Bill generated!")
         navigate(-1);
-      }else{
+      } else {
         alert(res1?.msg);
       }
-    }else{
+    } else {
       alert(res.msg);
-    } 
+    }
   }
 
   return (
@@ -466,7 +470,7 @@ const FandB = () => {
                     </div>
                   </div>
                 </div>
-                <div className="accordion-item"> 
+                <div className="accordion-item">
                   <h2 className="accordion-header" id="flush-headingSix">
                     <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
                       Desserts
@@ -503,7 +507,7 @@ const FandB = () => {
                         <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Fanta", "G2", 80) }}>
                           <li className="col-sm-8">Fanta G2</li>
                           <li className="col-sm-4">Rs 80</li>
-                        </div>                        
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -638,26 +642,6 @@ const FandB = () => {
                   </div>
                   <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
-                      htmlFor="itemquantity"
-                      className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
-                    >
-                      Item Quantity{" "}
-                    </label>
-                    <div className="col-sm-8 medium-width-60percent">
-                      <input
-                        type="number"
-                        className="form-control height-30 font-size-14 background-gray"
-                        id="inputitemquantity"
-                        name="itemquantity"
-                        min="0"
-                        value={itemQuantity}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
-                    <label
                       htmlFor="tablenumber"
                       className="col-sm-4 col-form-label font-size-14 medium-width-40percent"
                     >
@@ -673,6 +657,38 @@ const FandB = () => {
                         value={tableNo}
                         onChange={handleInputChange}
                         required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
+                    <label htmlFor="discountamount" className="col-sm-4 col-form-label medium-width-40percent">
+                      Discount Amt{" "}
+                    </label>
+                    <div className="col-sm-8 medium-width-60percent">
+                      <input
+                        type="number"
+                        className="form-control height-30 font-size-14 background-gray"
+                        min="0"
+                        id="inputDiscountAmount"
+                        name="discountamount"
+                        value={discountAmount}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
+                    <label htmlFor="discountpercentage" className="col-sm-4 col-form-label medium-width-40percent">
+                      Discount %{" "}
+                    </label>
+                    <div className="col-sm-8 medium-width-60percent">
+                      <input
+                        type="number"
+                        className="form-control height-30 font-size-14 background-gray"
+                        min="0"
+                        id="inputDiscountPercentage"
+                        name="discountpercentage"
+                        value={discountPercentage}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>
@@ -710,6 +726,26 @@ const FandB = () => {
                   </div>
                   <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                     <label
+                      htmlFor="itemquantity"
+                      className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
+                    >
+                      Item Quantity{" "}
+                    </label>
+                    <div className="col-sm-8 medium-width-60percent">
+                      <input
+                        type="number"
+                        className="form-control height-30 font-size-14 background-gray"
+                        id="inputitemquantity"
+                        name="itemquantity"
+                        min="0"
+                        value={itemQuantity}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center flex-wrap rev-margin-gap">
+                    <label
                       htmlFor="plan"
                       className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
                     >
@@ -735,7 +771,7 @@ const FandB = () => {
                           : "background-gray"
                           }`}
                         onClick={() => {
-                          changeSessionBtnColor("Lunch");
+                          changePlanBtnColor("Lunch");
                         }}
                       >
                         Lunch
@@ -747,7 +783,7 @@ const FandB = () => {
                           : "background-gray"
                           }`}
                         onClick={() => {
-                          changeSessionBtnColor("Dinner");
+                          changePlanBtnColor("Dinner");
                         }}
                       >
                         Dinner
@@ -860,13 +896,14 @@ const FandB = () => {
                   </tr>
                 </thead>
                 <tbody className="table-group-divider text-primary">
-                  {itemCodeArray && itemCodeArray.map((item,index)=>{
-                    return <tr key={index+1}>
-                    <td>1</td>
-                    <td>Opt</td>
-                    <td>{item.name + " " + item.code}</td>
-                    <td>{item.price}</td>
-                  </tr>})}
+                  {itemCodeArray && itemCodeArray.map((item, index) => {
+                    return <tr key={index + 1}>
+                      <td>1</td>
+                      <td>Opt</td>
+                      <td>{item.name + " " + item.code}</td>
+                      <td>{item.price}</td>
+                    </tr>
+                  })}
                   <tr>
                     <td></td>
                     <td></td>
@@ -898,7 +935,7 @@ const FandB = () => {
               <button
                 type="submit"
                 className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5"
-                onClick={(e)=>{submitAction(e)}}
+                onClick={(e) => { submitAction(e) }}
               >
                 Submit
               </button>
