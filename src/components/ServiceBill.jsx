@@ -31,6 +31,7 @@ const ServiceBill = () => {
     const [laundrySettlementAmount, setLaundrySettlementAmount] = useState(0);
 
     const [fnbBill, setFnbBill] = useState([]);
+    const [fnbDiscount, setFnbDiscount] = useState(0);
     const [fnbAmountPaid, setFnbAmountPaid] = useState(0)
     const [fnbSgst, setFnbSgst] = useState(0);
     const [fnbCgst, setFnbCgst] = useState(0);
@@ -99,7 +100,7 @@ const ServiceBill = () => {
             setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
             setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0);
 
-            setFnbBill([]); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
+            setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
             setFnbTtlCredit(0); setFnbSettlementAmount(0);
         }
     }
@@ -190,6 +191,7 @@ const ServiceBill = () => {
             if (fnbDb.length >= 1) {
                 let ttlDebt = 0.0;
                 let ttlCred = 0.0;
+                let ttlDiscount = 0.0;
                 let ttlSgst = 0.0;
                 let ttlCgst = 0.0;
                 let ttlAmountPaid = 0.0;
@@ -216,6 +218,8 @@ const ServiceBill = () => {
                         thisbookingdebt += parseFloat(od.price);
                     });
 
+                    ttlDiscount += parseFloat(bk?.discount);
+                    if((parseFloat(bk?.discount) > 0.0) && bk?.paid === true) { thisbookingdebt -= parseFloat(bk?.discount) }
                     if(bk?.paid){ ttlAmountPaid += parseFloat(thisbookingdebt) + parseFloat(bk?.sgst) + parseFloat(bk?.cgst); }
                     if(bk?.sgst){ ttlSgst += parseFloat(bk.sgst); }
                     if(bk?.cgst){ ttlCgst += parseFloat(bk.cgst); }
@@ -225,13 +229,13 @@ const ServiceBill = () => {
                 if(transformedData.length >= 1) { 
                     setFnbBill(transformedData);
                     
-                    setFnbCgst(parseFloat(ttlCgst)); setFnbSgst(parseFloat(ttlSgst)); 
+                    setFnbDiscount(parseFloat(ttlDiscount)); setFnbCgst(parseFloat(ttlCgst)); setFnbSgst(parseFloat(ttlSgst)); 
                     let fnlDebit = parseFloat(ttlDebt) + parseFloat(ttlCgst) + parseFloat(ttlSgst);
                     setFnbTtlDebit(parseFloat(fnlDebit));
                     
                     setFnbAmountPaid(parseFloat(ttlAmountPaid));
                     
-                    ttlCred += parseFloat(ttlAmountPaid);
+                    ttlCred += parseFloat(ttlDiscount) + parseFloat(ttlAmountPaid);
 
                     let sstlamt = 0.0;
                     if(fnlDebit > ttlCred) { sstlamt = parseFloat(fnlDebit) - parseFloat(ttlCred); }
@@ -240,14 +244,14 @@ const ServiceBill = () => {
                     setFnbTtlCredit(parseFloat(ttlCred));
                 }
                 else{ 
-                    setFnbBill([]); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
+                    setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
                     setFnbTtlCredit(0); setFnbSettlementAmount(0);
                 }
             }
 
             return {success:true};
         }catch(e){
-            setFnbBill([]); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
+            setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
             setFnbTtlCredit(0); setFnbSettlementAmount(0);
             console.log("ServiceBillPageError (getandSetLaundryBill) : ", e);
             return { success: false, msg: 'Something Went Wrong' }
@@ -413,6 +417,15 @@ const ServiceBill = () => {
                                     <td>{item?.price}</td>
                                     <td></td>
                                 </tr>})}
+                                {fnbDiscount > 0.0 && <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Total Discount</td>
+                                    <td></td>
+                                    <td className="text-dark">{fnbDiscount}</td>
+                                </tr>}                                
                                 {fnbCgst > 0.0 && <tr>
                                     <td></td>
                                     <td></td>

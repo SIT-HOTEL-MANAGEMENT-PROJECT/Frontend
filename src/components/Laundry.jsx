@@ -23,6 +23,7 @@ const Laundry = () => {
   const [itemName, setItemName] = useState("");
   const [cost, setCost] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
   const [serviceType, setServiceType] = useState("");
   const [date, setDate] = useState("");
   const [specialReq, setSpecialReq] = useState("");
@@ -237,6 +238,13 @@ const Laundry = () => {
     }else{
       setTotalAmount(0);
     }
+
+    if(discountAmount && prices.length >= 1) {
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      let disper = (discountAmount / parseFloat(total)) * 100; setDiscountPercentage(disper);
+    }else{
+      setDiscountPercentage(0); setDiscountAmount(0);    
+    }
   }, [itemCodeArray])
 
   const handleInputChange = (e) => {
@@ -259,20 +267,48 @@ const Laundry = () => {
     else if (e.target.name == "itemname") { setItemName(e.target.value); }
     else if (e.target.name == "cost") {
       setCost(e.target.value);
-      const prices = e.target.value.split("+").map(price => parseInt(price.trim()));
-      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-      setTotalAmount(total);
+
+      let prices = ''
+      if(e.target.value && e.target.value !== '') prices = e.target.value.split("+").map(price => parseInt(price.trim()));
+
+      if(prices.length >= 1){
+        const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+        setTotalAmount(total - discountAmount);
+      }else{
+        setTotalAmount(0);
+      }
+
+      if(discountAmount && prices.length >= 1) {
+        const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+        let disper = (discountAmount / parseFloat(total)) * 100; setDiscountPercentage(disper);
+      }else{
+        setDiscountPercentage(0); setDiscountAmount(0);    
+      }
     }
     else if (e.target.name == "discountamount") {
+      const prices = cost.split("+").map(price => parseInt(price.trim()));
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      if(e.target.value > total) return;
       setDiscountAmount(e.target.value);
+      if (!e.target.value || e.target.value == 0) {
+        setDiscountAmount(0); setTotalAmount(total); setDiscountPercentage(0);
+      }
+      else {
+        let disper = (e.target.value / parseFloat(total)) * 100; setDiscountPercentage(disper);
+        let res = total - e.target.value; setTotalAmount(res);
+      }
+    }  
+    else if (e.target.name == "discountpercentage") {  
+      if(e.target.value > 100) return;
+      setDiscountPercentage(e.target.value);
       const prices = cost.split("+").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
       if (!e.target.value || e.target.value == 0) {
-        setTotalAmount(total);
+        setDiscountPercentage(0); setTotalAmount(total); setDiscountAmount(0);
       }
       else {
-        let res = total - e.target.value;
-        setTotalAmount(res);
+        let disamt = (e.target.value * parseFloat(total)) / 100; setDiscountAmount(disamt);
+        let res = total - disamt; setTotalAmount(res);
       }
     }
     else if (e.target.name == "date") { setDate(e.target.value); }
@@ -462,7 +498,7 @@ const Laundry = () => {
               </div>
             </div>
           </div>
-          <form className="d-flex width-80percent medium-flex-column p-1">
+          <form className="d-flex width-80percent medium-flex-column reserv-row-gap-2 p-1">
             <div className="flex-column width-50percent height-550 medium-width-full">
               <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
                 <label htmlFor="itemcode" className="col-sm-3 col-form-label medium-width-40percent">
@@ -489,6 +525,7 @@ const Laundry = () => {
                     className="form-control height-30 font-size-14 background-gray"
                     id="inputItemName"
                     name="itemname"
+                    readOnly="true"
                     value={itemName}
                     onChange={handleInputChange}
                   />
@@ -504,6 +541,7 @@ const Laundry = () => {
                     className="form-control height-30 font-size-14 background-gray"
                     id="inputCost"
                     name="cost"
+                    readOnly="true"
                     value={cost}
                     onChange={handleInputChange}
                   />
@@ -511,7 +549,7 @@ const Laundry = () => {
               </div>
               <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
                 <label htmlFor="discountamount" className="col-sm-3 col-form-label medium-width-40percent">
-                  Discount{" "}
+                  Discount Amt{" "}
                 </label>
                 <div className="col-sm-7 medium-width-60percent">
                   <input
@@ -521,6 +559,22 @@ const Laundry = () => {
                     id="inputDiscountAmount"
                     name="discountamount"
                     value={discountAmount}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+                <label htmlFor="discountpercentage" className="col-sm-3 col-form-label medium-width-40percent">
+                  Discount %{" "}
+                </label>
+                <div className="col-sm-7 medium-width-60percent">
+                  <input
+                    type="number"
+                    className="form-control height-30 font-size-14 background-gray"
+                    min="0"
+                    id="inputDiscountPercentage"
+                    name="discountpercentage"
+                    value={discountPercentage}
                     onChange={handleInputChange}
                   />
                 </div>
