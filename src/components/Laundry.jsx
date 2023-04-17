@@ -238,6 +238,13 @@ const Laundry = () => {
     }else{
       setTotalAmount(0);
     }
+
+    if(discountAmount && prices.length >= 1) {
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      let disper = (discountAmount / parseFloat(total)) * 100; setDiscountPercentage(disper);
+    }else{
+      setDiscountPercentage(0); setDiscountAmount(0);    
+    }
   }, [itemCodeArray])
 
   const handleInputChange = (e) => {
@@ -260,24 +267,49 @@ const Laundry = () => {
     else if (e.target.name == "itemname") { setItemName(e.target.value); }
     else if (e.target.name == "cost") {
       setCost(e.target.value);
-      const prices = e.target.value.split("+").map(price => parseInt(price.trim()));
-      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
-      setTotalAmount(total);
+
+      let prices = ''
+      if(e.target.value && e.target.value !== '') prices = e.target.value.split("+").map(price => parseInt(price.trim()));
+
+      if(prices.length >= 1){
+        const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+        setTotalAmount(total - discountAmount);
+      }else{
+        setTotalAmount(0);
+      }
+
+      if(discountAmount && prices.length >= 1) {
+        const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+        let disper = (discountAmount / parseFloat(total)) * 100; setDiscountPercentage(disper);
+      }else{
+        setDiscountPercentage(0); setDiscountAmount(0);    
+      }
     }
     else if (e.target.name == "discountamount") {
-      setDiscountAmount(e.target.value);
       const prices = cost.split("+").map(price => parseInt(price.trim()));
       const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      if(e.target.value > total) return;
+      setDiscountAmount(e.target.value);
       if (!e.target.value || e.target.value == 0) {
-        setTotalAmount(total);
+        setDiscountAmount(0); setTotalAmount(total); setDiscountPercentage(0);
       }
       else {
-        let res = total - e.target.value;
-        setTotalAmount(res);
+        let disper = (e.target.value / parseFloat(total)) * 100; setDiscountPercentage(disper);
+        let res = total - e.target.value; setTotalAmount(res);
       }
     }  
     else if (e.target.name == "discountpercentage") {  
+      if(e.target.value > 100) return;
       setDiscountPercentage(e.target.value);
+      const prices = cost.split("+").map(price => parseInt(price.trim()));
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      if (!e.target.value || e.target.value == 0) {
+        setDiscountPercentage(0); setTotalAmount(total); setDiscountAmount(0);
+      }
+      else {
+        let disamt = (e.target.value * parseFloat(total)) / 100; setDiscountAmount(disamt);
+        let res = total - disamt; setTotalAmount(res);
+      }
     }
     else if (e.target.name == "date") { setDate(e.target.value); }
     else if (e.target.name == "specialreq") { setSpecialReq(e.target.value); }
@@ -493,6 +525,7 @@ const Laundry = () => {
                     className="form-control height-30 font-size-14 background-gray"
                     id="inputItemName"
                     name="itemname"
+                    readOnly="true"
                     value={itemName}
                     onChange={handleInputChange}
                   />
@@ -508,6 +541,7 @@ const Laundry = () => {
                     className="form-control height-30 font-size-14 background-gray"
                     id="inputCost"
                     name="cost"
+                    readOnly="true"
                     value={cost}
                     onChange={handleInputChange}
                   />

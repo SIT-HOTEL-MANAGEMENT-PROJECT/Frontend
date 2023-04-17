@@ -199,7 +199,7 @@ const FandB = () => {
 
       if (bookingIdFB && bookingIdFB != "") {
         await db.collection('fnbservice').add({
-          bookingid: bookingIdFB, date: todaydateString, roomno: roomNumber, orders: ordersData, sgst: stateGst, cgst: centralGst,
+          bookingid: bookingIdFB, date: todaydateString, roomno: roomNumber, orders: ordersData, discount:discountAmount, sgst: stateGst, cgst: centralGst,
           totalamount: totalAmount, netamount: netAmount, paymentmode: modeOfPayment, paid: paidstatus
         })
       }
@@ -232,7 +232,8 @@ const FandB = () => {
     // const prices = rate.split("+").map(price => parseInt(price.trim()));
     const prices = itemCodeArray?.map(item => item?.price);
     if (prices.length >= 1) {
-      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      let total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      total -= parseFloat(discountAmount);
       setTotalAmount(total);
       const stgst = (2.50 / 100) * total;
       const ctgst = (2.50 / 100) * total;
@@ -246,6 +247,13 @@ const FandB = () => {
       setCentralGst(0);
       setNetAmount(0);
     }
+
+    if(discountAmount && prices.length >= 1) {
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      let disper = (discountAmount / parseFloat(total)) * 100; setDiscountPercentage(disper);
+    }else{
+      setDiscountPercentage(0); setDiscountAmount(0);    
+    }
   }, [itemCodeArray])
 
 
@@ -255,8 +263,56 @@ const FandB = () => {
     else if (e.target.name == "middlename") { setGuestName({ ...guestName, middlename: e.target.value }); }
     else if (e.target.name == "lastname") { setGuestName({ ...guestName, lastname: e.target.value }); }
     else if (e.target.name == "accountingdate") { setAccountingDate(e.target.value); }
-    else if (e.target.name == "discountamount") { setDiscountAmount(e.target.value); }
-    else if (e.target.name == "discountpercentage") { setDiscountPercentage(e.target.value); }
+    else if (e.target.name == "discountamount") { 
+      const prices = rate.split("+").map(price => parseInt(price.trim()));
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      if(e.target.value > total) return;
+      setDiscountAmount(e.target.value); 
+      if (!e.target.value || e.target.value == 0) {
+        setDiscountAmount(0); setTotalAmount(total); setDiscountPercentage(0);
+        const stgst = (2.50 / 100) * total;
+        const ctgst = (2.50 / 100) * total;
+        const netamt = total + ctgst + stgst;
+        setStateGst(stgst);
+        setCentralGst(ctgst);
+        setNetAmount(netamt);
+      }
+      else {
+        let disper = (e.target.value / parseFloat(total)) * 100; setDiscountPercentage(disper);
+        let res = total - e.target.value; setTotalAmount(res);
+        const stgst = (2.50 / 100) * res;
+        const ctgst = (2.50 / 100) * res;
+        const netamt = res + ctgst + stgst;
+        setStateGst(stgst);
+        setCentralGst(ctgst);
+        setNetAmount(netamt);
+      }
+    }
+    else if (e.target.name == "discountpercentage") { 
+      if(e.target.value > 100) return;
+      setDiscountPercentage(e.target.value);
+      const prices = rate.split("+").map(price => parseInt(price.trim()));
+      const total = prices.reduce((accumulator, currentValue) => accumulator + currentValue);
+      if (!e.target.value || e.target.value == 0) {
+        setDiscountPercentage(0); setTotalAmount(total); setDiscountAmount(0);
+        const stgst = (2.50 / 100) * total;
+        const ctgst = (2.50 / 100) * total;
+        const netamt = total + ctgst + stgst;
+        setStateGst(stgst);
+        setCentralGst(ctgst);
+        setNetAmount(netamt);
+      }
+      else {
+        let disamt = (e.target.value * parseFloat(total)) / 100; setDiscountAmount(disamt);
+        let res = total - disamt; setTotalAmount(res);
+        const stgst = (2.50 / 100) * res;
+        const ctgst = (2.50 / 100) * res;
+        const netamt = res + ctgst + stgst;
+        setStateGst(stgst);
+        setCentralGst(ctgst);
+        setNetAmount(netamt);
+      } 
+    }
     else if (e.target.name == "itemquantity") { setItemQuantity(e.target.value); }
     else if (e.target.name == "tablenumber") { setTableNo(e.target.value); }
     else if (e.target.name == "itemcode") {
@@ -719,6 +775,7 @@ const FandB = () => {
                         className="form-control height-30 font-size-14 background-gray"
                         id="inputItemName"
                         name="itemname"
+                        readOnly="true"
                         value={itemName}
                         onChange={handleInputChange}
                       />
@@ -803,6 +860,7 @@ const FandB = () => {
                         className="form-control height-30 font-size-14 background-gray"
                         id="inputRate"
                         name="rate"
+                        readOnly="true"
                         value={rate}
                         onChange={handleInputChange}
                         required
@@ -904,6 +962,12 @@ const FandB = () => {
                       <td>{item.price}</td>
                     </tr>
                   })}
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td className="text-dark">Discount</td>
+                    <td className="text-dark">-{discountAmount}</td>
+                  </tr>
                   <tr>
                     <td></td>
                     <td></td>
