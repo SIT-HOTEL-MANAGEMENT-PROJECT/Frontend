@@ -35,7 +35,7 @@ const RoomBill = () => {
     const [gstId, setGstId] = useState("");
     const [confirmationNo, setConfirmationNo] = useState("");
     const [ttlCredit, setTtlCredit] = useState(0);
-
+    const [settlementAmount, setSettlementAmount] = useState(0);
 
     useEffect(() => {
         setTimeout(() => {
@@ -103,14 +103,14 @@ const RoomBill = () => {
             }
 
             for (const transaction of booking.paymenthistory) {
-                if(transaction.name == 'reservation'){
-                    setReservationdepositeDate(transaction.date);
-                    setReservationDeposit(transaction.credit);
-                    if(transaction.credit && transaction.credit != ""){
-                        totalCredit += parseFloat(transaction.credit);
-                    }
-                }
-                else if(transaction.name == 'checkin'){
+                // if(transaction.name == 'reservation'){
+                //     setReservationdepositeDate(transaction.date);
+                //     setReservationDeposit(transaction.credit);
+                //     if(transaction.credit && transaction.credit != ""){
+                //         totalCredit += parseFloat(transaction.credit);
+                //     }
+                // }
+                if(transaction.name == 'checkin'){
                     setCheckindepositeDate(transaction.date);
                     setCheckinDeposit(transaction.credit);
                     if(transaction.credit && transaction.credit != ""){
@@ -119,6 +119,10 @@ const RoomBill = () => {
                 }
             }
 
+            let sstlamt = 0.0;
+            if((booking.roomrate) > totalCredit) { sstlamt = parseFloat(booking.roomrate) - parseFloat(totalCredit); } 
+            setSettlementAmount(sstlamt);
+            totalCredit += parseFloat(sstlamt);
             setTtlCredit(totalCredit);
         } else {
             setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
@@ -247,6 +251,14 @@ const RoomBill = () => {
                                     <td className="text-dark">CheckIn Deposit</td>
                                     <td>{""}</td>
                                     <td className="text-dark">{checkinDeposit}</td>
+                                </tr>}
+                                {settlementAmount > 0.0 && <tr>
+                                    <td>{departureDate}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Settlement Amount</td>
+                                    <td>{""}</td>
+                                    <td className="text-dark">{settlementAmount}</td>
                                 </tr>}
                                 <tr>
                                     <td></td>
