@@ -21,7 +21,7 @@ const FandB = () => {
     lastname: "",
   });
   const [accountingDate, setAccountingDate] = useState("");
-  const [modeOfsession, setModeOfSession] = useState("");
+  const [modeOfSession, setModeOfSession] = useState("");
   const [itemQuantity, setItemQuantity] = useState("");
   const [tableNo, setTableNo] = useState("");
   const [modeOfPayment, setModeOfPayment] = useState("");
