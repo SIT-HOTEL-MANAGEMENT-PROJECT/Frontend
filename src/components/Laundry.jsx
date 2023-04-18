@@ -498,9 +498,10 @@ const Laundry = () => {
               </div>
             </div>
           </div>
-          <form className="d-flex width-80percent medium-flex-column reserv-row-gap-2 p-1">
-            <div className="flex-column width-50percent height-550 medium-width-full">
-              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+          <div className="flex-column width-80percent">
+          <form className="d-flex medium-flex-column reserv-row-gap-2 p-1">
+            <div className="flex-column width-50percent medium-width-full">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
                 <label htmlFor="itemcode" className="col-sm-3 col-form-label medium-width-40percent">
                   Item Code{" "}
                 </label>
@@ -515,7 +516,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
                 <label htmlFor="itemname" className="col-sm-3 col-form-label medium-width-40percent">
                   Item Name{" "}
                 </label>
@@ -531,7 +532,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center font-size-14 flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center font-size-14 flex-wrap rev-margin-gap">
                 <label htmlFor="cost" className="col-sm-3 col-form-label medium-width-40percent">
                   Cost{" "}
                 </label>
@@ -547,7 +548,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
                 <label htmlFor="discountamount" className="col-sm-3 col-form-label medium-width-40percent">
                   Discount Amt{" "}
                 </label>
@@ -563,7 +564,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap font-size-14 rev-margin-gap">
                 <label htmlFor="discountpercentage" className="col-sm-3 col-form-label medium-width-40percent">
                   Discount %{" "}
                 </label>
@@ -579,7 +580,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="servicetype" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Service Type{" "}
                 </label>
@@ -620,7 +621,7 @@ const Laundry = () => {
                   </button>
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label
                   htmlFor="date"
                   className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
@@ -639,7 +640,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex flex-wrap rev-margin-gap-40">
+              <div className="d-flex flex-wrap rev-margin-gap">
                 <label htmlFor="specialreq" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Special Request{" "}
                 </label>
@@ -655,8 +656,8 @@ const Laundry = () => {
                 </div>
               </div>
             </div>
-            <div className="flex-column width-50percent height-550 medium-width-full">
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+            <div className="flex-column width-50percent medium-width-full">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="name" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Guest Name
                 </label>
@@ -703,7 +704,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Room No{" "}
                 </label>
@@ -718,7 +719,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="arrivaldate" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Arrival Date{" "}
                 </label>
@@ -735,7 +736,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-">
                 <label
                   htmlFor="departuredate"
                   className="col-sm-3 col-form-label font-size-14 medium-width-40percent"
@@ -755,7 +756,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap rev-margin-gap-40">
+              <div className="d-flex align-items-center flex-wrap rev-margin-">
                 <label htmlFor="totalitem" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Total Item{" "}
                 </label>
@@ -771,7 +772,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center rev-margin-gap-40">
+              <div className="d-flex align-items-center rev-margin-gap">
                 <label htmlFor="totalamount" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Total Amount{" "}
                 </label>
@@ -786,7 +787,7 @@ const Laundry = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex align-items-center flex-wrap margin-bottom-30">
+              <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="paymentType" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
                   Payment{" "}
                 </label>
@@ -810,7 +811,7 @@ const Laundry = () => {
               <div className="d-flex align-items-center justify-content-center">
                 <button
                   type="submit"
-                  className="d-flex align-items-center justify-content-center width-150 font-size-14 text-primary btn button-color-onHover height-30 button-padding-5"
+                  className="d-flex align-items-center justify-content-center mt-4 width-150 font-size-14 text-primary btn button-color-onHover height-40 button-padding-5"
                   onClick={(e) => { submitAction(e) }}
                 >
                   Submit
@@ -818,6 +819,59 @@ const Laundry = () => {
               </div>
             </div>
           </form>
+          <div className="table-responsive mt-1">
+              <table className="table table-borderless table-border-collapse">
+                <thead>
+                  <tr>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Facility</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                </thead>
+                <tbody className="table-group-divider text-primary">
+                  {itemCodeArray && itemCodeArray.map((item, index) => {
+                    return <tr key={index + 1}>
+                      <td>1</td>
+                      <td>Opt</td>
+                      <td>{item.name + " " + item.code}</td>
+                      <td>{item.price}</td>
+                    </tr>
+                  })}
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td className="text-dark">Discount</td>
+                    <td className="text-dark">-{discountAmount}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td className="text-dark">Total Amount</td>
+                    <td>{totalAmount}</td>
+                  </tr>
+                  {/* <tr>
+                    <td></td>
+                    <td></td>
+                    <td className="text-dark">Central GST @2.50</td>
+                    <td className="text-dark">{centralGst}</td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td className="text-dark">State GST @2.50</td>
+                    <td className="text-dark">{stateGst}</td>
+                  </tr> */}
+                  {/* <tr>
+                    <td></td>
+                    <td></td>
+                    <td className="text-dark">Net Amount</td>
+                    <td>{totalAmount}</td>
+                  </tr> */}
+                </tbody>
+              </table>
+            </div>
+            </div>
         </div>
       </div>
     </div>
