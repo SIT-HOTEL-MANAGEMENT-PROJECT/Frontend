@@ -75,6 +75,14 @@ const FandBAdmin = () => {
         console.log(itemDeleteRate);
     }
 
+    const updateItem = (e) => {
+        e.preventDefault();
+        console.log(itemCategoryToDelete);
+        console.log(itemDeleteCode);
+        console.log(itemDeleteName);
+        console.log(itemDeleteRate);
+    }
+
     return (
         <div>
             <div className='bg-light min-height-vh'>
@@ -278,18 +286,14 @@ const FandBAdmin = () => {
                                     Item Name{" "}
                                 </label>
                                 <div className="col-sm-8 medium-width-60percent">
-                                    <select
-                                        id="itemdeletename"
-                                        className="form-select font-size-14 background-gray height-30"
+                                    <input
+                                        type="text"
+                                        className="form-control height-30 font-size-14 background-gray"
+                                        id="inputItemDeleteName"
                                         name="itemdeletename"
                                         value={itemDeleteName}
                                         onChange={handleInputChange}
-                                        required
-                                    >
-                                        <option value={""}> </option>
-                                        <option value={"Salad"}>Salad</option>
-                                        <option value={"Rice"}>Rice</option>
-                                    </select>
+                                    />
                                 </div>
                             </div>
                             <div className="d-flex align-items-center flex-wrap rev-margin-gap">
@@ -311,7 +315,10 @@ const FandBAdmin = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="d-flex align-items-center justify-content-end mt-4 padding-right-40">
+                            <div className="d-flex align-items-center reserv-col-gap-10p justify-content-end mt-4 padding-right-40">
+                                <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={(e) => { updateItem(e) }}>
+                                    Update Item
+                                </button>
                                 <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" onClick={(e) => { deleteItem(e) }}>
                                     Delete Item
                                 </button>
