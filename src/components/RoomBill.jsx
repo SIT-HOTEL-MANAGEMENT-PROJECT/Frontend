@@ -36,6 +36,8 @@ const RoomBill = () => {
     const [confirmationNo, setConfirmationNo] = useState("");
     const [ttlCredit, setTtlCredit] = useState(0);
     const [settlementAmount, setSettlementAmount] = useState(0);
+    const [isSettled, setIsSettled] = useState(false);
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -87,6 +89,8 @@ const RoomBill = () => {
             setregistrationNo(booking.bookingid);
             setGstId(booking.gst);
             setConfirmationNo(booking.confno);
+            setIsSettled(booking?.issettled);
+
 
             let todayDate = new Date();
             let todayDateString = todayDate.toISOString().slice(0, 10);
@@ -120,9 +124,13 @@ const RoomBill = () => {
             }
 
             let sstlamt = 0.0;
-            if((booking.roomrate) > totalCredit) { sstlamt = parseFloat(booking.roomrate) - parseFloat(totalCredit); } 
+
+            if(isSettled === true){
+                if((booking.roomrate) > totalCredit) { sstlamt = parseFloat(booking.roomrate) - parseFloat(totalCredit); } 
+                totalCredit += parseFloat(sstlamt);
+            }
+
             setSettlementAmount(sstlamt);
-            totalCredit += parseFloat(sstlamt);
             setTtlCredit(totalCredit);
         } else {
             setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
@@ -131,7 +139,7 @@ const RoomBill = () => {
             setArrivalTime(''); setdepartureDate(''); setDepartureTime('');
 
             setBookingDate(''); setModeOfPayment(''); setDiscountAmount(''); setRoomType(''); setregistrationNo('');
-            setGstId(''); setConfirmationNo('');
+            setGstId(''); setConfirmationNo(''); setIsSettled(false);
 
             setTtlCredit(0);
         }

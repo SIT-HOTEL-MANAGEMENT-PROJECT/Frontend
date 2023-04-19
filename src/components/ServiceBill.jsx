@@ -22,6 +22,7 @@ const ServiceBill = () => {
     const [departureDate, setdepartureDate] = useState("");
     const [departureTime, setDepartureTime] = useState("");
     const [registrationNo, setregistrationNo] = useState("");
+    const [isSettled, setIsSettled] = useState(false);
 
     const [laundryBill, setLaundryBill] = useState([]);
     const [laundryDiscount, setLaundryDiscount] = useState(0);
@@ -81,6 +82,7 @@ const ServiceBill = () => {
             //   setdepartureDate(booking.departuredate);
             //   setDepartureTime(booking.departuretime);
             setregistrationNo(booking.bookingid);
+            setIsSettled(booking?.issettled);
 
             let todayDate = new Date();
             let todayDateString = todayDate.toISOString().slice(0, 10);
@@ -101,7 +103,7 @@ const ServiceBill = () => {
             setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0);
 
             setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-            setFnbTtlCredit(0); setFnbSettlementAmount(0);
+            setFnbTtlCredit(0); setFnbSettlementAmount(0); setIsSettled(false);
         }
     }
 
@@ -158,8 +160,12 @@ const ServiceBill = () => {
 
 
                     let sstlamt = 0.0;
-                    if(ttlDebt > ttlCred) { sstlamt = parseFloat(ttlDebt) - parseFloat(ttlCred); }
-                    ttlCred += parseFloat(sstlamt);
+
+                    if(isSettled === true){
+                        if(ttlDebt > ttlCred) { sstlamt = parseFloat(ttlDebt) - parseFloat(ttlCred); }
+                        ttlCred += parseFloat(sstlamt);
+                    }
+
                     setLaundrySettlementAmount(parseFloat(sstlamt));
                     setLaundryTtlCredit(parseFloat(ttlCred));
                 }
@@ -238,9 +244,13 @@ const ServiceBill = () => {
                     ttlCred += parseFloat(ttlDiscount) + parseFloat(ttlAmountPaid);
 
                     let sstlamt = 0.0;
-                    if(fnlDebit > ttlCred) { sstlamt = parseFloat(fnlDebit) - parseFloat(ttlCred); }
+
+                    if(isSettled === true){
+                        if(fnlDebit > ttlCred) { sstlamt = parseFloat(fnlDebit) - parseFloat(ttlCred); }
+                        ttlCred += parseFloat(sstlamt);
+                    }
+                    
                     setFnbSettlementAmount(parseFloat(sstlamt));
-                    ttlCred += parseFloat(sstlamt);
                     setFnbTtlCredit(parseFloat(ttlCred));
                 }
                 else{ 
