@@ -2,19 +2,238 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import Localbase from "localbase";
+let db = new Localbase("hmctdb");
+db.config.debug = false;
 
-const FandBAdmin = () => {
+const FandBAdmin = ({isUserAdmin,isAuthenticated}) => {
+
+    const [datas, setDatas] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
+
 
     const [itemAddCategory, setItemAddCategory] = useState("");
+
     const [itemDeleteCategory, setItemDeleteCategory] = useState("");
+
     const [itemCategoryToAdd, setItemCategoryToAdd] = useState("");
-    const [itemCategoryToDelete, setItemCategoryToDelete] = useState("");
     const [itemAddName, setItemAddName] = useState("");
     const [itemAddCode, setItemAddCode] = useState("");
-    const [itemAddRate, setItemAddRate] = useState("");
+    const [itemAddRate, setItemAddRate] = useState(0);
+
+    const [itemCategoryToDelete, setItemCategoryToDelete] = useState("");
+    const [itemCategoryCodesToDelete, setItemCategoryCodesToDelete] = useState([]);
     const [itemDeleteName, setItemDeleteName] = useState("");
     const [itemDeleteCode, setItemDeleteCode] = useState("");
-    const [itemDeleteRate, setItemDeleteRate] = useState("");
+    const [itemDeleteRate, setItemDeleteRate] = useState(0);
+
+
+    useEffect(() => {
+        let adminCheck = () => {
+            let res = isUserAdmin();
+            if (res.success && res.isAdmin) {
+                setIsAdmin(true);
+            }
+        }
+        isAuthenticated();
+        adminCheck();
+        initialDataFetch();
+    }, [])
+
+
+    const initialDataFetch = async () => {
+        try {
+            let dt = await db.collection('fnbitems').get();
+            if (!dt) { alert("Something Went Wrong"); return; }
+            if (dt && !Array.isArray(dt)) { dt = [dt]; }
+            if (dt) { setDatas(dt); } else { setDatas([]); }
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
+    const addNewCategory = async () => {
+        try {
+            if(!isAdmin){ alert("Access Denied"); return; }
+
+            if (!itemAddCategory || itemAddCategory === '') { alert("Invalid Input"); return; }
+
+            await db.collection("fnbitems").add({
+                category: itemAddCategory,
+                items: []
+            });
+
+            let dt = await db.collection('fnbitems').get();
+            if (dt && !Array.isArray(dt)) { dt = [dt]; }
+            if (dt) { setDatas(dt); } else { setDatas([]) }
+
+            setItemAddCategory("");
+
+            alert("Category Added!");
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            alert("Something Went Wrong!")
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
+    const deleteExtCategory = async () => {
+        try {
+            if(!isAdmin){ alert("Access Denied"); return; }
+
+            if (!itemDeleteCategory || itemDeleteCategory === '') { alert("Invalid Input"); return; }
+
+            db.collection('fnbitems').doc({ category: itemDeleteCategory }).delete()
+
+            let dt = await db.collection('fnbitems').get();
+            if (dt && !Array.isArray(dt)) { dt = [dt]; }
+            if (dt) { setDatas(dt); } else { setDatas([]) }
+
+            setItemDeleteCategory("");
+
+            alert("Category Deleted!");
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            alert("Something Went Wrong!")
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
+
+    const addNewItem = async () => {
+        try {
+            if(!isAdmin){ alert("Access Denied"); return; }
+
+            if (!itemCategoryToAdd || itemCategoryToAdd === '' || !itemAddCode || itemAddCode === '' ||
+                !itemAddName || itemAddName === '' || !itemAddRate || itemAddRate === 0) {
+                alert("Invalid Input!"); return;
+            }
+
+            let res = await db.collection('fnbitems').doc({ category: itemCategoryToAdd }).get();
+
+            if (!res) { alert("Invalid Category!"); return; }
+
+            let resitems = res?.items;
+
+            resitems.push({ code: itemAddCode, name: itemAddName, price: parseFloat(itemAddRate) });
+
+            await db.collection('fnbitems').doc({ category: itemCategoryToAdd }).update({
+                items: resitems
+            });
+
+            let dt = await db.collection('fnbitems').get();
+            if (dt && !Array.isArray(dt)) { dt = [dt]; }
+            if (dt) { setDatas(dt); } else { setDatas([]) }
+
+            setItemCategoryToAdd(''); setItemAddCode(""); setItemAddName(""); setItemAddRate(0);
+
+            alert("Item Added");
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            alert("Something Went Wrong!")
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
+    const deleteExtItem = async () => {
+        try {
+            if(!isAdmin){ alert("Access Denied"); return; }
+
+            if (!itemCategoryToDelete || itemCategoryToDelete === '' || !itemDeleteCode || itemDeleteCode == '' ||
+                !itemDeleteName || itemDeleteName === '' || !itemDeleteRate || itemDeleteRate === 0) {
+                alert("Invalid Input!"); return;
+            }
+
+            let res = await db.collection('fnbitems').doc({ category: itemCategoryToDelete }).get();
+
+            if (!res) { alert("Invalid Category!"); return; }
+
+            let resitems = res?.items;
+
+            if (!resitems || resitems?.length < 1) { alert("No Items Found!"); return; }
+
+            resitems = resitems.filter(itm => itm.code !== itemDeleteCode);
+
+            await db.collection('fnbitems').doc({ category: itemCategoryToDelete }).update({
+                items: resitems
+            });
+
+            let dt = await db.collection('fnbitems').get();
+            if (dt && !Array.isArray(dt)) { dt = [dt]; }
+            if (dt) { setDatas(dt); } else { setDatas([]) }
+
+            setItemCategoryToDelete(""); setItemDeleteCode(""); setItemDeleteName(""); setItemDeleteRate(0);
+
+            alert("Item Deleted!");
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            alert("Something Went Wrong!")
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
+    const updateExtItem = async () => {
+        try {
+            if(!isAdmin){ alert("Access Denied"); return; }
+            
+            if (!itemCategoryToDelete || itemCategoryToDelete === '' || !itemDeleteCode || itemDeleteCode == '' ||
+                !itemDeleteName || itemDeleteName === '' || !itemDeleteRate || itemDeleteRate === 0) {
+                alert("Invalid Input!"); return;
+            }
+
+            let res = await db.collection('fnbitems').doc({ category: itemCategoryToDelete }).get();
+
+            if (!res) { alert("Invalid Category!"); return; }
+
+            let resitems = res?.items;
+
+            if (!resitems || resitems?.length < 1) { alert("No Items Found!"); return; }
+
+            if (resitems.some((itm) => itm.code === itemDeleteCode)) {
+                resitems = resitems.map((m) => {
+                    if (m.code === itemDeleteCode) {
+                        return {
+                            ...m,
+                            name: itemDeleteName,
+                            price: parseFloat(itemDeleteRate),
+                        };
+                    } else {
+                        return m;
+                    }
+                });
+            }
+
+            await db.collection('fnbitems').doc({ category: itemCategoryToDelete }).update({
+                items: resitems
+            });
+
+            let dt = await db.collection('fnbitems').get();
+            if (dt && !Array.isArray(dt)) { dt = [dt]; }
+            if (dt) { setDatas(dt); } else { setDatas([]) }
+
+            setItemCategoryToDelete(""); setItemDeleteCode(""); setItemDeleteName(""); setItemDeleteRate(0);
+
+            alert("Item Updated!");
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            alert("Something Went Wrong!")
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
+
+    const getItemCategoryCodes = (cate) => {
+        try {
+            const codes = datas.find((item) => item.category === cate)?.items ?? [];
+            if (codes) { setItemCategoryCodesToDelete(codes); } else { setItemCategoryCodesToDelete([]); }
+        } catch (e) {
+            console.log("ReservationPageError (checkRoomAvForUpdate) : ", e);
+            alert("Something Went Wrong!")
+            return { success: false, msg: 'Something Went Wrong' }
+        }
+    }
+
 
     const handleInputChange = (e) => {
         if (e.target.name == "itemaddcategory") {
@@ -37,9 +256,20 @@ const FandBAdmin = () => {
         }
         else if (e.target.name == "itemcategorytodelete") {
             setItemCategoryToDelete(e.target.value);
+            if (e.target.value && e.target.value !== '') { getItemCategoryCodes(e.target.value); }
+            else { setItemCategoryCodesToDelete([]); }
         }
         else if (e.target.name == "itemdeletecode") {
             setItemDeleteCode(e.target.value);
+
+            if (e.target.value && e.target.value != '') {
+                const selectedItem = itemCategoryCodesToDelete.find(item => item.code === e.target.value);
+                setItemDeleteName(selectedItem?.name);
+                setItemDeleteRate(parseFloat(selectedItem?.price));
+            } else {
+                setItemDeleteName('');
+                setItemDeleteRate(0);
+            }
         }
         else if (e.target.name == "itemdeletename") {
             setItemDeleteName(e.target.value);
@@ -49,38 +279,29 @@ const FandBAdmin = () => {
         }
     }
 
-    const addCategory = (e) => {
+    const addCategory = async (e) => {
         e.preventDefault();
-        console.log(itemAddCategory);
+        await addNewCategory();
     }
 
-    const deleteCategory = (e) => {
+    const deleteCategory = async (e) => {
         e.preventDefault();
-        console.log(itemDeleteCategory);
+        await deleteExtCategory();
     }
 
-    const addItem = (e) => {
+    const addItem = async (e) => {
         e.preventDefault();
-        console.log(itemCategoryToAdd);
-        console.log(itemAddCode);
-        console.log(itemAddName);
-        console.log(itemAddRate);
+        await addNewItem();
     }
 
-    const deleteItem = (e) => {
+    const deleteItem = async (e) => {
         e.preventDefault();
-        console.log(itemCategoryToDelete);
-        console.log(itemDeleteCode);
-        console.log(itemDeleteName);
-        console.log(itemDeleteRate);
+        await deleteExtItem();
     }
 
-    const updateItem = (e) => {
+    const updateItem = async (e) => {
         e.preventDefault();
-        console.log(itemCategoryToDelete);
-        console.log(itemDeleteCode);
-        console.log(itemDeleteName);
-        console.log(itemDeleteRate);
+        await updateExtItem();
     }
 
     return (
@@ -142,10 +363,9 @@ const FandBAdmin = () => {
                                         required
                                     >
                                         <option value={""}> </option>
-                                        <option value={"Salad"}>Salad</option>
-                                        <option value={"Rice"}>Rice</option>
-                                        <option value={"Lunch"}>Lunch</option>
-                                        <option value={"Beverages"}>Beverages</option>
+                                        {datas.length >= 1 && datas.map((item, index) => {
+                                            return <option key={index + 1} value={item?.category}>{item?.category}</option>
+                                        })}
                                     </select>
                                 </div>
                             </div>
@@ -175,10 +395,9 @@ const FandBAdmin = () => {
                                         required
                                     >
                                         <option value={""}> </option>
-                                        <option value={"Salad"}>Salad</option>
-                                        <option value={"Rice"}>Rice</option>
-                                        <option value={"Lunch"}>Lunch</option>
-                                        <option value={"Beverages"}>Beverages</option>
+                                        {datas.length >= 1 && datas.map((item, index) => {
+                                            return <option key={index + 1} value={item?.category}>{item?.category}</option>
+                                        })}
                                     </select>
                                 </div>
                             </div>
@@ -221,10 +440,11 @@ const FandBAdmin = () => {
                                 </label>
                                 <div className="col-sm-8 medium-width-60percent">
                                     <input
-                                        type="text"
+                                        type="number"
                                         className="form-control height-30 font-size-14 background-gray"
                                         id="inputItemAddRate"
                                         name="itemaddrate"
+                                        min='0'
                                         value={itemAddRate}
                                         onChange={handleInputChange}
                                         required
@@ -255,10 +475,9 @@ const FandBAdmin = () => {
                                         required
                                     >
                                         <option value={""}> </option>
-                                        <option value={"Salad"}>Salad</option>
-                                        <option value={"Rice"}>Rice</option>
-                                        <option value={"Lunch"}>Lunch</option>
-                                        <option value={"Beverages"}>Beverages</option>
+                                        {datas.length >= 1 && datas.map((item, index) => {
+                                            return <option key={index + 1} value={item?.category}>{item?.category}</option>
+                                        })}
                                     </select>
                                 </div>
                             </div>
@@ -276,8 +495,9 @@ const FandBAdmin = () => {
                                         required
                                     >
                                         <option value={""}> </option>
-                                        <option value={"A1"}>A1</option>
-                                        <option value={"A2"}>A2</option>
+                                        {itemCategoryCodesToDelete.length >= 1 && itemCategoryCodesToDelete.map((item, index) => {
+                                            return <option key={index + 1} value={item?.code}>{item?.code}</option>
+                                        })}
                                     </select>
                                 </div>
                             </div>
@@ -305,10 +525,11 @@ const FandBAdmin = () => {
                                 </label>
                                 <div className="col-sm-8 medium-width-60percent">
                                     <input
-                                        type="text"
+                                        type="number"
                                         className="form-control height-30 font-size-14 background-gray"
                                         id="inputItemDeleteRate"
                                         name="itemdeleterate"
+                                        min='0'
                                         value={itemDeleteRate}
                                         onChange={handleInputChange}
                                         required
