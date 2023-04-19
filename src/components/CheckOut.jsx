@@ -964,9 +964,9 @@ const CheckOut = () => {
           </div>
           <div>
             <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mb-2">
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && registrationNo.length==14)} onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(settlementAmount > 0.0)} onClick={()=>{showSettlementPopup()}}>  Settlement </button>
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={()=>{printBill()}}>  Print Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && registrationNo.length==14)} onClick={()=>{printBill()}}>  Print Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={(e) => { submitAction(e) }} >  Submit </button>
             </div>
           </div>
