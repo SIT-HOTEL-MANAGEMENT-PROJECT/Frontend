@@ -37,7 +37,7 @@ const RoomBill = () => {
     const [ttlCredit, setTtlCredit] = useState(0);
     const [settlementAmount, setSettlementAmount] = useState(0);
     const [isSettled, setIsSettled] = useState(false);
-
+    const [amountToBePaid, setAmountToBePaid] = useState(0);
 
     useEffect(() => {
         setTimeout(() => {
@@ -132,6 +132,7 @@ const RoomBill = () => {
 
             setSettlementAmount(sstlamt);
             setTtlCredit(totalCredit);
+            setAmountToBePaidAction(booking?.roomrate, totalCredit);
         } else {
             setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
             setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setBillNo('');
@@ -141,8 +142,18 @@ const RoomBill = () => {
             setBookingDate(''); setModeOfPayment(''); setDiscountAmount(''); setRoomType(''); setregistrationNo('');
             setGstId(''); setConfirmationNo(''); setIsSettled(false);
 
-            setTtlCredit(0);
+            setTtlCredit(0); setAmountToBePaid(0);
         }
+    }
+
+
+    const setAmountToBePaidAction = (debitamt,creditamt)=>{
+        if(debitamt==0){ setAmountToBePaid(0); return 0; }
+        if(creditamt > debitamt) { setAmountToBePaid(0); return 0; }
+    
+        let stamt = debitamt - creditamt;
+        setAmountToBePaid(stamt);
+        return stamt;
     }
 
 
@@ -275,6 +286,14 @@ const RoomBill = () => {
                                     <td className="text-dark">Total Amount</td>
                                     <td>{roomRate}</td>
                                     <td>{ttlCredit}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Amount to be Paid</td>
+                                    <td>{amountToBePaid}</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>

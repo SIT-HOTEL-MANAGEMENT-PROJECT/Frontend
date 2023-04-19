@@ -30,6 +30,7 @@ const ServiceBill = () => {
     const [laundryTtlDebit, setLaundryTtlDebit] = useState(0);
     const [laundryTtlCredit, setLaundryTtlCredit] = useState(0);
     const [laundrySettlementAmount, setLaundrySettlementAmount] = useState(0);
+    const [laundryAmountToBePaid, setLaundryAmountToBePaid] = useState(0);
 
     const [fnbBill, setFnbBill] = useState([]);
     const [fnbDiscount, setFnbDiscount] = useState(0);
@@ -39,6 +40,8 @@ const ServiceBill = () => {
     const [fnbTtlDebit, setFnbTtlDebit] = useState(0);
     const [fnbTtlCredit, setFnbTtlCredit] = useState(0);
     const [fnbSettlementAmount, setFnbSettlementAmount] = useState(0);
+    const [fnbAmountToBePaid, setFnbAmountToBePaid] = useState(0);
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -100,10 +103,10 @@ const ServiceBill = () => {
             setArrivalTime(''); setdepartureDate(''); setDepartureTime(''); setregistrationNo('');
 
             setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
-            setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0);
+            setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0); setLaundryAmountToBePaid(0);
 
             setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-            setFnbTtlCredit(0); setFnbSettlementAmount(0); setIsSettled(false);
+            setFnbTtlCredit(0); setFnbSettlementAmount(0); setFnbAmountToBePaid(0); setIsSettled(false);
         }
     }
 
@@ -168,17 +171,18 @@ const ServiceBill = () => {
 
                     setLaundrySettlementAmount(parseFloat(sstlamt));
                     setLaundryTtlCredit(parseFloat(ttlCred));
+                    setLaundryAmountToBePaidAction(ttlDebt,ttlCred);
                 }
                 else{ 
                     setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
-                    setLaundryAmountPaid(0); setLaundrySettlementAmount(0); setLaundryTtlCredit(0);
+                    setLaundryAmountPaid(0); setLaundrySettlementAmount(0); setLaundryTtlCredit(0); setLaundryAmountToBePaid(0);
                 }
             }
 
             return {success:true};
         }catch(e){
             setLaundryBill([]); setLaundryDiscount(0); setLaundryTtlDebit(0);
-            setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0);
+            setLaundryAmountPaid(0); setLaundryTtlCredit(0); setLaundrySettlementAmount(0); setLaundryAmountToBePaid(0);
             console.log("ServiceBillPageError (getandSetLaundryBill) : ", e);
             return { success: false, msg: 'Something Went Wrong' }
         }
@@ -252,22 +256,41 @@ const ServiceBill = () => {
                     
                     setFnbSettlementAmount(parseFloat(sstlamt));
                     setFnbTtlCredit(parseFloat(ttlCred));
+                    setFnbAmountToBePaidAction(fnlDebit,ttlCred);
                 }
                 else{ 
                     setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-                    setFnbTtlCredit(0); setFnbSettlementAmount(0);
+                    setFnbTtlCredit(0); setFnbSettlementAmount(0); setFnbAmountToBePaid(0);
                 }
             }
 
             return {success:true};
         }catch(e){
             setFnbBill([]); setFnbDiscount(0); setFnbCgst(0); setFnbSgst(0); setFnbTtlDebit(0); setFnbAmountPaid(0); 
-            setFnbTtlCredit(0); setFnbSettlementAmount(0);
+            setFnbTtlCredit(0); setFnbSettlementAmount(0); setFnbAmountToBePaid(0);
             console.log("ServiceBillPageError (getandSetLaundryBill) : ", e);
             return { success: false, msg: 'Something Went Wrong' }
         }
     }
 
+
+    const setLaundryAmountToBePaidAction = (debitamt,creditamt)=>{
+        if(debitamt==0){ setLaundryAmountToBePaid(0); return 0; }
+        if(creditamt > debitamt) { setLaundryAmountToBePaid(0); return 0; }
+    
+        let stamt = debitamt - creditamt;
+        setLaundryAmountToBePaid(stamt);
+        return stamt;
+    }
+
+    const setFnbAmountToBePaidAction = (debitamt,creditamt)=>{
+        if(debitamt==0){ setFnbAmountToBePaid(0); return 0; }
+        if(creditamt > debitamt) { setFnbAmountToBePaid(0); return 0; }
+    
+        let stamt = debitamt - creditamt;
+        setFnbAmountToBePaid(stamt);
+        return stamt;
+    }
 
     return (
         <div>
@@ -399,6 +422,15 @@ const ServiceBill = () => {
                                     <td>{laundryTtlDebit}</td>
                                     <td>{laundryTtlCredit}</td>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Amount to be Paid</td>
+                                    <td>{laundryAmountToBePaid}</td>
+                                    <td></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -480,6 +512,15 @@ const ServiceBill = () => {
                                     <td className="text-dark">Total Amount</td>
                                     <td>{fnbTtlDebit}</td>
                                     <td>{fnbTtlCredit}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td className="text-dark">Amount to be Paid</td>
+                                    <td>{fnbAmountToBePaid}</td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
