@@ -28,6 +28,7 @@ import Billing from "./components/Billing";
 import RoomBill from "./components/RoomBill";
 import ServiceBill from "./components/ServiceBill";
 import FandBAdmin from "./components/FandBAdmin";
+import LaundryAdmin from "./components/LaundryAdmin";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
@@ -304,6 +305,7 @@ const App = () => {
         <Route exact path="/Home3" element={<Home3  resetAppData={resetAppData} />} />
         <Route exact path="/Dashboard" element={<Dashboard />} />
         <Route exact path="/FandBAdmin" element={<FandBAdmin />} />
+        <Route exact path="/LaundryAdmin" element={<LaundryAdmin />} />
         <Route exact path="/Billing" element={<Billing />} />
         <Route exact path="/RoomBill" element={<RoomBill />} />
         <Route exact path="/ServiceBill" element={<ServiceBill />} />

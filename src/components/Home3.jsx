@@ -173,6 +173,11 @@ const Home3 = ({ resetAppData }) => {
                 &nbsp; F & B Admin Panel
               </NavLink>
               <br /><br/>
+              <NavLink to="/LaundryAdmin" className="NavLinks">
+                <i id="iconcolor" className="fa fa-cutlery" aria-hidden="true"></i>
+                &nbsp; Laundry Admin Panel
+              </NavLink>
+              <br /><br/>
               {/* <NavLink to="/Application" className="NavLinks">
                 <i id="iconcolor" className="fa fa-pencil" aria-hidden="true"></i>
                 &nbsp; Application
