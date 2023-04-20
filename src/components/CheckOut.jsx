@@ -113,7 +113,7 @@ const CheckOut = () => {
       }
 
       await db.collection('reservation').doc({ bookingid: registrationNo }).update({
-        departuredate: departureDate, departuretime: departureTime, billingdate: billDate, checkedoutstatus: "done"
+        departuredate: departureDate, departuretime: departureTime, issettled: true, billingdate: billDate, checkedoutstatus: "done"
       })
 
       return { success: true }
@@ -225,19 +225,14 @@ const CheckOut = () => {
           }
         });
       }
-
-      await db.collection('reservation').doc({ bookingid: registrationNo }).update({
-        departuredate: departureDate, departuretime: departureTime, 
-        paymenthistory: updatedpaymenthistory
-      })
-
+      
       await updateRupeesAdrValue(paymString);
       
       setPaymentData(updatedpaymenthistory);
 
       let totalDebit = 0;
       let totalCredit = 0;
-
+      
       for (const transaction of updatedpaymenthistory) {
         if (transaction.debit !== '') {
           totalDebit += parseFloat(transaction.debit);
@@ -246,10 +241,18 @@ const CheckOut = () => {
           totalCredit += parseFloat(transaction.credit);
         }
       }
-
+      
       setTtlDebit(totalDebit);
       setTtlCredit(totalCredit);
-      checkBillSettlement(totalDebit,totalCredit);
+      let resp = checkBillSettlement(totalDebit,totalCredit);
+      let isstl = false;
+
+      if(resp!=0) isstl = true;
+
+      await db.collection('reservation').doc({ bookingid: registrationNo }).update({
+        departuredate: departureDate, departuretime: departureTime, issettled: isstl,
+        paymenthistory: updatedpaymenthistory
+      })
       
       const bill = document.getElementById("billpopup");
       bill.contentWindow.location.reload();
@@ -308,11 +311,12 @@ const CheckOut = () => {
 
 
   const checkBillSettlement = (debitamt,creditamt)=>{
-    if(debitamt==0){ setSettlementAmount(0); return; }
-    if(creditamt > debitamt) { setSettlementAmount(0); return; }
+    if(debitamt==0){ setSettlementAmount(0); return 0; }
+    if(creditamt > debitamt) { setSettlementAmount(0); return 0; }
 
     let stamt = debitamt - creditamt;
     setSettlementAmount(stamt);
+    return stamt;
   }
 
   const getAndSetUserData = async (bookingid) => {
@@ -960,9 +964,9 @@ const CheckOut = () => {
           </div>
           <div>
             <div className="d-flex align-items-center justify-content-center reserv-col-gap-1 mb-2">
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && registrationNo.length==14)} onClick={() => { showSplitBillPopup() }} >  Split Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(settlementAmount > 0.0)} onClick={()=>{showSettlementPopup()}}>  Settlement </button>
-              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={()=>{printBill()}}>  Print Bill </button>
+              <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && registrationNo.length==14)} onClick={()=>{printBill()}}>  Print Bill </button>
               <button className="d-flex align-items-center justify-content-center width-150 font-size-16 text-primary btn button-color-onHover height-40 button-padding-5" disabled={!(registrationNo && confirmationNo && (settlementAmount == 0) && registrationNo.length==14)} onClick={(e) => { submitAction(e) }} >  Submit </button>
             </div>
           </div>

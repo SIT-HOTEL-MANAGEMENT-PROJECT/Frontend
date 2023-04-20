@@ -27,6 +27,8 @@ import Home4 from "./components/Home4";
 import Billing from "./components/Billing";
 import RoomBill from "./components/RoomBill";
 import ServiceBill from "./components/ServiceBill";
+import FandBAdmin from "./components/FandBAdmin";
+import LaundryAdmin from "./components/LaundryAdmin";
 let db = new Localbase("hmctdb");
 db.config.debug = false;
 
@@ -56,6 +58,8 @@ const App = () => {
     setTimeout(() => {
       initializeRoomAvDatabase();
       initializeUsersDatabase();
+      initializeLaundryDatabase();
+      initializeFnbDatabase();
       initializeReportsDependency();
       isAuthenticated();
     }, 1000);
@@ -92,6 +96,109 @@ const App = () => {
       await db.collection("users").add({
         role: "Employee",  username: "employee@sithmct",  password: "Employee@123", name:"SIT-HMCT-Employee",  email:"hod_hmct@sittechno.org", 
         phoneno: "1234567891",  designation:"Employee", usersince: "2023", shift: "Morning"
+      });
+    }
+  };
+
+
+  // Dependency : If laundry collection doesn't exist create one
+  // params : none             return : none
+  const initializeLaundryDatabase = async () => {
+    let collectionExist = await db.collection("laundryitems").get();
+
+    if (!collectionExist.length) {
+      await db.collection("laundryitems").add({
+          category: "Male",
+          items: [
+            { code: "C1", name: "Tie", price: 15 },
+            { code: "C2", name: "Dhoti", price: 20 },
+            { code: "C3", name: "Shorts", price: 20 },
+            { code: "C4", name: "Muffler", price: 50 },
+            { code: "C5", name: "Vest", price: 10 },
+            { code: "C6", name: "Jeans", price: 60 },
+            { code: "C7", name: "Handkerchif", price: 10 },
+            { code: "C8", name: "Shirt", price: 50 },
+            { code: "C9", name: "Trousers", price: 40 },
+            { code: "C10", name: "T-shirt", price: 40 }
+          ]
+      });
+      await db.collection("laundryitems").add({
+          category: "Female",
+          items: [
+            { code: "C11", name: "Saree", price: 50 },
+            { code: "C12", name: "Blouse", price: 20 },
+            { code: "C13", name: "Salwar", price: 50 },
+            { code: "C14", name: "Skirt", price: 30 },
+            { code: "C15", name: "Top", price: 30 },
+            { code: "C16", name: "Jeans", price: 40 },
+            { code: "C17", name: "Pants", price: 30 }
+          ]
+        });
+    }
+  };
+
+
+  // Dependency : If fnb collection doesn't exist create one
+  // params : none             return : none
+  const initializeFnbDatabase = async () => {
+    let collectionExist = await db.collection("fnbitems").get();
+
+    if (!collectionExist.length) {
+      await db.collection("fnbitems").add({
+        category: "Salad & Raita",
+        items: [ 
+          { code: "A1", name: "American Salad", price: 250 },
+          { code: "A2", name: "Indian Salad", price: 150 } 
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Veg Starters",
+        items: [
+          { code: "B1", name: "Paneer Chilli", price: 300 },
+          { code: "B2", name: "Potato Swirl", price: 150 }
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Non-veg Starters",
+        items: [
+          { code: "C1", name: "Chicken Lollipop", price: 400 },
+          { code: "C2", name: "Mutton Cutlet", price: 550 }
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Soup Bowls",
+        items: [
+          { code: "D1", name: "Tomato Soup", price: 150 },
+          { code: "D2", name: "Chicken Soup", price: 350 }
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Rice Item",
+        items: [
+          { code: "E1", name: "Basanti Pulao", price: 300 },
+          { code: "E2", name: "Chicken Biriyani", price: 350 }
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Desserts",
+        items: [
+          { code: "F1", name: "Chocolate Mousse", price: 250 },
+          { code: "F2", name: "Rasgulla", price: 150 }
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Beverages",
+        items: [
+          { code: "G1", name: "Limca", price: 100 },
+          { code: "G2", name: "Fanta", price: 80 },
+        ]
+      });
+      await db.collection("fnbitems").add({
+        category: "Lunch",
+        items: [
+          { code: "H1", name: "Mutton Kasha", price: 650 },
+          { code: "H2", name: "Mutton Biriyani", price: 750 }
+        ]
       });
     }
   };
@@ -197,6 +304,8 @@ const App = () => {
         <Route exact path="/Home" element={<Home />} />
         <Route exact path="/Home3" element={<Home3  resetAppData={resetAppData} />} />
         <Route exact path="/Dashboard" element={<Dashboard />} />
+        <Route exact path="/FandBAdmin" element={<FandBAdmin isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
+        <Route exact path="/LaundryAdmin" element={<LaundryAdmin isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
         <Route exact path="/Billing" element={<Billing />} />
         <Route exact path="/RoomBill" element={<RoomBill />} />
         <Route exact path="/ServiceBill" element={<ServiceBill />} />

@@ -78,6 +78,10 @@
   width: 85%;
 }
 
+.width-90percent {
+  width: 90%;
+}
+
 .bg-skyblue {
   background-color: #EDF8FD  !important;
 }

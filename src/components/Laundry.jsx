@@ -37,28 +37,57 @@ const Laundry = () => {
 
   const [itemCodeArray, setItemCodeArray] = useState([]);
 
-  const itemData = [
-    { code: "C1", name: "Tie", price: 15 },
-    { code: "C2", name: "Dhoti", price: 20 },
-    { code: "C3", name: "Shorts", price: 20 },
-    { code: "C4", name: "Muffler", price: 50 },
-    { code: "C5", name: "Vest", price: 10 },
-    { code: "C6", name: "Jeans", price: 60 },
-    { code: "C7", name: "Handkerchif", price: 10 },
-    { code: "C8", name: "Shirt", price: 50 },
-    { code: "C9", name: "Trousers", price: 40 },
-    { code: "C10", name: "T-shirt", price: 40 },
-    { code: "C11", name: "Saree", price: 50 },
-    { code: "C12", name: "Blouse", price: 20 },
-    { code: "C13", name: "Salwar", price: 50 },
-    { code: "C14", name: "Skirt", price: 30 },
-    { code: "C15", name: "Top", price: 30 },
-    { code: "C16", name: "Jeans", price: 40 },
-    { code: "C17", name: "Pants", price: 30 }
-  ];
+  const [itemDatas, setItemDatas] = useState([]);
+  const [itemData, setItemData] = useState([]);
+
+  // const itemData = [
+  //   { code: "C1", name: "Tie", price: 15 },
+  //   { code: "C2", name: "Dhoti", price: 20 },
+  //   { code: "C3", name: "Shorts", price: 20 },
+  //   { code: "C4", name: "Muffler", price: 50 },
+  //   { code: "C5", name: "Vest", price: 10 },
+  //   { code: "C6", name: "Jeans", price: 60 },
+  //   { code: "C7", name: "Handkerchif", price: 10 },
+  //   { code: "C8", name: "Shirt", price: 50 },
+  //   { code: "C9", name: "Trousers", price: 40 },
+  //   { code: "C10", name: "T-shirt", price: 40 },
+  //   { code: "C11", name: "Saree", price: 50 },
+  //   { code: "C12", name: "Blouse", price: 20 },
+  //   { code: "C13", name: "Salwar", price: 50 },
+  //   { code: "C14", name: "Skirt", price: 30 },
+  //   { code: "C15", name: "Top", price: 30 },
+  //   { code: "C16", name: "Jeans", price: 40 },
+  //   { code: "C17", name: "Pants", price: 30 }
+  // ];
 
 
 
+
+  const initialDataFetch = async()=>{
+    try{
+      let dbd = await db.collection("laundryitems").get();
+
+      if(!dbd) { alert("Internal Server Error!"); return; }
+
+      if(!Array.isArray(dbd)){ dbd = [dbd]; }
+
+      setItemDatas(dbd);
+      
+      const allItems = [];
+      dbd.forEach(category => {
+        category.items.forEach(item => {
+          if (item) {
+            allItems.push(item);
+          }
+        });
+      });
+
+      setItemData(allItems);
+    }catch(e){
+      console.log("LaundryPageError (initialDataFetch)",e);
+      return {success:false, msg: "Internal Server Error"}
+    }
+  }
 
 
   // Update : Update how much amount paid by user today in ADR DB
@@ -221,6 +250,7 @@ const Laundry = () => {
 
 
   useEffect(() => {
+    initialDataFetch();
     initialPrepopulatedData();
   }, [])
   
@@ -401,100 +431,25 @@ const Laundry = () => {
             <div className="flex-column justify-content-center padding-left-right-20">
               <h5 className="text-primary">Items</h5>
               <div className="accordion accordion-flush" id="accordionFlushExample">
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingOne">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                      Male
+                {itemDatas && itemDatas.map((item,index)=>{
+                  return <div key={index+1} className="accordion-item">
+                  <h2 className="accordion-header" id={`flush-heading-${index+1}`}>
+                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target={`#flush-collapse-${index+1}`} aria-expanded="false" aria-controls={`flush-collapse-${index+1}`}>
+                      {item?.category}
                     </button>
                   </h2>
-                  <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div id={`flush-collapse-${index+1}`} className="accordion-collapse collapse" aria-labelledby={`flush-heading-${index+1}`} data-bs-parent="#accordionFlushExample">
                     <div className="accordion-body">
                       <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Tie", "C1", 15) }}>
-                          <li className="col-sm-8">Tie C1</li>
-                          <li className="col-sm-4">Rs 15</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Dhoti", "C2", 20) }}>
-                          <li className="col-sm-8">Dhoti C2</li>
-                          <li className="col-sm-4">Rs 20</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Shorts", "C3", 20) }}>
-                          <li className="col-sm-8">Shorts C3</li>
-                          <li className="col-sm-4">Rs 20</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Muffler", "C4", 50) }}>
-                          <li className="col-sm-8">Muffler C4</li>
-                          <li className="col-sm-4">Rs 50</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Vest", "C5", 10) }}>
-                          <li className="col-sm-8">Vest C5</li>
-                          <li className="col-sm-4">Rs 10</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Jeans", "C6", 60) }}>
-                          <li className="col-sm-8">Jeans C6</li>
-                          <li className="col-sm-4">Rs 60</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Handkerchief", "C7", 10) }}>
-                          <li className="col-sm-8">Handkerchief C7</li>
-                          <li className="col-sm-4">Rs 10</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Shirt", "C8", 50) }}>
-                          <li className="col-sm-8">Shirt C8</li>
-                          <li className="col-sm-4">Rs 50</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Trousers", "C9", 40) }}>
-                          <li className="col-sm-8">Trousers C9</li>
-                          <li className="col-sm-4">Rs 40</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("T-shirt", "C10", 40) }}>
-                          <li className="col-sm-8">T-shirt C10</li>
-                          <li className="col-sm-4">Rs 40</li>
-                        </div>
+                        {item?.items && item.items.map((itm,idx)=>{
+                        return <div key={idx+1} className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd(itm?.name, itm?.code, itm?.price) }}>
+                          <li className="col-sm-8">{itm?.name} {itm?.code}</li>
+                          <li className="col-sm-4">Rs {itm?.price}</li>
+                        </div>})}
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingTwo">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                      Female
-                    </button>
-                  </h2>
-                  <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Saree", "C11", 50) }}>
-                          <li className="col-sm-8">Saree C11</li>
-                          <li className="col-sm-4">Rs 50</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Blouse", "C12", 20) }}>
-                          <li className="col-sm-8">Blouse C12</li>
-                          <li className="col-sm-4">Rs 20</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Salwar", "C13", 50) }}>
-                          <li className="col-sm-8">Salwar C13</li>
-                          <li className="col-sm-4">Rs 50</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Skirt", "C14", 30) }}>
-                          <li className="col-sm-8">Skirt C14</li>
-                          <li className="col-sm-4">Rs 30</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Top", "C15", 30) }}>
-                          <li className="col-sm-8">Top C15</li>
-                          <li className="col-sm-4">Rs 30</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Jeans", "C16", 40) }}>
-                          <li className="col-sm-8">Jeans C16</li>
-                          <li className="col-sm-4">Rs 40</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Pants", "C17", 30) }}>
-                          <li className="col-sm-8">Pants C17</li>
-                          <li className="col-sm-4">Rs 30</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </div>})}
               </div>
             </div>
           </div>
@@ -526,7 +481,7 @@ const Laundry = () => {
                     className="form-control height-30 font-size-14 background-gray"
                     id="inputItemName"
                     name="itemname"
-                    readOnly="true"
+                    readOnly={true}
                     value={itemName}
                     onChange={handleInputChange}
                   />
@@ -542,7 +497,7 @@ const Laundry = () => {
                     className="form-control height-30 font-size-14 background-gray"
                     id="inputCost"
                     name="cost"
-                    readOnly="true"
+                    readOnly={true}
                     value={cost}
                     onChange={handleInputChange}
                   />

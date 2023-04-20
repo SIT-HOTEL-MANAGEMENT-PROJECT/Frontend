@@ -39,25 +39,36 @@ const FandB = () => {
   const [bookingIdFB, setBookingIdFB] = useState("");
   const [itemCodeArray, setItemCodeArray] = useState([]);
 
-  const itemData = [
-    { code: "A1", name: "American Salad", price: 250 },
-    { code: "A2", name: "Indian Salad", price: 150 },
-    { code: "B1", name: "Paneer Chilli", price: 300 },
-    { code: "B2", name: "Potato Swirl", price: 150 },
-    { code: "C1", name: "Chicken Lollipop", price: 400 },
-    { code: "C2", name: "Mutton Cutlet", price: 550 },
-    { code: "D1", name: "Tomato Soup", price: 150 },
-    { code: "D2", name: "Chicken Soup", price: 350 },
-    { code: "E1", name: "Basanti Pulao", price: 300 },
-    { code: "E2", name: "Chicken Biriyani", price: 350 },
-    { code: "F1", name: "Chocolate Mousse", price: 250 },
-    { code: "F2", name: "Rasgulla", price: 150 },
-    { code: "G1", name: "Limca", price: 100 },
-    { code: "G2", name: "Fanta", price: 80 },
-    { code: "H1", name: "Mutton Kasha", price: 650 },
-    { code: "H2", name: "Mutton Biriyani", price: 750 },
-  ];
+  const [itemDatas, setItemDatas] = useState([]);
+  const [itemData, setItemData] = useState([]);
 
+
+  
+  const initialDataFetch = async()=>{
+    try{
+      let dbd = await db.collection("fnbitems").get();
+
+      if(!dbd) { alert("Internal Server Error!"); return; }
+
+      if(!Array.isArray(dbd)){ dbd = [dbd]; }
+
+      setItemDatas(dbd);
+      
+      const allItems = [];
+      dbd.forEach(category => {
+        category.items.forEach(item => {
+          if (item) {
+            allItems.push(item);
+          }
+        });
+      });
+
+      setItemData(allItems);
+    }catch(e){
+      console.log("FandB (initialDataFetch)",e);
+      return {success:false, msg: "Internal Server Error"}
+    }
+  }
 
 
   // Update : Update how much amount paid by user today in ADR DB
@@ -220,6 +231,7 @@ const FandB = () => {
 
 
   useEffect(() => {
+    initialDataFetch();
     initialPrepopulatedData();
   }, [])
 
@@ -420,175 +432,26 @@ const FandB = () => {
           <div className="flex-column width-20percent medium-width-90percent p-1 height-550 background-white mt-2 mb-2 mx-2 overflow-y-axis-auto">
             <div className="flex-column justify-content-center padding-left-right-20">
               <h5 className="text-primary">Items</h5>
-              <div className="accordion accordion-flush" id="accordionFlushExample">
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingOne">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                      Salad & Raita
+              <div className="accordion accordion-flush" id="accordionFlushExample">                
+                {itemDatas &&  itemDatas.map((item,index)=>{
+                  return <div key={index+1} className="accordion-item">
+                  <h2 className="accordion-header" id={`flush-heading-${index+1}`}>
+                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target={`#flush-collapse-${index+1}`} aria-expanded="false" aria-controls={`flush-collapse-${index+1}`}>
+                      {item?.category}
                     </button>
                   </h2>
-                  <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                  <div id={`flush-collapse-${index+1}`} className="accordion-collapse collapse" aria-labelledby={`flush-heading-${index+1}`} data-bs-parent="#accordionFlushExample">
                     <div className="accordion-body">
                       <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("American Salad", "A1", 250) }}>
-                          <li className="col-sm-8">American Salad A1</li>
-                          <li className="col-sm-4">Rs 250</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Indian Salad", "A2", 150) }}>
-                          <li className="col-sm-8">Indian Salad A2</li>
-                          <li className="col-sm-4">Rs 150</li>
-                        </div>
+                        {item?.items && item.items.map((itm,idx)=>{
+                          return <div key={idx+1} className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd(itm?.name, itm?.code, itm?.price) }}>
+                          <li className="col-sm-8">{itm?.name} {itm?.code}</li>
+                          <li className="col-sm-4">Rs {itm?.price}</li>
+                        </div>})}
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingTwo">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                      Veg Starters
-                    </button>
-                  </h2>
-                  <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Paneer Chilli", "B1", 300) }}>
-                          <li className="col-sm-8">Paneer Chilli B1</li>
-                          <li className="col-sm-4">Rs 300</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Potato Swirl", "B2", 150) }}>
-                          <li className="col-sm-8">Potato Swirl B2</li>
-                          <li className="col-sm-4">Rs 150</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingThree">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                      Non-veg Starters
-                    </button>
-                  </h2>
-                  <div id="flush-collapseThree" className="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Chicken Lollipop", "C1", 400) }}>
-                          <li className="col-sm-8">Chicken Lollipop C1</li>
-                          <li className="col-sm-4">Rs 400</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Mutton Cutlet", "C2", 550) }}>
-                          <li className="col-sm-8">Mutton Cutlet C2</li>
-                          <li className="col-sm-4">Rs 550</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingFour">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                      Soup Bowls
-                    </button>
-                  </h2>
-                  <div id="flush-collapseFour" className="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Tomato Soup", "D1", 150) }}>
-                          <li className="col-sm-8">Tomato Soup D1</li>
-                          <li className="col-sm-4">Rs 150</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Chicken Soup", "D2", 350) }}>
-                          <li className="col-sm-8">Chicken Soup D2</li>
-                          <li className="col-sm-4">Rs 350</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingFive">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
-                      Rice Item
-                    </button>
-                  </h2>
-                  <div id="flush-collapseFive" className="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Basanti Pulao", "E1", 300) }}>
-                          <li className="col-sm-8">Basanti Pulao E1</li>
-                          <li className="col-sm-4">Rs 300</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Chicken Biriysni", "E2", 350) }}>
-                          <li className="col-sm-8">Chicken Biriyani E2</li>
-                          <li className="col-sm-4">Rs 350</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingSix">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
-                      Desserts
-                    </button>
-                  </h2>
-                  <div id="flush-collapseSix" className="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Chocolate Mousse", "F1", 250) }}>
-                          <li className="col-sm-8">Chocolate Mousse F1</li>
-                          <li className="col-sm-4">Rs 250</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Rasgulla", "F2", 150) }}>
-                          <li className="col-sm-8">Rasgulla F2</li>
-                          <li className="col-sm-4">Rs 150</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingSeven">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
-                      Beverages
-                    </button>
-                  </h2>
-                  <div id="flush-collapseSeven" className="accordion-collapse collapse" aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Limca", "G1", 100) }}>
-                          <li className="col-sm-8">Limca G1</li>
-                          <li className="col-sm-4">Rs 100</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Fanta", "G2", 80) }}>
-                          <li className="col-sm-8">Fanta G2</li>
-                          <li className="col-sm-4">Rs 80</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="accordion-item">
-                  <h2 className="accordion-header" id="flush-headingEight">
-                    <button className="accordion-button collapsed text-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
-                      Lunch
-                    </button>
-                  </h2>
-                  <div id="flush-collapseEight" className="accordion-collapse collapse" aria-labelledby="flush-headingEight" data-bs-parent="#accordionFlushExample">
-                    <div className="accordion-body">
-                      <div className="list-style-none">
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Mutton Kasha", "H1", 650) }}>
-                          <li className="col-sm-8">Mutton Kasha H1</li>
-                          <li className="col-sm-4">Rs 650</li>
-                        </div>
-                        <div className="d-flex hover-gray make-cursor-pointer" onClick={() => { handleItemAdd("Mutton Biriyani", "H2", 750) }}>
-                          <li className="col-sm-8">Mutton Biriyani H2</li>
-                          <li className="col-sm-4">Rs 750</li>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </div>})}
               </div>
             </div>
           </div>
@@ -775,7 +638,7 @@ const FandB = () => {
                         className="form-control height-30 font-size-14 background-gray"
                         id="inputItemName"
                         name="itemname"
-                        readOnly="true"
+                        readOnly={true}
                         value={itemName}
                         onChange={handleInputChange}
                       />
@@ -860,7 +723,7 @@ const FandB = () => {
                         className="form-control height-30 font-size-14 background-gray"
                         id="inputRate"
                         name="rate"
-                        readOnly="true"
+                        readOnly={true}
                         value={rate}
                         onChange={handleInputChange}
                         required
