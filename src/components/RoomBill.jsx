@@ -125,7 +125,7 @@ const RoomBill = () => {
 
             let sstlamt = 0.0;
 
-            if(isSettled === true){
+            if(booking?.issettled === true){
                 if((booking.roomrate) > totalCredit) { sstlamt = parseFloat(booking.roomrate) - parseFloat(totalCredit); } 
                 totalCredit += parseFloat(sstlamt);
             }

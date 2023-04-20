@@ -94,8 +94,8 @@ const ServiceBill = () => {
             const todayTimeString = `${hours}:${minutes}`;
             setdepartureDate(todayDateString); setDepartureTime(todayTimeString);
 
-            await getandSetLaundryBill(bookingid);
-            await getandSetFandBBill(bookingid);
+            await getandSetLaundryBill(bookingid,booking?.issettled);
+            await getandSetFandBBill(bookingid,booking?.issettled);
         } else {
             setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
             setTravelAgentName(''); setGuestPhoneNumber(''); setCompanyName(''); setBillNo('');
@@ -111,7 +111,7 @@ const ServiceBill = () => {
     }
 
 
-    const getandSetLaundryBill = async(bookingid)=>{
+    const getandSetLaundryBill = async(bookingid,istled)=>{
         try{
             let laundryDb = await db.collection('laundryservice').get();
 
@@ -164,7 +164,7 @@ const ServiceBill = () => {
 
                     let sstlamt = 0.0;
 
-                    if(isSettled === true){
+                    if(istled === true){
                         if(ttlDebt > ttlCred) { sstlamt = parseFloat(ttlDebt) - parseFloat(ttlCred); }
                         ttlCred += parseFloat(sstlamt);
                     }
@@ -188,7 +188,7 @@ const ServiceBill = () => {
         }
     }
 
-    const getandSetFandBBill = async(bookingid)=>{
+    const getandSetFandBBill = async(bookingid,istled)=>{
         try{
             let fnbDb = await db.collection('fnbservice').get();
 
@@ -249,7 +249,7 @@ const ServiceBill = () => {
 
                     let sstlamt = 0.0;
 
-                    if(isSettled === true){
+                    if(istled === true){
                         if(fnlDebit > ttlCred) { sstlamt = parseFloat(fnlDebit) - parseFloat(ttlCred); }
                         ttlCred += parseFloat(sstlamt);
                     }
