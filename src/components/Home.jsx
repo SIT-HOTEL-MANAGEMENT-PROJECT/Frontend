@@ -73,7 +73,7 @@ const Home = () => {
     e.preventDefault();
     const result = await LoginAction(role, username, password);
     if (result.success) {
-      window.location.href = "/Home3";
+      window.location.href = "/Home4";
     } else {
       alert(result.msg);
     }

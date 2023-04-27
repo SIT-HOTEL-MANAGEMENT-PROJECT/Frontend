@@ -192,7 +192,7 @@ const ReservationConfirmation = () => {
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">
-              <NavLink className="text-primary" to="/Home3">
+              <NavLink className="text-primary" to="/Home4">
                 <i className="bx bx-chevrons-left font-size-25"></i>
               </NavLink>
               <h5 className="text-primary">Reservation</h5>
