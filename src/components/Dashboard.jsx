@@ -104,7 +104,7 @@ const Dashboard = () => {
             <div className="bg-light min-height-vh">
                 <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
                     <div className="container-fluid">
-                        <div className="navbar-brand flex-column justify-content-center align-items-center make-cursor-pointer" onClick={()=>{navigate("/Home3")}}>
+                        <div className="navbar-brand flex-column justify-content-center align-items-center make-cursor-pointer" onClick={()=>{navigate("/Home4")}}>
                             <div className="text-primary d-flex justify-content-center align-items-center border-none">
                                 <i className="fa fa-angle-double-left font-size-40" aria-hidden="true"></i>
                             </div>
@@ -152,7 +152,19 @@ const Dashboard = () => {
                             </div>
                             <h5 className="text-primary font-size-14">F & B Service</h5>
                         </div>
-                        <div className="navbar-brand flex-column justify-content-center align-items-center cur-pointer make-cursor-pointer" onClick={()=>{navigate("/GuestHistory")}}>
+                        <div className="navbar-brand flex-column justify-content-center align-items-center cur-pointer make-cursor-pointer" onClick={()=>{navigate("/FandBAdmin")}}>
+                            <div className="text-primary d-flex justify-content-center align-items-center">
+                                <i id="iconcolor" className="fa fa-cutlery font-size-40" aria-hidden="true"></i>
+                            </div>
+                            <h5 className="text-primary font-size-14">F & B Admin Panel</h5>
+                        </div>
+                        <div className="navbar-brand flex-column justify-content-center align-items-center cur-pointer make-cursor-pointer" onClick={()=>{navigate("/LaundryAdmin")}}>
+                            <div className="text-primary d-flex justify-content-center align-items-center">
+                                <i id="iconcolor" className="fa fa-user font-size-40" aria-hidden="true"></i>
+                            </div>
+                            <h5 className="text-primary font-size-14">Laundry Admin Panel</h5>
+                        </div>
+                        {/* <div className="navbar-brand flex-column justify-content-center align-items-center cur-pointer make-cursor-pointer" onClick={()=>{navigate("/GuestHistory")}}>
                             <div className="text-primary d-flex justify-content-center align-items-center">
                                 <i id="iconcolor" className="fa fa-book font-size-40" aria-hidden="true"></i>
                             </div>
@@ -163,7 +175,7 @@ const Dashboard = () => {
                                 <i id="iconcolor" className="fa fa-file-text font-size-40" aria-hidden="true"></i>
                             </div>
                             <h5 className="text-primary font-size-14">Reports</h5>
-                        </div>
+                        </div> */}
                         <div className="navbar-brand flex-column justify-content-center align-items-center cur-pointer make-cursor-pointer" onClick={()=>{navigate("/Profile")}}>
                             <div className="text-primary d-flex justify-content-center align-items-center">
                                 <i id="iconcolor" className="fa fa-user-circle font-size-40" aria-hidden="true" ></i>

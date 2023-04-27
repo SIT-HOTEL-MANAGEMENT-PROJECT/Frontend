@@ -1,4 +1,7 @@
 /* eslint-disable eqeqeq */
+
+// ==========================================     Archived File    ==========================================
+
 import React from "react";
 import homeimg from "../img/homeimg.png";
 // import "../CustomCss/Reservation.css";

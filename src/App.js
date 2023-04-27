@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AllReservations from "./components/AllReservations";
-import Application from "./components/Application";
-import Notice from "./components/Notice";
+// import Application from "./components/Application";
+// import Notice from "./components/Notice";
 import Home from "./components/Home";
-import Home3 from "./components/Home3";
+// import Home3 from "./components/Home3";
 import Profile from "./components/Profile";
 import Reservation from "./components/Reservation";
 import ReservationConfirmation from "./components/ReservationConfirmation";
 import RoomAvailability from "./components/RoomAvailability";
 import CheckIn from "./components/CheckIn";
-import GuestHistory from "./components/GuestHistory";
-import HistoryReports from "./components/HistoryReports";
+// import GuestHistory from "./components/GuestHistory";
+// import HistoryReports from "./components/HistoryReports";
 import CheckOut from "./components/CheckOut";
 import Laundry from "./components/Laundry";
 import DuluxeRoomAvailability from "./components/DuluxeRoomAvailablility";
@@ -20,7 +20,7 @@ import FandB from "./components/FandB";
 import Team from "./components/Team";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie'
-import { useWorker } from 'react-hooks-worker';
+// import { useWorker } from 'react-hooks-worker';
 import Localbase from "localbase";
 import Dashboard from "./components/Dashboard";
 import Home4 from "./components/Home4";
@@ -36,23 +36,23 @@ db.config.debug = false;
 const App = () => {
   const navigate = useNavigate();
 
-  const lastReportDateString = localStorage.getItem('lastreportdate');
-  const createReportsWorker = () => new Worker(
-    new URL('./reports.worker', import.meta.url), { type: 'module' },
-  );
-  const { result, error } = useWorker(createReportsWorker, lastReportDateString);
+  // const lastReportDateString = localStorage.getItem('lastreportdate');
+  // const createReportsWorker = () => new Worker(
+  //   new URL('./reports.worker', import.meta.url), { type: 'module' },
+  // );
+  // const { result, error } = useWorker(createReportsWorker, lastReportDateString);
 
-  if(error){console.log(error);}
-  if(result){ 
-    if(result.success){ 
-      localStorage.removeItem('lastreportdate');
-      const today = new Date();
-      const todayDate = today.toISOString().slice(0, 10);
-      localStorage.setItem('lastreportdate',todayDate);
-    } else{
-      console.log(result);
-    }
-  }
+  // if(error){console.log(error);}
+  // if(result){ 
+  //   if(result.success){ 
+  //     localStorage.removeItem('lastreportdate');
+  //     const today = new Date();
+  //     const todayDate = today.toISOString().slice(0, 10);
+  //     localStorage.setItem('lastreportdate',todayDate);
+  //   } else{
+  //     console.log(result);
+  //   }
+  // }
 
   useEffect(() => {
     setTimeout(() => {
@@ -302,7 +302,7 @@ const App = () => {
       {/* Routes Setup */}
       <Routes>
         <Route exact path="/Home" element={<Home />} />
-        <Route exact path="/Home3" element={<Home3  resetAppData={resetAppData} />} />
+        {/* <Route exact path="/Home3" element={<Home3  resetAppData={resetAppData} />} /> */}
         <Route exact path="/Dashboard" element={<Dashboard />} />
         <Route exact path="/FandBAdmin" element={<FandBAdmin isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
         <Route exact path="/LaundryAdmin" element={<LaundryAdmin isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
@@ -312,24 +312,20 @@ const App = () => {
         <Route exact path="/Home4" element={<Home4 resetAppData={resetAppData} />} />
         <Route exact path="/AllReservations" element={<AllReservations isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/Reservation" element={<Reservation getLoggedInUserDetails={getLoggedInUserDetails}/>} />
-        <Route
-          exact
-          path="/ReservationConfirmation"
-          element={<ReservationConfirmation />}
-        />
+        <Route exact path="/ReservationConfirmation" element={<ReservationConfirmation />} />
         <Route exact path="/Profile" element={<Profile isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails}/>} />
         <Route exact path="/RoomAvailability" element={<RoomAvailability isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} initializeDatabase={initializeRoomAvDatabase} getLoggedInUserDetails={getLoggedInUserDetails}/>} />
-        <Route exact path="/Application" element={<Application isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
-        <Route exact path="/Notice" element={<Notice isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
-        <Route exact path="/GuestHistory" element={<GuestHistory isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
-        <Route exact path="/Reports" element={<HistoryReports isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
+        {/* <Route exact path="/Application" element={<Application isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} /> */}
+        {/* <Route exact path="/Notice" element={<Notice isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} /> */}
+        {/* <Route exact path="/GuestHistory" element={<GuestHistory isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} /> */}
+        {/* <Route exact path="/Reports" element={<HistoryReports isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} /> */}
         <Route exact path="/Laundry" element={<Laundry isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/CheckIn" element={<CheckIn isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/Checkout" element={<CheckOut isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/FandB" element={<FandB isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} getLoggedInUserDetails={getLoggedInUserDetails} />} />
         <Route exact path="/Duluxe" element={<DuluxeRoomAvailability isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} initializeDatabase={initializeRoomAvDatabase} getLoggedInUserDetails={getLoggedInUserDetails}/>} />
         <Route exact path="/Executive" element={<ExecutiveRoomAvailability isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin} initializeDatabase={initializeRoomAvDatabase} getLoggedInUserDetails={getLoggedInUserDetails}/>} />
-        <Route path="*" element={<Navigate to="/Home3" replace resetAppData={resetAppData} isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
+        <Route path="*" element={<Navigate to="/Home4" replace resetAppData={resetAppData} isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
         <Route path="/Team" element={<Team isAuthenticated={isAuthenticated} isUserAdmin={isUserAdmin}/>} />
       </Routes>
     </>

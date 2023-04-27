@@ -54,6 +54,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
   const [travelAgentName, setTravelAgentName] = useState("");
   const [resAssisName, setResAssisName] = useState("");
   const [specialReq, setSpecialReq] = useState("");
+  const [curTodayDate, setCurTodayDate] = useState("");
 
   
 
@@ -532,6 +533,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
     let todayDate = new Date();
     let todayDateString = todayDate.toISOString().slice(0, 10);
     setBookingDate(todayDateString);
+    setCurTodayDate(todayDateString);
     setArrivalTime("12:00"); setDepartureTime("12:00");
   }
 
@@ -696,7 +698,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">
-              <NavLink className="text-primary" to="/Home3">
+              <NavLink className="text-primary" to="/Home4">
                 <i className="bx bx-chevrons-left font-size-25"></i>
               </NavLink>
               <h5 className="text-primary">Reservation</h5>
@@ -835,6 +837,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
                   className="form-control height-30 font-size-14 background-gray"
                   id="inputArrivalDate"
                   name="arrivaldate"
+                  min={curTodayDate}
                   max={departureDate}
                   value={arrivalDate}
                   onChange={handleInputChange}
@@ -1246,6 +1249,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
                   className="form-control height-30 font-size-14 background-gray"
                   id="inputBookingDate"
                   name="bookingdate"
+                  min={curTodayDate}
                   max={arrivalDate}
                   value={bookingDate}
                   onChange={handleInputChange}

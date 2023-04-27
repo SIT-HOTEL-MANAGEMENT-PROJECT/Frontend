@@ -559,3 +559,11 @@
 .display-none{
   display: none;
 }
+
+.text-decoration-none{
+  text-decoration: none;
+}
+
+.text-hover-underline:hover{
+  text-decoration: underline !important;
+}
