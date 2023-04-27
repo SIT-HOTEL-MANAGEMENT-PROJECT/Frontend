@@ -55,6 +55,9 @@ const CheckOut = () => {
   const [settlementAmount, setSettlementAmount] = useState(0);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [modeOfSplit, setModeOfSplit] = useState("");
+  const [cashierSignature, setCashierSignature] = useState("");
+  const [guestSignature, setGuestSignature] = useState("");
+  const [settlementCompanyName, setSettlementCompanyName] = useState("");
   const [pendingCheckoutData, setPendingCheckoutData] = useState([]);
 
   const [openGuestInfo, setOpenGuestInfo] = useState(false);
@@ -483,6 +486,9 @@ const CheckOut = () => {
     else if (e.target.name == "filterfrom") { setFilterFrom(e.target.value); }
     else if (e.target.name == "filterto") { setFilterTo(e.target.value); }
     else if (e.target.name == "settlementamount") { setSettlementAmount(e.target.value); }
+    else if (e.target.name == "cashiersignature") { setCashierSignature(e.target.value); }
+    else if (e.target.name == "guestsignature") { setGuestSignature(e.target.value); }
+    else if (e.target.name == "settlementcompanyname") { setSettlementCompanyName(e.target.value); }
   };
 
   const submitAction = async (e) => {
@@ -944,11 +950,11 @@ const CheckOut = () => {
           <div className="d-flex medium-flex-column align-items-center justify-content-between reserv-col-gap-1 mt-2 p-2 pb-2">
             <div className="d-flex align-items-center">
               <h5>Cashier</h5>
-              <input type="text" className="reserv-padding-left bg-light border-bottom-blue" />
+              <input type="text" name="cashiersignature" onChange={handleInputChange} value={cashierSignature} className="reserv-padding-left bg-light border-bottom-blue" />
             </div>
             <div className="d-flex align-items-center">
               <h5>Guest's Signature</h5>
-              <input type="text" className="reserv-padding-left bg-light border-bottom-blue" />
+              <input type="text" name="guestsignature" onChange={handleInputChange} value={guestSignature} className="reserv-padding-left bg-light border-bottom-blue" />
             </div>
           </div>
           <div className="d-flex medium-flex-column align-items-center justify-content-between">
@@ -974,7 +980,7 @@ const CheckOut = () => {
 
 
           {openSettlementPopup && <div className="d-flex align-items-center justify-content-center overlay">
-            <div className="bg-light height-300 width-50percent position-fixed z-index-3 mt-4 p-4 border-radius-10">
+            <div className="bg-light height-350 width-50percent position-fixed z-index-3 mt-4 p-4 border-radius-10">
               <div className="d-flex justify-content-between">
                 <h4>Settlement</h4>
                 <button className='width-40 height-40 d-flex justify-content-center align-items-center border-none font-size-25 make-cursor-pointer' onClick={()=>{showSettlementPopup()}}><i className="fa fa-times" aria-hidden="true"></i></button>
@@ -1037,9 +1043,37 @@ const CheckOut = () => {
                     >
                       UPI
                     </button>
+
+                    <button
+                      type="button"
+                      className={`w-70 height-40 d-flex align-items-center justify-content-center font-size-14 text-primary btn button-padding-5 large-button-width-60 large-button-font-size-12 ${paymentTypeBtnColor === "BTC"
+                        ? "button-color-onHover"
+                        : "background-gray"
+                        }`}
+                      onClick={() => {
+                        changePaymentBtnColor("BTC");
+                      }}
+                    >
+                      BTC
+                    </button>
                   </div>
                 </div>
-                <div className="d-flex align-items-center flex-wrap">
+                {modeOfPayment == "BTC" && <div className="d-flex align-items-center font-size-18 flex-wrap medium-width-full">
+                  <label htmlFor="settlementcompanyname" className="col-sm-3 col-form-label medium-width-40percent text-primary">
+                    Company{" "}
+                  </label>
+                  <div className="col-sm-9 medium-width-60percent">
+                    <input
+                      type="text"
+                      className="form-control height-40 font-size-18 background-gray"
+                      id="inputSettlementCompany"
+                      name="settlementcompanyname"
+                      value={settlementCompanyName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>}
+                <div className="d-flex align-items-center flex-wrap mt-3">
                   <label
                     htmlFor="modeofpayment"
                     className="col-sm-3 col-form-label font-size-18 medium-width-40percent text-primary"
@@ -1118,7 +1152,7 @@ const CheckOut = () => {
           </div>}
 
 
-          <iframe id="billpopup" title="SIT HMCT Bill" src={`${printUrl}/Billing?bookingid=${registrationNo}`} className="display-none"/>
+          <iframe id="billpopup" title="SIT HMCT Bill" src={`${printUrl}/Billing?bookingid=${registrationNo}&cashiersign=${cashierSignature}&guestsign=${guestSignature}`} className="display-none"/>
           <iframe id="roombillpopup" title="SIT HMCT Room Bill" src={`${printUrl}/RoomBill?bookingid=${registrationNo}`} className="display-none"/>
           <iframe id="servicebillpopup" title="SIT HMCT Service Bill" src={`${printUrl}/ServiceBill?bookingid=${registrationNo}`} className="display-none"/>
         
