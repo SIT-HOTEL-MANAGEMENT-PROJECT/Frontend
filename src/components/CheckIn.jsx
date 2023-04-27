@@ -471,8 +471,8 @@ const CheckIn = () => {
       setNoOfRooms(booking.noofrooms);
       setRoomNumber(booking.roomno);
       setBookingDate(booking.bookingdate);
-      setArrivalDate(booking.arrivaldate);
-      setArrivalTime(booking.arrivaltime);
+      // setArrivalDate(booking.arrivaldate);
+      // setArrivalTime(booking.arrivaltime);
       setNights(booking.nights);
       setdepartureDate(booking.departuredate);
       setDepartureTime(booking.departuretime);
@@ -493,8 +493,9 @@ const CheckIn = () => {
       if (booking.roomrate == '') { setIsDiscountDisabled(true); } else { setIsDiscountDisabled(false); }
     }
     else {
-      setNoOfRooms(''); setRoomNumber(''); setBookingDate(''); setArrivalDate(''); setArrivalTime(''); setNights('');
-      setdepartureDate(''); setDepartureTime(''); setRoomRate(''); setDiscountAmount(''); setDiscountPercentage(''); setSpecialReq('');
+      setNoOfRooms(''); setRoomNumber(''); setBookingDate(''); 
+      // setArrivalDate(''); setArrivalTime(''); 
+      setNights(''); setdepartureDate(''); setDepartureTime(''); setRoomRate(''); setDiscountAmount(''); setDiscountPercentage(''); setSpecialReq('');
       setGuestName({ title: "", firstname: "", middlename: "", lastname: "", });
       setGuestPhoneNumber(''); setCompanyName('');
       setAddress({ ad1: "", city: "", state: "", zip: "", });
@@ -511,6 +512,10 @@ const CheckIn = () => {
   const initialPrepopulatedData = async () => {
     let todayDate = new Date();
     let todayDateString = todayDate.toISOString().slice(0, 10);
+    const hours = todayDate.getHours().toString().padStart(2, '0');
+    const minutes = todayDate.getMinutes().toString().padStart(2, '0');
+    const todayTimeString = `${hours}:${minutes}`;
+    setArrivalDate(todayDateString); setArrivalTime(todayTimeString);
     setFilterFrom(todayDateString); setFilterTo(todayDateString);
   }
 
@@ -676,7 +681,7 @@ const CheckIn = () => {
       showBookingSuccessful();
       setTimeout(() => {
         navigate(-1);
-      }, 5000);
+      }, 2000);
     } else {
       alert(res.msg);
     }
@@ -688,7 +693,7 @@ const CheckIn = () => {
         <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
           <div className="container-fluid">
             <div className="navbar-brand d-flex align-items-center">
-              <NavLink className="text-primary" to="/Home3">
+              <NavLink className="text-primary" to="/Home4">
                 <i className="bx bx-chevrons-left font-size-25"></i>
               </NavLink>
               <h5 className="text-primary">Check In</h5>
@@ -1697,7 +1702,7 @@ const CheckIn = () => {
             <button
               type="button"
               className={`d-flex align-items-center justify-content-center text-primary font-size-18 btn button-padding-5 width-200 height-40 large-button-width-60 large-button-font-size-12 background-gray`}
-              onClick={() => { navigate('/Home3') }}
+              onClick={() => { navigate('/Home4') }}
             >
               Booking Hold
             </button>
