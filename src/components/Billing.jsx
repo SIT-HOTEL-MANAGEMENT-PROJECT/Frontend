@@ -30,13 +30,20 @@ const Billing = () => {
     const [paymentData, setPaymentData] = useState([]);
     const [ttlDebit, setTtlDebit] = useState(0);
     const [ttlCredit, setTtlCredit] = useState(0);
+    const [cashierSignature, setCashierSignature] = useState("");
+    const [guestSignature, setGuestSignature] = useState("");
+  
 
       
     useEffect(() => {
       setTimeout(() => {
         const query = new URLSearchParams(location.search);
         const bookingid = query.get('bookingid');
+        const cashiersign = query.get('cashiersign');
+        const guestsign = query.get('guestsign');
         if (bookingid && bookingid.length === 14) { getAndSetUserData(bookingid); }
+        if (cashiersign && cashiersign!='') { setCashierSignature(cashiersign); }
+        if (guestsign && guestsign!='') { setGuestSignature(guestsign); }
       }, 1000);
     }, [location])
   
@@ -111,6 +118,11 @@ const Billing = () => {
           setTtlCredit(0);
         }
     }
+
+    const handleInputChange = (e) => {
+        if (e.target.name == "cashiersignature") { setCashierSignature(e.target.value); }
+        else if (e.target.name == "guestsignature") { setGuestSignature(e.target.value); }
+    };
 
     return (
         <div>
@@ -227,6 +239,16 @@ const Billing = () => {
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div className="d-flex medium-flex-column align-items-center justify-content-between reserv-col-gap-1 mt-2 p-2 pb-2">
+                        <div className="d-flex align-items-center">
+                          <h5>Cashier</h5>
+                          <input type="text" name="cashiersignature" onChange={handleInputChange} value={cashierSignature} className="reserv-padding-left bg-light border-bottom-blue" />
+                        </div>
+                        <div className="d-flex align-items-center">
+                          <h5>Guest's Signature</h5>
+                          <input type="text" name="guestsignature" onChange={handleInputChange} value={guestSignature} className="reserv-padding-left bg-light border-bottom-blue" />
+                        </div>
                     </div>
                 </div>
             </div>
