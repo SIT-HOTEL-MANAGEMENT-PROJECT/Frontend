@@ -163,7 +163,7 @@ const FandB = () => {
       if (!updatedpaymenthistory.some((item) => item.name === "f&b")) {
         updatedpaymenthistory.push({
           name: "f&b",
-          description: "F&B time payment",
+          description: "F&B Charges",
           date: todaydateforpaymentstring,
           debit: dbtamt,
           credit: credamt,

@@ -185,7 +185,7 @@ const Laundry = () => {
       if (!updatedpaymenthistory.some((item) => item.name === "laundry")) {
         updatedpaymenthistory.push({
           name: "laundry",
-          description: "Laundry time payment",
+          description: "Laundry Charges",
           date: todaydateforpaymentstring,
           debit: dbtamt,
           credit: credamt,
