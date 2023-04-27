@@ -170,6 +170,10 @@
   height: 650px;
 }
 
+.height-350{
+  height: 350px;
+}
+
 .rev-margin-gap {
   margin-top: 1px !important;
   margin-bottom: 1px !important;
