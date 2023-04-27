@@ -32,8 +32,7 @@ const Dashboard = () => {
             let pendingBookings = [];
             if(bookings?.length >= 1){
                 pendingBookings = bookings.filter(booking => {
-                    return booking.checkedinstatus === 'pending' &&
-                        booking.arrivaldate >= startdate &&
+                    return booking.arrivaldate >= startdate &&
                         booking.arrivaldate <= enddate;
                 });
             }
@@ -54,9 +53,8 @@ const Dashboard = () => {
             let pendingBookings = [];
             if(bookings?.length >= 1){
                 pendingBookings = bookings.filter(booking => {
-                    return booking.checkedoutstatus === 'pending' && booking.checkedinstatus === 'done' &&
-                        booking.departuredate >= startdate &&
-                        booking.departuredate <= enddate;
+                    return booking.checkedinstatus=='done' && booking.checkedoutstatus=='pending' && 
+                        booking.departuredate >= startdate && booking.departuredate <= enddate;
                 });
             }
 
@@ -196,7 +194,8 @@ const Dashboard = () => {
                                             <h4 className='font-size-14 col-sm-6'>Room No : {item.roomno}</h4>
                                         </div>
                                     </div>
-                                    <button type="button" onClick={()=>{navigate(`/CheckIn?bookingid=${item.bookingid}`)}} className="d-flex align-items-center justify-content-center col-sm-4 text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12">Check In</button>
+                                    {item.checkedinstatus=='pending' && <button type="button" onClick={()=>{navigate(`/CheckIn?bookingid=${item.bookingid}`)}} className="d-flex align-items-center justify-content-center col-sm-4 text-primary font-size-16 btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12">Check In</button>}
+                                    {item.checkedinstatus=='done' && <button type="button" disabled={true} className="d-flex align-items-center justify-content-center col-sm-4 text-light font-size-16 btn btn-warning button-padding-5 height-40 large-button-width-60 large-button-font-size-12">Checked In</button>}
                                 </div>})}
                                 
                                 {pendingCheckinData.length < 1 && <div className='d-flex align-items-center justify-content-center h-75'>
@@ -210,7 +209,7 @@ const Dashboard = () => {
                                 <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="fromcheckoutdate" value={checkoutFrom} onChange={handleInputChange}></input>
                                 <h5>To</h5>
                                 <input type='date' className="form-control height-30 width-150 font-size-14 background-gray" id="inputDate" name="tocheckoutdate" value={checkoutTo} onChange={handleInputChange}></input>
-                                <button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12" onClick={(e)=>{applyCheckoutAction(e)}}>Apply</button>
+                                <button type="button" className="d-flex align-items-center justify-content-center text-primary font-size-16 btn button-color-onHover button-padding-5 height-40 large-button-width-60 large-button-font-size-12" onClick={(e)=>{applyCheckoutAction(e)}}>Apply</button>
                             </div>
                             <div className='flex-column height-450 overflow-y-axis-auto border-full-blue border-radius-10 p-2 mt-3'>
                                 <h5 className='border-bottom-blue p-1'>Check Out</h5>

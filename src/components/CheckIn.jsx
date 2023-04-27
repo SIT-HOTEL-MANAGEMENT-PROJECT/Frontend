@@ -67,6 +67,8 @@ const CheckIn = () => {
   const [visaNumber, setVisaNumber] = useState("");
   const [passportDateOfIssue, setPassportDateOfIssue] = useState("");
   const [visaDateOfIssue, setVisaDateOfIssue] = useState("");
+  const [passportExpiryDate, setPassportExpiryDate] = useState("");
+  const [visaExpiryDate, setVisaExpiryDate] = useState("");
   const [arrivedFrom, setArrivedFrom] = useState("");
   const [placeOfIssue, setPlaceOfIssue] = useState("");
   const [purpose, setPurpose] = useState("");
@@ -193,7 +195,7 @@ const CheckIn = () => {
       const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
 
       if (depositRate) {
-        updatedpaymenthistory.push({ name: "checkin", description: "Checkin time payment", date: todaydateforpaymentstring, debit: "", credit: depositRate })
+        updatedpaymenthistory.push({ name: "checkin", description: "Amount Received", date: todaydateforpaymentstring, debit: "", credit: depositRate })
         await updateRupeesAdrValue(depositRate);
       }
 
@@ -248,7 +250,8 @@ const CheckIn = () => {
         phoneno: guestPhoneNumber, telno: tel, companyname: companyName,
 
         checkcountry: openCountry, aadhaarno: aadharNo, passportno: passportNumber, visano: visaNumber,
-        passportdateofissue: passportDateOfIssue, arrivedfrom: arrivedFrom, placeofissue: placeOfIssue,
+        passportdateofissue: passportDateOfIssue, visaexpirydate: visaExpiryDate, passportexpirydate: passportExpiryDate,
+        arrivedfrom: arrivedFrom, placeofissue: placeOfIssue,
         purdurofstayinhotel: purpose,
 
         cityledgetacct: cityLedgetAcct, groupid: groupId,
@@ -543,9 +546,9 @@ const CheckIn = () => {
     setMealPlan(mealType);
   };
 
-  const showBookingSuccessful = () => {
-    setOpenBookingSuccessful(!openBookingSuccessful);
-    setOpenBookingButtons(false);
+  const showBookingSuccessful = () => { 
+      setOpenBookingSuccessful(!openBookingSuccessful);
+      setOpenBookingButtons(false);
   }
 
   const showGuestInfo = async()=>{
@@ -639,6 +642,8 @@ const CheckIn = () => {
     else if (e.target.name == "visanumber") { setVisaNumber(e.target.value); }
     else if (e.target.name == "passportdateofissue") { setPassportDateOfIssue(e.target.value); }
     else if (e.target.name == "visadateofissue") { setVisaDateOfIssue(e.target.value); }
+    else if (e.target.name == "passportexpirydate") { setPassportExpiryDate(e.target.value); }
+    else if (e.target.name == "visaexpirydate") { setVisaExpiryDate(e.target.value); }
     else if (e.target.name == "arrivedfrom") { setArrivedFrom(e.target.value); }
     else if (e.target.name == "placeofissue") { setPlaceOfIssue(e.target.value); }
     else if (e.target.name == "purpose") { setPurpose(e.target.value); }
@@ -648,6 +653,24 @@ const CheckIn = () => {
 
   const submitAction = async (e) => {
     e.preventDefault();
+
+    if (!guestName) { alert("Guest Name is required!"); return; }
+    else if (!roomNumber) { alert("Room Number is required!"); return; }
+    else if (!roomRate) { alert("Room Rate is required!"); return; }
+    else if (!address) { alert("Address is required!"); return; }
+
+    if(openCountry=='India'){
+      if (!aadharNo) { alert("Aadhar no is required!"); return; }
+    }else{
+      if(!passportNumber){ alert("Passport no is required!"); return; }
+      else if(!passportDateOfIssue) { alert("Passport date of issue is required!"); return; }
+      else if(!visaNumber) { alert("Visa no is required!"); return; }
+      else if(!visaDateOfIssue) { alert("Visa date of issue is required!"); return; }
+      else if(!passportExpiryDate) { alert("Passport Exp date is required!"); return; }
+      else if(!visaExpiryDate) { alert("Visa Exp date is required!"); return; }
+      else if(!placeOfIssue) { alert("Place of Issue is required!"); return; }
+    }
+
     let res = await updateReservationData();
     if (res.success) {
       showBookingSuccessful();
@@ -764,7 +787,7 @@ const CheckIn = () => {
               </div>
               <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="roomnumber" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
-                  Room No{" "}
+                  Room No<span className="text-danger">*</span>{" "}
                 </label>
                 <div className="col-sm-9 medium-width-60percent">
                   <input
@@ -775,6 +798,7 @@ const CheckIn = () => {
                     name="roomnumber"
                     value={roomNumber}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
               </div>
@@ -955,7 +979,7 @@ const CheckIn = () => {
               </div>
               <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                 <label htmlFor="roomrate" className="col-sm-3 medium-width-40percent col-form-label font-size-14">
-                  Room Rate{" "}
+                  Room Rate<span className="text-danger">*</span>{" "}
                 </label>
                 <div className="col-sm-9 medium-width-60percent">
                   <input
@@ -1129,7 +1153,7 @@ const CheckIn = () => {
               <form className="bg-skyblue mt-0 p-2 height-600 medium-height-850">
                 <div className="d-flex align-items-center flex-wrap rev-margin-gap">
                   <label htmlFor="name" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
-                    Guest Name
+                    Guest Name<span className="text-danger">*</span>
                   </label>
                   <div className="col-sm-9 d-flex column-gap-1 medium-width-60percent">
                     <select
@@ -1231,7 +1255,7 @@ const CheckIn = () => {
                 </div>
                 <div className="d-flex align-items-center rev-margin-gap flex-wrap">
                   <label htmlFor="address" className="col-sm-3 col-form-label font-size-14 medium-width-40percent">
-                    Address{" "}
+                    Address<span className="text-danger">*</span>{" "}
                   </label>
                   <div className="col-sm-9 medium-width-60percent">
                     <input
@@ -1462,7 +1486,7 @@ const CheckIn = () => {
                 {openCountry == "India" && <div className="flex-column">
                   <div className="d-flex align-items-center font-size-14 rev-margin-gap flex-wrap">
                     <label htmlFor="aadharno" className="col-sm-3 col-form-label medium-width-40percent">
-                      Aadhar No{" "}
+                      Aadhar No<span className="text-danger">*</span>{" "}
                     </label>
                     <div className="col-sm-9 medium-width-60percent">
                       <input
@@ -1496,7 +1520,7 @@ const CheckIn = () => {
                         htmlFor="passportnumber"
                         className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
                       >
-                        Passport No{" "}
+                        Passport No<span className="text-danger">*</span>{" "}
                       </label>
                       <div className="col-sm-6 medium-width-60percent">
                         <input
@@ -1515,7 +1539,7 @@ const CheckIn = () => {
                         htmlFor="visanumber"
                         className="col-sm-5 col-form-label font-size-14 medium-width-40percent"
                       >
-                        Visa No{" "}
+                        Visa No<span className="text-danger">*</span>{" "}
                       </label>
                       <div className="col-sm-7 medium-width-60percent">
                         <input
@@ -1536,7 +1560,7 @@ const CheckIn = () => {
                         htmlFor="passportdateofissue"
                         className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
                       >
-                        Passport Date of Issue{" "}
+                        Passport Date of Issue<span className="text-danger">*</span>{" "}
                       </label>
                       <div className="col-sm-6 medium-width-60percent">
                         <input
@@ -1555,7 +1579,7 @@ const CheckIn = () => {
                         htmlFor="visadateofissue"
                         className="col-sm-5 col-form-label font-size-14 medium-width-40percent"
                       >
-                        Visa Date of Issue{" "}
+                        Visa Date of Issue<span className="text-danger">*</span>{" "}
                       </label>
                       <div className="col-sm-7 medium-width-60percent">
                         <input
@@ -1564,6 +1588,46 @@ const CheckIn = () => {
                           id="inputVisaDateOfIssue"
                           name="visadateofissue"
                           value={visaDateOfIssue}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center rev-margin-gap medium-flex-column">
+                    <div className="col-md-6 d-flex align-items-center flex-wrap medium-width-full">
+                      <label
+                        htmlFor="passportexpirydate"
+                        className="col-sm-6 col-form-label font-size-14 medium-width-40percent"
+                      >
+                        Passport Exp Date<span className="text-danger">*</span>{" "}
+                      </label>
+                      <div className="col-sm-6 medium-width-60percent">
+                        <input
+                          type="text"
+                          className="form-control height-30 font-size-14 background-gray"
+                          id="inputPassportExpiryDate"
+                          name="passportexpirydate"
+                          value={passportExpiryDate}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6 d-flex align-items-center reserv-padding-left flex-wrap medium-width-full">
+                      <label
+                        htmlFor="visaexpirydate"
+                        className="col-sm-5 col-form-label font-size-14 medium-width-40percent"
+                      >
+                        Visa Exp Date<span className="text-danger">*</span>{" "}
+                      </label>
+                      <div className="col-sm-7 medium-width-60percent">
+                        <input
+                          type="text"
+                          className="form-control height-30 font-size-14 background-gray"
+                          id="inputVisaExpiryDate"
+                          name="visaexpirydate"
+                          value={visaExpiryDate}
                           onChange={handleInputChange}
                           required
                         />
@@ -1595,7 +1659,7 @@ const CheckIn = () => {
                         htmlFor="placeofissue"
                         className="col-sm-5 col-form-label font-size-14 medium-width-40percent"
                       >
-                        Place of Issue{" "}
+                        Place of Issue<span className="text-danger">*</span>{" "}
                       </label>
                       <div className="col-sm-7 medium-width-60percent">
                         <input

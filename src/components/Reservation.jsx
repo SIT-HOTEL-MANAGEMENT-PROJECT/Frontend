@@ -106,10 +106,10 @@ const Reservation = ({getLoggedInUserDetails}) => {
       const todaydateforpayment = new Date();
       const todaydateforpaymentstring = todaydateforpayment.toISOString().slice(0, 10);
       if(roomRate){
-        payments.push({name:"bookingamount", description:"Booking time payment", date:todaydateforpaymentstring, debit:roomRate, credit:""})
+        payments.push({name:"bookingamount", description:"Room Charges", date:todaydateforpaymentstring, debit:roomRate, credit:""})
       }
       if(discountAmount){
-        payments.push({"name":"reservationdiscount","description":"Reservation discount", "date":todaydateforpaymentstring, "debit":"", "credit":discountAmount})
+        payments.push({"name":"reservationdiscount","description":"Discount", "date":todaydateforpaymentstring, "debit":"", "credit":discountAmount})
       }
 
       
@@ -173,7 +173,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
       if (!updatedpaymenthistory.some((item) => item.name === "bookingamount")) {
         updatedpaymenthistory.push({
           name: "bookingamount",
-          description: "Booking time payment",
+          description: "Room Charges",
           date: todaydateforpaymentstring,
           debit: roomRate,
           credit: "",
@@ -196,7 +196,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
       if (!updatedpaymenthistory.some((item) => item.name === "reservationdiscount")) {
         updatedpaymenthistory.push({
           name: "reservationdiscount",
-          description: "Reservation discount",
+          description: "Discount",
           date: todaydateforpaymentstring,
           debit: "",
           credit: discountAmount,
@@ -532,6 +532,7 @@ const Reservation = ({getLoggedInUserDetails}) => {
     let todayDate = new Date();
     let todayDateString = todayDate.toISOString().slice(0, 10);
     setBookingDate(todayDateString);
+    setArrivalTime("12:00"); setDepartureTime("12:00");
   }
 
 
