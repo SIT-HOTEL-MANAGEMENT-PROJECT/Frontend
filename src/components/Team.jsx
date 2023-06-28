@@ -11,28 +11,7 @@ import diya from "../img/diya.jpeg";
 const Team = () => {
   return (
     <>
-      <div className="bg-light">
-        <nav className="navbar sticky-top navbar navbar-expand-lg bg-light">
-          <div className="container-fluid">
-            <div className="navbar-brand d-flex align-items-center">
-              <NavLink className="text-primary" to="/Home4">
-                <i className="bx bx-chevrons-left font-size-25"></i>
-              </NavLink>
-              <h5 className="text-primary">Team</h5>
-            </div>
-          </div>
-        </nav>
-        <div className="container mb-1">
-          <h4 className="text-center text-primary">
-            This Web Application has been created by department of Computer
-            Science and Engineering batch 2024 for Hotel Management Department
-            of Siliguri Institute of Technology.
-          </h4>
-          <br />
-          <h5>
-            Here are Team of CSE department of Siliguri Institute of Technology
-            :
-          </h5>
+      
           <br />
           <h6 className="text-primary">UI/UX team :</h6>
           <div className="card teamcard">
